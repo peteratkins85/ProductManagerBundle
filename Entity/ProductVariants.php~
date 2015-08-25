@@ -1,0 +1,15 @@
+<?php
+
+namespace Cms\ProductManagerBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * ProductVariants
+ */
+class ProductVariants
+{
+
+
+
+}

@@ -1,0 +1,7 @@
+parameters:
+#    product_manager.example.class: Cms\ProductManagerBundle\Example
+
+services:
+#    product_manager.example:
+#        class: %product_manager.example.class%
+#        arguments: [@service_id, "plain_value", %parameter%]

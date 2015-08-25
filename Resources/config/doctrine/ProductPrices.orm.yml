@@ -1,0 +1,20 @@
+Cms\ProductManagerBundle\Entity\ProductPrices:
+    type: entity
+    table: Products_Prices
+    repositoryClass: Cms\ProductManagerBundle\Entity\ProductPricesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        productId:
+            type: integer
+        created:
+            type: datetime
+        modified:
+            type: time
+        modifiedBy:
+            type: integer
+    lifecycleCallbacks: {  }

@@ -1,0 +1,29 @@
+Cms\ProductManagerBundle\Entity\ProductVariants:
+    type: entity
+    table: products_variants
+    repositoryClass: Cms\ProductManagerBundle\Entity\ProductVariantsRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        productId:
+            type: integer
+        active:
+            type: integer
+        created:
+            type: datetime
+        modified:
+            type: time
+        modifiedBy:
+            type: integer
+    manyToOne:
+        product:
+            targetEntity: products
+            inversedBy: variants
+            joinColumn:
+                name: productId
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

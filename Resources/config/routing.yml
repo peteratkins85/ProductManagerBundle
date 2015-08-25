@@ -1,0 +1,3 @@
+product_manager_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: ProductManagerBundle:Default:index }

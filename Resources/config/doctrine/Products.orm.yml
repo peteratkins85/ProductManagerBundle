@@ -1,0 +1,31 @@
+Cms\ProductManagerBundle\Entity\Products:
+    type: entity
+    table: PRODUCTS
+    repositoryClass: Cms\ProductManagerBundle\Entity\ProductsRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+            productName:
+                type: string
+                length: '50'
+            active:
+                type: integer
+            created:
+                type: datetime
+            modified:
+                type: time
+            modifiedBy:
+                type: integer
+    oneToMany:
+            variants:
+                targetEntity: productVariants
+                mappedBy: product
+    oneToMany:
+            attributes:
+                targetEntity: productAttributes
+                mappedBy: product
+    lifecycleCallbacks: {  }

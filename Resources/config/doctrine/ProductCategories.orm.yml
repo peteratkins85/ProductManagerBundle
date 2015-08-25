@@ -1,0 +1,23 @@
+Cms\ProductManagerBundle\Entity\ProductCategories:
+    type: entity
+    table: null
+    repositoryClass: Cms\ProductManagerBundle\Entity\ProductCategoriesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        categoryName:
+            type: string
+            length: '50'
+        active:
+            type: integer
+        created:
+            type: datetime
+        modified:
+            type: time
+        modifiedBy:
+            type: integer
+    lifecycleCallbacks: {  }
