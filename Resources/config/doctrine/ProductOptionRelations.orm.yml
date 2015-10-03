@@ -1,0 +1,18 @@
+Cms\ProductManagerBundle\Entity\ProductOptionRelations:
+    type: entity
+    table: product_option_relations
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductOptionRelationsRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        productOptionGroupId:
+            type: integer
+        productOptionId:
+            type: integer
+        productVariantId:
+            type: integer
+    lifecycleCallbacks: {  }

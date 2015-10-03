@@ -1,7 +1,67 @@
 parameters:
-#    product_manager.example.class: Cms\ProductManagerBundle\Example
+    ##PRODUCTS
+    product_entity: Cms\ProductManagerBundle\Entity\Products
+    product_entity_repository: Cms\ProductManagerBundle\Entity\Repository\ProductsRepository
+    products_factory: Cms\ProductManagerBundle\Entity\Factory\ProductFactory
+    product_controller: Cms\ProductManagerBundle\Controller\IndexController
+    ##PRODUCT CATEGORIES
+    product_categories_entity: Cms\ProductManagerBundle\Entity\ProductCategories
+    product_category_definitions_entity: Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions
+    product_categories_entity_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
+    product_categories_factory: Cms\ProductManagerBundle\Entity\Factory\ProductCategoriesFactory
+    product_categories_controller: Cms\ProductManagerBundle\Controller\ProductCategoriesController
+    
 
 services:
-#    product_manager.example:
-#        class: %product_manager.example.class%
-#        arguments: [@service_id, "plain_value", %parameter%]
+    ## PRODUCTS
+    products:
+        class:     "%product_entity%"
+    product_service:
+        class: "%product_entity_repository%"
+        factory: ["%products_factory%", getProductRepository]
+        arguments:
+                - "@session"
+                - "@service_container"
+    get_product_repository:
+        class:    "%products_factory%"
+        calls:
+            - [getProductRepository, ["@session" , "@service_container"]]
+    products_repository:
+        class: "%product_entity_repository%"
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+                - "%product_entity%"
+    product_controller:
+        class:     "%product_controller%"
+        arguments:
+                - "@templating"
+                - "@service_container"
+                - "@session"
+                - "@product_service"
+                - "@doctrine"
+    ## CATEGORIES
+    product_categories:
+            class:     "%product_categories_entity%"
+    product_category_definitions:
+            class:     "%product_category_definitions_entity%"
+    product_categories_repository_service:
+            class: "%product_categories_entity_repository%"
+            factory: ["%product_categories_factory%", getProductCategoriesRepository]
+            arguments:
+                    - "@session"
+                    - "@service_container"
+    product_categories_repository:
+        class: "%product_categories_entity_repository%"
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+                - "%product_categories_entity%"
+    product_categories_controller:
+        class:     "%product_categories_controller%"
+        calls:
+            - [setContainer, ["@service_container"]]
+        arguments:
+                - "@product_categories_repository_service"
+                - "@product_categories"
+                - "@product_category_definitions"

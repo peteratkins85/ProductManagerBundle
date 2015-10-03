@@ -1,0 +1,39 @@
+Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
+    type: entity
+    table: product_category_definitions
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+#    indexes:
+#        name_index:
+#          columns: [ name ]
+    uniqueConstraints:
+        language_category:
+            columns:
+              - languageId
+              - productCategoryId
+    fields:
+        productCategoryId:
+            type: integer
+        languageId:
+            type: integer
+        productCategoryName:
+            type: string
+            length: 255
+    manyToOne:
+        productCategory:
+            targetEntity: Cms\Entity\ProductCategories
+            inversedBy: definitions
+            joinColumn:
+                name: productCategoryId
+                referencedColumnName: id
+        language:
+            targetEntity: Cms\Entity\Languages
+            joinColumn:
+                name: languageId
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

@@ -1,7 +1,7 @@
 Cms\ProductManagerBundle\Entity\ProductPrices:
     type: entity
-    table: Products_Prices
-    repositoryClass: Cms\ProductManagerBundle\Entity\ProductPricesRepository
+    table: product_prices
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductPricesRepository
     id:
         id:
             type: integer
@@ -9,12 +9,32 @@ Cms\ProductManagerBundle\Entity\ProductPrices:
             generator:
                 strategy: AUTO
     fields:
+        productVarientId:
+            type: integer
+            nullable: TRUE
         productId:
             type: integer
-        created:
-            type: datetime
-        modified:
-            type: time
-        modifiedBy:
+            nullable: TRUE
+        nowPrice:
+            type: decimal
+        wasPrice:
+            type: decimal
+        wholesalePrice:
+            type: decimal
+        currencyId:
             type: integer
+        zoneId:
+            type: integer
+    oneToOne:
+        zone:
+            targetEntity: Cms\ContentManagerBundle\Entity\Zones
+            joinColumn:
+                name: zoneId
+                referencedColumnName: id
+        currency:
+            targetEntity: Currencies
+            joinColumn:
+                name: currencyId
+                referencedColumnName: id
+
     lifecycleCallbacks: {  }

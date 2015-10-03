@@ -1,3 +1,27 @@
 product_manager_homepage:
     path:     /hello/{name}
     defaults: { _controller: ProductManagerBundle:Default:index }
+
+add_product:
+    path:     /products/add
+    defaults: { _controller: product_controller:Index:add }
+
+product_list:
+    path:     /products
+    defaults: { _controller: product_controller:indexAction  }
+
+edit_product:
+    path:     products/edit
+    defaults: { _controller: product_controller:Index:edit }
+
+add_category:
+    path:     /product/category/add
+    defaults: { _controller: ProductManagerBundle:ProductCategory:add }
+
+categories_list:
+    path:     /product/categories
+    defaults: { _controller: product_categories_controller:indexAction }
+
+edit_category:
+    path:     product/category/edit
+    defaults: { _controller: ProductManagerBundle:ProductCategory:edit }

@@ -1,31 +1,101 @@
 Cms\ProductManagerBundle\Entity\Products:
     type: entity
-    table: PRODUCTS
-    repositoryClass: Cms\ProductManagerBundle\Entity\ProductsRepository
+    table: products
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductsRepository
     id:
         id:
             type: integer
             id: true
             generator:
                 strategy: AUTO
+
     fields:
-            productName:
-                type: string
-                length: '50'
-            active:
+        productName:
+            type: string
+            length: '50'
+        primaryProductCategoryId:
+            type: integer
+        active:
+            type: integer
+        isVarientOf:
+            type: integer
+            nullable: TRUE
+        created:
+            type: datetime
+        modified:
+            type: time
+        modifiedBy:
+            type: integer
+        productTypeId:
+            type: integer
+    properties:
+        productName:
+            - NotBlank: ~
+            - Length:
+                min: 2
+                max: 50
+                minMessage: "Product name must be at least {{ limit }} characters long"
+                maxMessage: "Product name cannot be longer than {{ limit }} characters"
+        primaryProductCategoryId:
+            - Type:
                 type: integer
-            created:
-                type: datetime
-            modified:
-                type: time
-            modifiedBy:
+                message: The value {{ value }} is not a valid {{ type }}.
+        active:
+            - Type:
                 type: integer
+                message: The value {{ value }} is not a valid {{ type }}.
+        productTypeId:
+            - Type:
+                type: integer
+                message: The value {{ value }} is not a valid {{ type }}.
+    manyToMany:
+        prices:
+            targetEntity: ProductPrices
+            joinTable:
+                name: products_price_relations
+                joinColumns:
+                    productId:
+                        referencedColumnName: id
+                inverseJoinColumns:
+                    productPriceId:
+                        referencedColumnName: id
+                        unique: true
+    manyToOne:
+        productType:
+            targetEntity: Cms\Entity\ProductTypes
+            inversedBy: products
+            joinColumn:
+                name: productTypeId
+                referencedColumnName: id
+        masterProduct:
+            targetEntity: Cms\Entity\Products
+            inversedBy: varients
+            joinColumn:
+                name: isVarientOf
+                referencedColumnName: id
     oneToMany:
-            variants:
-                targetEntity: productVariants
-                mappedBy: product
-    oneToMany:
-            attributes:
-                targetEntity: productAttributes
-                mappedBy: product
+        varients:
+            targetEntity: Cms\Entity\Products
+            mappedBy: masterProduct
+        definitions:
+            targetEntity: Cms\Entity\ProductDefinitions
+            mappedBy: product
+    oneToOne:
+        primaryCategory:
+            targetEntity: Cms\Entity\ProductCategories
+            joinColumn:
+                name: primaryProductCategoryId
+                referencedColumnName: id
+    manyToMany:
+        categories:
+            targetEntity: ProductCategories
+            inversedBy: products
+            joinTable:
+                name: product_category_relations
+                joinColumns:
+                    productId:
+                      referencedColumnName: id
+                inverseJoinColumns:
+                    productCategoryId:
+                      referencedColumnName: id
     lifecycleCallbacks: {  }

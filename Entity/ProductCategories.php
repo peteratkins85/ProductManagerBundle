@@ -9,30 +9,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProductCategories
 {
+
+
     /**
      * @var integer
      */
     private $id;
 
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-    /**
-     * @var string
-     */
-    private $categoryName;
-
     /**
      * @var integer
      */
     private $active;
+
+    /**
+     * @var integer
+     */
+    private $parentProductCategoryId;
 
     /**
      * @var \DateTime
@@ -49,28 +41,38 @@ class ProductCategories
      */
     private $modifiedBy;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $children;
 
     /**
-     * Set categoryName
-     *
-     * @param string $categoryName
-     * @return ProductCategories
+     * @var \Cms\ProductManagerBundle\Entity\ProductCategories
      */
-    public function setCategoryName($categoryName)
-    {
-        $this->categoryName = $categoryName;
+    private $parent;
 
-        return $this;
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $products;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Get categoryName
+     * Get id
      *
-     * @return string 
+     * @return integer 
      */
-    public function getCategoryName()
+    public function getId()
     {
-        return $this->categoryName;
+        return $this->id;
     }
 
     /**
@@ -94,6 +96,29 @@ class ProductCategories
     public function getActive()
     {
         return $this->active;
+    }
+
+    /**
+     * Set parentProductCategoryId
+     *
+     * @param integer $parentProductCategoryId
+     * @return ProductCategories
+     */
+    public function setParentProductCategoryId($parentProductCategoryId)
+    {
+        $this->parentProductCategoryId = $parentProductCategoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get parentProductCategoryId
+     *
+     * @return integer 
+     */
+    public function getParentProductCategoryId()
+    {
+        return $this->parentProductCategoryId;
     }
 
     /**
@@ -163,5 +188,132 @@ class ProductCategories
     public function getModifiedBy()
     {
         return $this->modifiedBy;
+    }
+
+    /**
+     * Add children
+     *
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $children
+     * @return ProductCategories
+     */
+    public function addChild(\Cms\ProductManagerBundle\Entity\ProductCategories $children)
+    {
+        $this->children[] = $children;
+
+        return $this;
+    }
+
+    /**
+     * Remove children
+     *
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $children
+     */
+    public function removeChild(\Cms\ProductManagerBundle\Entity\ProductCategories $children)
+    {
+        $this->children->removeElement($children);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $parent
+     * @return ProductCategories
+     */
+    public function setParent(\Cms\ProductManagerBundle\Entity\ProductCategories $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Cms\ProductManagerBundle\Entity\ProductCategories 
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Add products
+     *
+     * @param \Cms\ProductManagerBundle\Entity\Products $products
+     * @return ProductCategories
+     */
+    public function addProduct(\Cms\ProductManagerBundle\Entity\Products $products)
+    {
+        $this->products[] = $products;
+
+        return $this;
+    }
+
+    /**
+     * Remove products
+     *
+     * @param \Cms\ProductManagerBundle\Entity\Products $products
+     */
+    public function removeProduct(\Cms\ProductManagerBundle\Entity\Products $products)
+    {
+        $this->products->removeElement($products);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getProducts()
+    {
+        return $this->products;
+    }
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $definitions;
+
+
+    /**
+     * Add definitions
+     *
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions
+     * @return ProductCategories
+     */
+    public function addDefinition(\Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions)
+    {
+        $this->definitions[] = $definitions;
+
+        return $this;
+    }
+
+    /**
+     * Remove definitions
+     *
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions
+     */
+    public function removeDefinition(\Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions)
+    {
+        $this->definitions->removeElement($definitions);
+    }
+
+    /**
+     * Get definitions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getDefinitions()
+    {
+        return $this->definitions;
     }
 }

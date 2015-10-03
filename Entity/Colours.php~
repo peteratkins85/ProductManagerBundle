@@ -1,0 +1,139 @@
+<?php
+
+namespace Cms\ProductManagerBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * Colours
+ */
+class Colours
+{
+    /**
+     * @var integer
+     */
+    private $id;
+
+    /**
+     * @var string
+     */
+    private $colourName;
+
+    /**
+     * @var \DateTime
+     */
+    private $created;
+
+    /**
+     * @var integer
+     */
+    private $createdBy;
+
+
+    /**
+     * Get id
+     *
+     * @return integer 
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * Set colourName
+     *
+     * @param string $colourName
+     * @return Colours
+     */
+    public function setColourName($colourName)
+    {
+        $this->colourName = $colourName;
+
+        return $this;
+    }
+
+    /**
+     * Get colourName
+     *
+     * @return string 
+     */
+    public function getColourName()
+    {
+        return $this->colourName;
+    }
+
+    /**
+     * Set created
+     *
+     * @param \DateTime $created
+     * @return Colours
+     */
+    public function setCreated($created)
+    {
+        $this->created = $created;
+
+        return $this;
+    }
+
+    /**
+     * Get created
+     *
+     * @return \DateTime 
+     */
+    public function getCreated()
+    {
+        return $this->created;
+    }
+
+    /**
+     * Set createdBy
+     *
+     * @param integer $createdBy
+     * @return Colours
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return integer 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+    /**
+     * @var string
+     */
+    private $hexCode;
+
+
+    /**
+     * Set hexCode
+     *
+     * @param string $hexCode
+     * @return Colours
+     */
+    public function setHexCode($hexCode)
+    {
+        $this->hexCode = $hexCode;
+
+        return $this;
+    }
+
+    /**
+     * Get hexCode
+     *
+     * @return string 
+     */
+    public function getHexCode()
+    {
+        return $this->hexCode;
+    }
+}

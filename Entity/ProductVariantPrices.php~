@@ -5,9 +5,9 @@ namespace Cms\ProductManagerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductPrices
+ * ProductVariantPrices
  */
-class ProductPrices
+class ProductVariantPrices
 {
 
     /**
@@ -164,117 +164,5 @@ class ProductPrices
     public function getCurrencyId()
     {
         return $this->currencyId;
-    }
-    /**
-     * @var integer
-     */
-    private $productId;
-
-
-    /**
-     * Set productId
-     *
-     * @param integer $productId
-     * @return ProductPrices
-     */
-    public function setProductId($productId)
-    {
-        $this->productId = $productId;
-
-        return $this;
-    }
-
-    /**
-     * Get productId
-     *
-     * @return integer 
-     */
-    public function getProductId()
-    {
-        return $this->productId;
-    }
-    /**
-     * @var integer
-     */
-    private $zoneId = 1;
-
-    /**
-     * @var \Cms\ProductManagerBundle\Entity\Zones
-     */
-    private $zone;
-
-
-    /**
-     * Set zoneId
-     *
-     * @param integer $zoneId
-     * @return ProductPrices
-     */
-    public function setZoneId($zoneId)
-    {
-        $this->zoneId = $zoneId;
-
-        return $this;
-    }
-
-    /**
-     * Get zoneId
-     *
-     * @return integer 
-     */
-    public function getZoneId()
-    {
-        return $this->zoneId;
-    }
-
-    /**
-     * Set zone
-     *
-     * @param \Cms\ProductManagerBundle\Entity\Zones $zone
-     * @return ProductPrices
-     */
-    public function setZone(\Cms\ContentManagerBundle\Entity\Zones $zone = null)
-    {
-        $this->zone = $zone;
-
-        return $this;
-    }
-
-    /**
-     * Get zone
-     *
-     * @return \Cms\ProductManagerBundle\Entity\Zones 
-     */
-    public function getZone()
-    {
-        return $this->zone;
-    }
-    /**
-     * @var \Cms\ProductManagerBundle\Entity\Currencies
-     */
-    private $currency;
-
-
-    /**
-     * Set currency
-     *
-     * @param \Cms\ProductManagerBundle\Entity\Currencies $currency
-     * @return ProductPrices
-     */
-    public function setCurrency(\Cms\ProductManagerBundle\Entity\Currencies $currency = null)
-    {
-        $this->currency = $currency;
-
-        return $this;
-    }
-
-    /**
-     * Get currency
-     *
-     * @return \Cms\ProductManagerBundle\Entity\Currencies 
-     */
-    public function getCurrency()
-    {
-        return $this->currency;
     }
 }

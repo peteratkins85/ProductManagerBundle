@@ -1,0 +1,20 @@
+Cms\ProductManagerBundle\Entity\Currencies:
+    type: entity
+    table: currencies
+    repositoryClass: Cms\ProductManagerBundle\Entity\CurrenciesRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        currency:
+            type: string
+            length: '60'
+        currencyCode:
+            type: string
+            length: '5'
+        isDefault:
+            type: integer
+    lifecycleCallbacks: {  }

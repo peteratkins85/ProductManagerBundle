@@ -5,9 +5,9 @@ namespace Cms\ProductManagerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductVariants
+ * MarketingCategories
  */
-class ProductVariants
+class MarketingCategories
 {
 
 
@@ -18,19 +18,24 @@ class ProductVariants
     private $id;
 
     /**
-     * @var integer
+     * @var string
      */
-    private $productId;
+    private $categoryName;
 
     /**
      * @var integer
      */
-    private $active;
+    private $parentCategoryId;
 
     /**
      * @var \DateTime
      */
     private $created;
+
+    /**
+     * @var integer
+     */
+    private $createdBy;
 
     /**
      * @var \DateTime
@@ -41,11 +46,6 @@ class ProductVariants
      * @var integer
      */
     private $modifiedBy;
-
-    /**
-     * @var \Cms\ProductManagerBundle\Entity\products
-     */
-    private $product;
 
 
     /**
@@ -59,56 +59,56 @@ class ProductVariants
     }
 
     /**
-     * Set productId
+     * Set categoryName
      *
-     * @param integer $productId
-     * @return ProductVariants
+     * @param string $categoryName
+     * @return MarketingCategories
      */
-    public function setProductId($productId)
+    public function setCategoryName($categoryName)
     {
-        $this->productId = $productId;
+        $this->categoryName = $categoryName;
 
         return $this;
     }
 
     /**
-     * Get productId
+     * Get categoryName
      *
-     * @return integer 
+     * @return string 
      */
-    public function getProductId()
+    public function getCategoryName()
     {
-        return $this->productId;
+        return $this->categoryName;
     }
 
     /**
-     * Set active
+     * Set parentCategoryId
      *
-     * @param integer $active
-     * @return ProductVariants
+     * @param integer $parentCategoryId
+     * @return MarketingCategories
      */
-    public function setActive($active)
+    public function setParentCategoryId($parentCategoryId)
     {
-        $this->active = $active;
+        $this->parentCategoryId = $parentCategoryId;
 
         return $this;
     }
 
     /**
-     * Get active
+     * Get parentCategoryId
      *
      * @return integer 
      */
-    public function getActive()
+    public function getParentCategoryId()
     {
-        return $this->active;
+        return $this->parentCategoryId;
     }
 
     /**
      * Set created
      *
      * @param \DateTime $created
-     * @return ProductVariants
+     * @return MarketingCategories
      */
     public function setCreated($created)
     {
@@ -128,10 +128,33 @@ class ProductVariants
     }
 
     /**
+     * Set createdBy
+     *
+     * @param integer $createdBy
+     * @return MarketingCategories
+     */
+    public function setCreatedBy($createdBy)
+    {
+        $this->createdBy = $createdBy;
+
+        return $this;
+    }
+
+    /**
+     * Get createdBy
+     *
+     * @return integer 
+     */
+    public function getCreatedBy()
+    {
+        return $this->createdBy;
+    }
+
+    /**
      * Set modified
      *
      * @param \DateTime $modified
-     * @return ProductVariants
+     * @return MarketingCategories
      */
     public function setModified($modified)
     {
@@ -154,7 +177,7 @@ class ProductVariants
      * Set modifiedBy
      *
      * @param integer $modifiedBy
-     * @return ProductVariants
+     * @return MarketingCategories
      */
     public function setModifiedBy($modifiedBy)
     {
@@ -171,28 +194,5 @@ class ProductVariants
     public function getModifiedBy()
     {
         return $this->modifiedBy;
-    }
-
-    /**
-     * Set product
-     *
-     * @param \Cms\ProductManagerBundle\Entity\products $product
-     * @return ProductVariants
-     */
-    public function setProduct(\Cms\ProductManagerBundle\Entity\products $product = null)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return \Cms\ProductManagerBundle\Entity\products 
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 }

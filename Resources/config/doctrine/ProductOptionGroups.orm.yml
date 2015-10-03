@@ -1,0 +1,33 @@
+Cms\ProductManagerBundle\Entity\ProductOptionGroups:
+    type: entity
+    table: product_option_groups
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductOptionGroupsRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        dataType:
+            type: string
+            length: '20'
+        optionGroupTypeId:
+            type: integer
+        userOptionSelectType:
+            type: string
+            length: '30'
+        productCategoryId:
+            type: integer
+    manyToOne:
+        optionGroupType:
+            targetEntity: Cms\Entity\ProductOptionGroupTypes
+            mappedBy: optionGroups
+            joinColumn:
+                name: optionGroupTypeId
+                referencedColumnName: id
+    oneToMany:
+        definitions:
+            targetEntity: Cms\Entity\ProductOptionGroupDefinitions
+            mappedBy: productOptionGroup
+    lifecycleCallbacks: {  }

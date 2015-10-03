@@ -1,7 +1,7 @@
 Cms\ProductManagerBundle\Entity\ProductCategories:
     type: entity
-    table: null
-    repositoryClass: Cms\ProductManagerBundle\Entity\ProductCategoriesRepository
+    table: product_categories
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
     id:
         id:
             type: integer
@@ -9,15 +9,43 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
             generator:
                 strategy: AUTO
     fields:
-        categoryName:
-            type: string
-            length: '50'
         active:
             type: integer
+            options:
+                default: 0
+        parentProductCategoryId:
+            type: integer
+            nullable: TRUE
         created:
             type: datetime
+            nullable: TRUE
         modified:
             type: time
+            nullable: TRUE
         modifiedBy:
             type: integer
+            nullable: TRUE
+    properties:
+        parentProductCategoryId:
+            - Type:
+                type: integer
+                message: The value {{ value }} is not a valid {{ type }}.
+    oneToMany:
+        children:
+            targetEntity: Cms\Entity\ProductCategories
+            mappedBy: parent
+        definitions:
+            targetEntity: ProductCategoryDefinitions
+            mappedBy: productCategory
+    manyToOne:
+        parent:
+            targetEntity: Cms\Entity\ProductCategories
+            inversedBy: children
+            joinColumn:
+                name: parentProductCategoryId
+                referencedColumnName: id
+    manyToMany:
+        products:
+            targetEntity: Cms\Entity\Products
+            mappedBy: categories
     lifecycleCallbacks: {  }

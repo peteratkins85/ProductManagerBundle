@@ -1,0 +1,32 @@
+Cms\ProductManagerBundle\Entity\ProductOptionDefinitions:
+    type: entity
+    table: product_option_definitions
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductOptionDefinitionsRepository
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    fields:
+        productOptionName:
+            type: string
+            length: '150'
+        languageId:
+            type: integer
+        productOptionId:
+            type: integer
+    manyToOne:
+        productOption:
+            targetEntity: Cms\Entity\ProductOptions
+            inversedBy: definitions
+            joinColumn:
+                name: productOptionId
+                referencedColumnName: id
+    oneToOne:
+        language:
+            targetEntity: Cms\Entity\Languages
+            joinColumn:
+                name: languageId
+                referencedColumnName: id
+    lifecycleCallbacks: {  }
