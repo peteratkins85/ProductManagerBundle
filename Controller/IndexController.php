@@ -6,7 +6,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Cms\ProductManagerBundle\Entity\Repository\ProductsRepository;;
 use Symfony\Component\HttpFoundation\Session\Session;
-use appDevDebugProjectContainer;
 
 class IndexController extends Controller
 {

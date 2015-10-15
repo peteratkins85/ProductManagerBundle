@@ -41,6 +41,12 @@ class ProductCategoryDefinitions
     private $language;
 
 
+    public function __toString(){
+
+        return (string) $this->productCategoryName;
+
+    }
+
     /**
      * Get id
      *

@@ -16,10 +16,6 @@ use Cms\CoreBundle\Repository\CoreRepository;
 class ProductCategoriesRepository extends CoreRepository
 {
 
-    private $productCategoriesTable = 'ProductManagerBundle:ProductCategories';
-    private $productCategoryDefinitionsTable = 'ProductManagerBundle:ProductCategoryDefinitions';
-    public $language;
-    public $languageId = 1;
 
     public function getAllProductCategories(){
 
@@ -51,5 +47,33 @@ class ProductCategoriesRepository extends CoreRepository
         return $return;
 
     }
+
+    /****
+     *
+     * Get product all product categories for Form
+     *
+     * @return mixed
+     *
+     */
+    public function getFormProductCategoryChoices(){
+
+        $categories = $this->findAll();
+        $return = array();
+
+        //Because product category names are stored in the product_category_definitions table
+        //We need to call the setProductCategoryName() method which will retrieve the name
+        //and set the productCategoryName variable with in the entity
+        foreach ($categories as $category){
+
+            $category->setProductCategoryName($this->languageId);
+
+            $return[] = $category;
+
+        }
+
+        return $return;
+
+    }
+
 
 }

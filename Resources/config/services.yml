@@ -1,67 +1,122 @@
 parameters:
-    ##PRODUCTS
+    #entities
     product_entity: Cms\ProductManagerBundle\Entity\Products
-    product_entity_repository: Cms\ProductManagerBundle\Entity\Repository\ProductsRepository
-    products_factory: Cms\ProductManagerBundle\Entity\Factory\ProductFactory
-    product_controller: Cms\ProductManagerBundle\Controller\IndexController
-    ##PRODUCT CATEGORIES
     product_categories_entity: Cms\ProductManagerBundle\Entity\ProductCategories
     product_category_definitions_entity: Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions
-    product_categories_entity_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
+    #repositories
+    product_entity_repository: Cms\ProductManagerBundle\Entity\Repository\ProductsRepository
+    product_categories_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
+    product_category_definitions_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository
+    #factories
     product_categories_factory: Cms\ProductManagerBundle\Entity\Factory\ProductCategoriesFactory
+    product_category_definitions_factory: Cms\ProductManagerBundle\Entity\Factory\ProductCategoryDefinitionsFactory
+    products_factory: Cms\ProductManagerBundle\Entity\Factory\ProductFactory
+    #controllers
     product_categories_controller: Cms\ProductManagerBundle\Controller\ProductCategoriesController
+    product_controller: Cms\ProductManagerBundle\Controller\IndexController
+    #forms
+    product_categories_form: Cms\ProductManagerBundle\Form\ProductCategoriesType
+    product_category_definitions_form: Cms\ProductManagerBundle\Form\ProductCategoryDefinitionsType
+    #events and listeners
+    product_event_subscriber: Cms\ProductManagerBundle\EventListeners\ProductEventSubscriber
+    product_event: Cms\ProductManagerBundle\Event\ProductEvent
+
     
 
 services:
-    ## PRODUCTS
+    #Entities
     products:
         class:     "%product_entity%"
+    product_categories:
+        class:     "%product_categories_entity%"
+    product_category_definitions:
+        class:     "%product_category_definitions_entity%"
+    #Factories
     product_service:
         class: "%product_entity_repository%"
-        factory: ["%products_factory%", getProductRepository]
+        factory: ["%products_factory%", getRepository]
         arguments:
                 - "@session"
                 - "@service_container"
-    get_product_repository:
-        class:    "%products_factory%"
-        calls:
-            - [getProductRepository, ["@session" , "@service_container"]]
     products_repository:
         class: "%product_entity_repository%"
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
         arguments:
                 - "%product_entity%"
+    product_categories_repository:
+        class: "%product_categories_repository%"
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+                - "%product_categories_entity%"
+    product_categories_repository_service:
+        class: "%product_categories_repository%"
+        factory: ["%product_categories_factory%", getRepository]
+        arguments:
+                - "@session"
+                - "@service_container"
+    product_categories_definitions_repository_service:
+        class: "%product_category_definitions_repository%"
+        factory: ["%product_category_definitions_factory%", getRepository]
+        arguments:
+                - "@session"
+                - "@service_container"
+    product_categories_definitions_repository:
+        class: "%product_category_definitions_repository%"
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+                - "%product_category_definitions_entity%"
+
+    #Repositories
+
+    #Controllers
     product_controller:
         class:     "%product_controller%"
+        calls:
+            - [setContainer, ["@service_container"]]
         arguments:
                 - "@templating"
                 - "@service_container"
                 - "@session"
                 - "@product_service"
                 - "@doctrine"
-    ## CATEGORIES
-    product_categories:
-            class:     "%product_categories_entity%"
-    product_category_definitions:
-            class:     "%product_category_definitions_entity%"
-    product_categories_repository_service:
-            class: "%product_categories_entity_repository%"
-            factory: ["%product_categories_factory%", getProductCategoriesRepository]
-            arguments:
-                    - "@session"
-                    - "@service_container"
-    product_categories_repository:
-        class: "%product_categories_entity_repository%"
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
-        arguments:
-                - "%product_categories_entity%"
     product_categories_controller:
         class:     "%product_categories_controller%"
         calls:
             - [setContainer, ["@service_container"]]
         arguments:
                 - "@product_categories_repository_service"
+                - "@product_categories_definitions_repository_service"
                 - "@product_categories"
                 - "@product_category_definitions"
+    #Forms
+    product_categories_form:
+        class: "%product_categories_form%"
+        arguments:
+                - "@service_container"
+                - "@session"
+        tags:
+            - { name: form.type, alias: product_category }
+    product_category_definitions_form:
+        class: "%product_category_definitions_form%"
+        arguments:
+                - "@service_container"
+                - "@session"
+        tags:
+            - { name: form.type, alias: product_category_definitions }
+    #Events and Listeners
+    product_event_subscriber:
+        class: "%product_event_subscriber%"
+        tags:
+            - { name: kernel.event_subscriber }
+    product_event:
+        class: "%product_event%"
+
+    ## CATEGORIES
+
+
+
+
+

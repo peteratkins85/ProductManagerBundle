@@ -1,27 +1,34 @@
-product_manager_homepage:
-    path:     /hello/{name}
-    defaults: { _controller: ProductManagerBundle:Default:index }
-
 add_product:
-    path:     /products/add
+    path:     /admin/products/add
     defaults: { _controller: product_controller:Index:add }
 
 product_list:
-    path:     /products
+    path:     /admin/products
     defaults: { _controller: product_controller:indexAction  }
 
 edit_product:
-    path:     products/edit
+    path:     /admin/products/edit
     defaults: { _controller: product_controller:Index:edit }
 
 add_category:
-    path:     /product/category/add
-    defaults: { _controller: ProductManagerBundle:ProductCategory:add }
+    path:     /admin/product/category/add
+    defaults: { _controller: product_categories_controller:addAction }
 
 categories_list:
-    path:     /product/categories
+    path:     /admin/product/categories
     defaults: { _controller: product_categories_controller:indexAction }
 
+#blog:
+#    path:      /blog/{page}
+#    defaults:  { _controller: AppBundle:Blog:index, page: 1 }
+#    requirements:
+#        page:  \d+
+
+#contact_form:
+#    path:     /contact
+#    defaults: { _controller: AppBundle:Main:contactForm }
+#    methods:  [GET, POST]
+
 edit_category:
-    path:     product/category/edit
+    path:     /admin/product/category/edit
     defaults: { _controller: ProductManagerBundle:ProductCategory:edit }

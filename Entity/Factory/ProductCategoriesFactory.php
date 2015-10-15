@@ -3,16 +3,18 @@
 namespace Cms\ProductManagerBundle\Entity\Factory;
 
 use Doctrine\Bundle\DoctrineBundle\Registry;
+use Symfony\Component\HttpFoundation\Session\Session;
 use appDevDebugProjectContainer;
 
 class ProductCategoriesFactory
 {
 
-    public static function getProductCategoriesRepository($session, appDevDebugProjectContainer $container){
+    public static function getRepository(Session $session, appDevDebugProjectContainer $container){
 
         $repository = $container->get('product_categories_repository');
-        $container->getParameter('content_manager_entity_languages');
-        $repository->language = 1;
+        $productCategoriesEntity = $container->get('product_categories');
+        $repository->languageId = 1;
+        $repository->setEntityClass($productCategoriesEntity);
 
         return $repository;
 

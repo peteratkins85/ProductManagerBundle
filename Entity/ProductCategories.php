@@ -63,6 +63,7 @@ class ProductCategories
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
         $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->definitions = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -87,6 +88,7 @@ class ProductCategories
 
         return $this;
     }
+
 
     /**
      * Get active
@@ -316,4 +318,53 @@ class ProductCategories
     {
         return $this->definitions;
     }
+
+    protected $productCategoryName;
+
+    /**
+     * Get product category Name
+     *
+     * @param integer $active
+     * @return ProductCategories
+     */
+    public function setProductCategoryName($languageId = 1)
+    {
+        $this->productCategoryName = '';
+
+        foreach ($this->definitions as $definition){
+
+            if ($definition->getLanguageId() == $languageId){
+
+                if ($definition->getProductCategoryName()) {
+
+                    $this->productCategoryName = $definition->getProductCategoryName();
+
+                    return $this;
+
+                }
+
+            }
+
+        }
+
+    }
+
+    public function __toString(){
+
+        if ($this->productCategoryName){
+
+            return (string) $this->productCategoryName;
+
+        }else{
+
+            $this->setProductCategoryName();
+            return (string) $this->productCategoryName;
+
+        }
+
+
+
+    }
+
+
 }

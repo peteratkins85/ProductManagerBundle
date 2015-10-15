@@ -1,7 +1,35 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}ProductManagerBundle:ProductCategory:add{% endblock %}
-
+{# src/Atk/CmsBundle/Resources/views/security/login.html.twig #}
+{% extends 'cms/cmsbase.html.twig' %}
+{% block stylesheets %}
+{% endblock %}
 {% block body %}
-<h1>Welcome to the ProductCategory:add page</h1>
+    <div class="row">
+        <div class="col-md-12 bread-crum-bar">
+
+        </div>
+    </div>
+    <div class="row top-row-content">
+        <div class="col-md-6">
+
+        </div>
+        <div class="col-md-6" style="text-align: right">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 container">
+            <div >
+
+                {{ form_start(form)}}
+                {{ form_errors(form) }}
+
+
+                {{ form_label(form.parent) }}
+                {{ form_widget(form.parent) }}
+
+                {{ form_row(form.add) }}
+                {{ form_end(form) }}
+
+            </div>
+        </div>
+    </div>
 {% endblock %}

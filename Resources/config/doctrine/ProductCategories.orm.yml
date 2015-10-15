@@ -9,10 +9,6 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
             generator:
                 strategy: AUTO
     fields:
-        active:
-            type: integer
-            options:
-                default: 0
         parentProductCategoryId:
             type: integer
             nullable: TRUE
