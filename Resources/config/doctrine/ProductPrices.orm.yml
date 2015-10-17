@@ -27,7 +27,7 @@ Cms\ProductManagerBundle\Entity\ProductPrices:
             type: integer
     oneToOne:
         zone:
-            targetEntity: Cms\ContentManagerBundle\Entity\Zones
+            targetEntity: Cms\Entity\Zones
             joinColumn:
                 name: zoneId
                 referencedColumnName: id

@@ -24,7 +24,16 @@ class ProductCategoriesType extends AbstractType
      */
     public function __construct($container, $session){
 
-        var_dump($session); exit;
+        if ($session->get('languages')){
+
+
+
+        }else{
+
+            $this->langaugeId = '1';
+
+
+        }
         $this->container = $container;
         $this->productCategoriesRepository = $this->container->get('product_categories_repository_service');
         $this->productCategoryDefinitionsRepository = $this->container->get('product_categories_definitions_repository_service');

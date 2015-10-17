@@ -48,11 +48,12 @@ class ProductCategoriesController extends CoreController
 
     public function addAction(Request $request)
     {
-        $productCategories = $this->productCategoryDefinitionsRepository->getFormProductCategoryChoices();
+        //$productCategories = $this->productCategoryDefinitionsRepository->getFormProductCategoryChoices();
 
         $productCategoriesEntity = $this->getProductCategoriesEntity();
 
         $productCategoryForm = $this->createForm('product_category',$productCategoriesEntity);
+        //echo var_dump($productCategoryForm); exit;
 
         return $this->render('ProductManagerBundle:ProductCategory:add.html.twig', array(
             'pageName' => 'Add Product Category',

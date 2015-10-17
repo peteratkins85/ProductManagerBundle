@@ -98,7 +98,7 @@ services:
                 - "@service_container"
                 - "@session"
         tags:
-            - { name: form.type, alias: product_category }
+              - { name: form.type, alias: product_category }
     product_category_definitions_form:
         class: "%product_category_definitions_form%"
         arguments:
