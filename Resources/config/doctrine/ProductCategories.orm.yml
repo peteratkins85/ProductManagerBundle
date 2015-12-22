@@ -30,9 +30,11 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
         children:
             targetEntity: Cms\Entity\ProductCategories
             mappedBy: parent
+            cascade: [persist]
         definitions:
-            targetEntity: ProductCategoryDefinitions
+            targetEntity: Cms\Entity\ProductCategoryDefinitions
             mappedBy: productCategory
+            cascade: [persist]
     manyToOne:
         parent:
             targetEntity: Cms\Entity\ProductCategories

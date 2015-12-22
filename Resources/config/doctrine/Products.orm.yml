@@ -13,7 +13,7 @@ Cms\ProductManagerBundle\Entity\Products:
         productName:
             type: string
             length: '50'
-        primaryProductCategoryId:
+        productCategoryId:
             type: integer
         active:
             type: integer
@@ -81,21 +81,21 @@ Cms\ProductManagerBundle\Entity\Products:
             targetEntity: Cms\Entity\ProductDefinitions
             mappedBy: product
     oneToOne:
-        primaryCategory:
+        productCategory:
             targetEntity: Cms\Entity\ProductCategories
             joinColumn:
                 name: primaryProductCategoryId
                 referencedColumnName: id
-    manyToMany:
-        categories:
-            targetEntity: ProductCategories
-            inversedBy: products
-            joinTable:
-                name: product_category_relations
-                joinColumns:
-                    productId:
-                      referencedColumnName: id
-                inverseJoinColumns:
-                    productCategoryId:
-                      referencedColumnName: id
+#    manyToMany:
+#        categories:
+#            targetEntity: ProductCategories
+#            inversedBy: products
+#            joinTable:
+#                name: product_category_relations
+#                joinColumns:
+#                    productId:
+#                      referencedColumnName: id
+#                inverseJoinColumns:
+#                    productCategoryId:
+#                      referencedColumnName: id
     lifecycleCallbacks: {  }

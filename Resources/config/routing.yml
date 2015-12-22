@@ -1,6 +1,6 @@
 add_product:
     path:     /admin/products/add
-    defaults: { _controller: product_controller:Index:add }
+    defaults: { _controller: product_controller:addAction }
 
 product_list:
     path:     /admin/products

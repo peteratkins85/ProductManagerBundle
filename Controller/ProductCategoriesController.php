@@ -6,6 +6,7 @@ use Cms\CoreBundle\Controller\CoreController;
 use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions;
 use Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository;
 use Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository;
+use Cms\ProductManagerBundle\Form\ProductCategoriesType;
 use Cms\ProductManagerBundle\Entity\ProductCategories;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,15 +20,11 @@ class ProductCategoriesController extends CoreController
 
     public function __construct(
         ProductCategoriesRepository $productCategoryRepository,
-        ProductCategoryDefinitionsRepository $productCategoryDefinitionsRepository,
-        ProductCategories $productCategoriesEntity,
-        ProductCategoryDefinitions $productCategoryDefinitionsEntity
+        ProductCategoryDefinitionsRepository $productCategoryDefinitionsRepository
     ){
 
         $this->productCategoriesRepository =  $productCategoryRepository;
         $this->productCategoryDefinitionsRepository = $productCategoryDefinitionsRepository;
-        $this->productCategoriesEntity =  $productCategoriesEntity;
-        $this->productCategoryDefinitionsEntity = $productCategoryDefinitionsEntity;
 
     }
 
@@ -35,6 +32,8 @@ class ProductCategoriesController extends CoreController
 
     public function indexAction()
     {
+
+        $language = $this->getLanguage();
 
         $productCategories = $this->productCategoriesRepository->getAllProductCategories();
 
@@ -48,17 +47,19 @@ class ProductCategoriesController extends CoreController
 
     public function addAction(Request $request)
     {
-        //$productCategories = $this->productCategoryDefinitionsRepository->getFormProductCategoryChoices();
 
-        $productCategoriesEntity = $this->getProductCategoriesEntity();
+        $productCategory = $this->get('product_categories');
+        $productCategoryDefinition = $this->get('product_category_definitions');
+        $productCategoryDefinition->setLanguage($this->getLanguage());
+        $productCategory->getDefinitions()->add($productCategoryDefinition);
 
-        $productCategoryForm = $this->createForm('product_category',$productCategoriesEntity);
-        //echo var_dump($productCategoryForm); exit;
+        $productCategoryForm = $this->createForm(ProductCategoriesType::class,$productCategory);
 
         return $this->render('ProductManagerBundle:ProductCategory:add.html.twig', array(
             'pageName' => 'Add Product Category',
             'form' => $productCategoryForm->createView()
         ));
+
     }
 
 

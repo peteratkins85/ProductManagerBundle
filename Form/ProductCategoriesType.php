@@ -3,11 +3,14 @@
 namespace Cms\ProductManagerBundle\Form;
 
 use Cms\CoreBundle\CoreGlobals;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Tests\Extension\Core\Type\CollectionTypeTest;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository;
 use Cms\ProductManagerBundle\Form\ProductCategoryDefinitionsType;
+use Symfony\Component\Form\FormRegistry;
 
 class ProductCategoriesType extends AbstractType
 {
@@ -35,8 +38,6 @@ class ProductCategoriesType extends AbstractType
 
         }
         $this->container = $container;
-        $this->productCategoriesRepository = $this->container->get('product_categories_repository_service');
-        $this->productCategoryDefinitionsRepository = $this->container->get('product_categories_definitions_repository_service');
 
     }
 
@@ -48,13 +49,12 @@ class ProductCategoriesType extends AbstractType
     {
 
         $productCategoryDefinitionsForm = $this->container->get('product_category_definitions_form');
-
         $builder
-            ->add('definitions', 'collection', array(
-                    'type' => $productCategoryDefinitionsForm,
-                    'by_reference' => false
+
+            ->add('definitions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
+                    'entry_type' => ProductCategoryDefinitionsType::class
             ))
-            ->add('parent', 'entity', array(
+            ->add('parent', EntityType::class , array(
                 'class' => CoreGlobals::PRODUCT_CATEGORIES_ENTITY,
                 'choices' => $this->productCategoriesRepository->getFormProductCategoryChoices(),
                 'placeholder' => 'Select parent category'

@@ -26,11 +26,11 @@ class ProductCategoriesRepository extends CoreRepository
 
         $keys = array(
             'Category Id' => 'pc.id',
-            'Category Name' => 'pcd.productCategoryName',
-            'Parent Category Id' => 'pc.parentProductCategoryId',
-            'Created' => 'pc.created',
-            'Modified' => 'pc.modified',
-            'Modified By' => 'pc.modifiedBy'
+            'Category Name' => 'pcd.productCategoryName'
+//            'Parent Category Id' => 'pc.parentProductCategoryId'
+//            'Created' => 'pc.created',
+//            'Modified' => 'pc.modified',
+//            'Modified By' => 'pc.modifiedBy'
         );
 
         $qb = $this->getEntityManager()->createQueryBuilder()

@@ -15,13 +15,11 @@ class IndexController extends Controller
 
     public function __construct
     (EngineInterface $templating,
-    appDevDebugProjectContainer $serviceContainer,
     Session $session,
     ProductsRepository $productsRepository)
     {
         $this->templating = $templating;
         $this->productsRepository = $productsRepository;
-        $this->serviceContainer = $serviceContainer;
         $this->session = $session;
     }
 

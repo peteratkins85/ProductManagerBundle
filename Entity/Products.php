@@ -10,6 +10,8 @@ use Doctrine\Common\Collections\Collection;
 class Products
 {
 
+
+
     /**
      * @var integer
      */
@@ -23,7 +25,7 @@ class Products
     /**
      * @var integer
      */
-    private $primaryProductCategoryId;
+    private $productCategoryId;
 
     /**
      * @var integer
@@ -63,7 +65,7 @@ class Products
     /**
      * @var \Cms\ProductManagerBundle\Entity\ProductCategories
      */
-    private $primaryCategory;
+    private $productCategory;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -98,7 +100,7 @@ class Products
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -109,6 +111,7 @@ class Products
      * Set productName
      *
      * @param string $productName
+     *
      * @return Products
      */
     public function setProductName($productName)
@@ -121,7 +124,7 @@ class Products
     /**
      * Get productName
      *
-     * @return string 
+     * @return string
      */
     public function getProductName()
     {
@@ -129,32 +132,34 @@ class Products
     }
 
     /**
-     * Set primaryProductCategoryId
+     * Set productCategoryId
      *
-     * @param integer $primaryProductCategoryId
+     * @param integer $productCategoryId
+     *
      * @return Products
      */
-    public function setPrimaryProductCategoryId($primaryProductCategoryId)
+    public function setProductCategoryId($productCategoryId)
     {
-        $this->primaryProductCategoryId = $primaryProductCategoryId;
+        $this->productCategoryId = $productCategoryId;
 
         return $this;
     }
 
     /**
-     * Get primaryProductCategoryId
+     * Get productCategoryId
      *
-     * @return integer 
+     * @return integer
      */
-    public function getPrimaryProductCategoryId()
+    public function getProductCategoryId()
     {
-        return $this->primaryProductCategoryId;
+        return $this->productCategoryId;
     }
 
     /**
      * Set active
      *
      * @param integer $active
+     *
      * @return Products
      */
     public function setActive($active)
@@ -167,7 +172,7 @@ class Products
     /**
      * Get active
      *
-     * @return integer 
+     * @return integer
      */
     public function getActive()
     {
@@ -178,6 +183,7 @@ class Products
      * Set isVarientOf
      *
      * @param integer $isVarientOf
+     *
      * @return Products
      */
     public function setIsVarientOf($isVarientOf)
@@ -190,7 +196,7 @@ class Products
     /**
      * Get isVarientOf
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsVarientOf()
     {
@@ -201,6 +207,7 @@ class Products
      * Set created
      *
      * @param \DateTime $created
+     *
      * @return Products
      */
     public function setCreated($created)
@@ -213,7 +220,7 @@ class Products
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -224,6 +231,7 @@ class Products
      * Set modified
      *
      * @param \DateTime $modified
+     *
      * @return Products
      */
     public function setModified($modified)
@@ -236,7 +244,7 @@ class Products
     /**
      * Get modified
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModified()
     {
@@ -247,6 +255,7 @@ class Products
      * Set modifiedBy
      *
      * @param integer $modifiedBy
+     *
      * @return Products
      */
     public function setModifiedBy($modifiedBy)
@@ -259,7 +268,7 @@ class Products
     /**
      * Get modifiedBy
      *
-     * @return integer 
+     * @return integer
      */
     public function getModifiedBy()
     {
@@ -270,6 +279,7 @@ class Products
      * Set productTypeId
      *
      * @param integer $productTypeId
+     *
      * @return Products
      */
     public function setProductTypeId($productTypeId)
@@ -282,7 +292,7 @@ class Products
     /**
      * Get productTypeId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProductTypeId()
     {
@@ -290,32 +300,33 @@ class Products
     }
 
     /**
-     * Add prices
+     * Add price
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductPrices $prices
+     * @param \Cms\ProductManagerBundle\Entity\ProductPrices $price
+     *
      * @return Products
      */
-    public function addPrice(\Cms\ProductManagerBundle\Entity\ProductPrices $prices)
+    public function addPrice(\Cms\ProductManagerBundle\Entity\ProductPrices $price)
     {
-        $this->prices[] = $prices;
+        $this->prices[] = $price;
 
         return $this;
     }
 
     /**
-     * Remove prices
+     * Remove price
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductPrices $prices
+     * @param \Cms\ProductManagerBundle\Entity\ProductPrices $price
      */
-    public function removePrice(\Cms\ProductManagerBundle\Entity\ProductPrices $prices)
+    public function removePrice(\Cms\ProductManagerBundle\Entity\ProductPrices $price)
     {
-        $this->prices->removeElement($prices);
+        $this->prices->removeElement($price);
     }
 
     /**
      * Get prices
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getPrices()
     {
@@ -323,55 +334,57 @@ class Products
     }
 
     /**
-     * Set primaryCategory
+     * Set productCategory
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $primaryCategory
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $productCategory
+     *
      * @return Products
      */
-    public function setPrimaryCategory(\Cms\ProductManagerBundle\Entity\ProductCategories $primaryCategory = null)
+    public function setProductCategory(\Cms\ProductManagerBundle\Entity\ProductCategories $productCategory = null)
     {
-        $this->primaryCategory = $primaryCategory;
+        $this->productCategory = $productCategory;
 
         return $this;
     }
 
     /**
-     * Get primaryCategory
+     * Get productCategory
      *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategories 
+     * @return \Cms\ProductManagerBundle\Entity\ProductCategories
      */
-    public function getPrimaryCategory()
+    public function getProductCategory()
     {
-        return $this->primaryCategory;
+        return $this->productCategory;
     }
 
     /**
-     * Add varients
+     * Add varient
      *
-     * @param \Cms\ProductManagerBundle\Entity\Products $varients
+     * @param \Cms\ProductManagerBundle\Entity\Products $varient
+     *
      * @return Products
      */
-    public function addVarient(\Cms\ProductManagerBundle\Entity\Products $varients)
+    public function addVarient(\Cms\ProductManagerBundle\Entity\Products $varient)
     {
-        $this->varients[] = $varients;
+        $this->varients[] = $varient;
 
         return $this;
     }
 
     /**
-     * Remove varients
+     * Remove varient
      *
-     * @param \Cms\ProductManagerBundle\Entity\Products $varients
+     * @param \Cms\ProductManagerBundle\Entity\Products $varient
      */
-    public function removeVarient(\Cms\ProductManagerBundle\Entity\Products $varients)
+    public function removeVarient(\Cms\ProductManagerBundle\Entity\Products $varient)
     {
-        $this->varients->removeElement($varients);
+        $this->varients->removeElement($varient);
     }
 
     /**
      * Get varients
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getVarients()
     {
@@ -379,32 +392,33 @@ class Products
     }
 
     /**
-     * Add definitions
+     * Add definition
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductDefinitions $definitions
+     * @param \Cms\ProductManagerBundle\Entity\ProductDefinitions $definition
+     *
      * @return Products
      */
-    public function addDefinition(\Cms\ProductManagerBundle\Entity\ProductDefinitions $definitions)
+    public function addDefinition(\Cms\ProductManagerBundle\Entity\ProductDefinitions $definition)
     {
-        $this->definitions[] = $definitions;
+        $this->definitions[] = $definition;
 
         return $this;
     }
 
     /**
-     * Remove definitions
+     * Remove definition
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductDefinitions $definitions
+     * @param \Cms\ProductManagerBundle\Entity\ProductDefinitions $definition
      */
-    public function removeDefinition(\Cms\ProductManagerBundle\Entity\ProductDefinitions $definitions)
+    public function removeDefinition(\Cms\ProductManagerBundle\Entity\ProductDefinitions $definition)
     {
-        $this->definitions->removeElement($definitions);
+        $this->definitions->removeElement($definition);
     }
 
     /**
      * Get definitions
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return \Doctrine\Common\Collections\Collection
      */
     public function getDefinitions()
     {
@@ -415,6 +429,7 @@ class Products
      * Set productType
      *
      * @param \Cms\ProductManagerBundle\Entity\ProductTypes $productType
+     *
      * @return Products
      */
     public function setProductType(\Cms\ProductManagerBundle\Entity\ProductTypes $productType = null)
@@ -427,7 +442,7 @@ class Products
     /**
      * Get productType
      *
-     * @return \Cms\ProductManagerBundle\Entity\ProductTypes 
+     * @return \Cms\ProductManagerBundle\Entity\ProductTypes
      */
     public function getProductType()
     {
@@ -438,6 +453,7 @@ class Products
      * Set masterProduct
      *
      * @param \Cms\ProductManagerBundle\Entity\Products $masterProduct
+     *
      * @return Products
      */
     public function setMasterProduct(\Cms\ProductManagerBundle\Entity\Products $masterProduct = null)
@@ -450,7 +466,7 @@ class Products
     /**
      * Get masterProduct
      *
-     * @return \Cms\ProductManagerBundle\Entity\Products 
+     * @return \Cms\ProductManagerBundle\Entity\Products
      */
     public function getMasterProduct()
     {

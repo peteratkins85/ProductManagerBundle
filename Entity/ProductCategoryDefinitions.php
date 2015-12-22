@@ -155,7 +155,7 @@ class ProductCategoryDefinitions
      * @param \Cms\ContentManagerBundle\Entity\Languages $language
      * @return ProductCategoryDefinitions
      */
-    public function setLanguage(\Cms\ContentManagerBundle\Entity\Languages $language = null)
+    public function setLanguage(\Cms\CoreBundle\Entity\Languages $language = null)
     {
         $this->language = $language;
 

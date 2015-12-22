@@ -32,65 +32,36 @@ services:
     product_category_definitions:
         class:     "%product_category_definitions_entity%"
     #Factories
-    product_service:
-        class: "%product_entity_repository%"
-        factory: ["%products_factory%", getRepository]
-        arguments:
-                - "@session"
-                - "@service_container"
+    #Repositories
     products_repository:
         class: "%product_entity_repository%"
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
+        factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
         arguments:
                 - "%product_entity%"
     product_categories_repository:
         class: "%product_categories_repository%"
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
+        factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
         arguments:
                 - "%product_categories_entity%"
-    product_categories_repository_service:
-        class: "%product_categories_repository%"
-        factory: ["%product_categories_factory%", getRepository]
-        arguments:
-                - "@session"
-                - "@service_container"
-    product_categories_definitions_repository_service:
-        class: "%product_category_definitions_repository%"
-        factory: ["%product_category_definitions_factory%", getRepository]
-        arguments:
-                - "@session"
-                - "@service_container"
     product_categories_definitions_repository:
         class: "%product_category_definitions_repository%"
-        factory_service: doctrine.orm.entity_manager
-        factory_method: getRepository
+        factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
         arguments:
                 - "%product_category_definitions_entity%"
-
-    #Repositories
-
     #Controllers
     product_controller:
         class:     "%product_controller%"
         calls:
             - [setContainer, ["@service_container"]]
         arguments:
-                - "@templating"
-                - "@service_container"
-                - "@session"
-                - "@product_service"
-                - "@doctrine"
+                - "@products_repository"
     product_categories_controller:
         class:     "%product_categories_controller%"
         calls:
             - [setContainer, ["@service_container"]]
         arguments:
-                - "@product_categories_repository_service"
-                - "@product_categories_definitions_repository_service"
-                - "@product_categories"
-                - "@product_category_definitions"
+                - "@product_categories_repository"
+                - "@product_categories_definitions_repository"
     #Forms
     product_categories_form:
         class: "%product_categories_form%"
