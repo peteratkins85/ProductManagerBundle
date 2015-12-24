@@ -15,9 +15,15 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
         created:
             type: datetime
             nullable: TRUE
+            gedmo:
+              timestampable:
+                on: create
         modified:
             type: time
             nullable: TRUE
+            gedmo:
+              timestampable:
+                on: update
         modifiedBy:
             type: integer
             nullable: TRUE

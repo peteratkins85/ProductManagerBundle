@@ -17,14 +17,12 @@ class ProductCategoryDefinitionsType extends AbstractType
      * @param ContainerInterface $container
      * @param \Symfony\Component\HttpFoundation\Session\Session $session
      */
-//    public function __construct(ContainerInterface $container, $session){
-//
-//        $this->container = $container;
-//        $this->productCategoriesRepository = $this->container->get('product_categories_repository_service');
-//        $this->productCategoryDefinitionsRepository = $this->container->get('product_categories_definitions_repository_service');
-//
-//
-//    }
+    public function __construct(ContainerInterface $container){
+
+        $this->container = $container;
+        $this->language = $this->container->get('language_repository')->getDefaultLanguage();
+
+    }
 
     /**
      * @param FormBuilderInterface $builder
@@ -33,11 +31,10 @@ class ProductCategoryDefinitionsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('productCategoryId', HiddenType::class)
-            ->add('languageId', TextType::class)
+            ->add('languageId', HiddenType::class, array(
+                'data'=> $this->language->getId()
+            ))
             ->add('productCategoryName', TextType::class)
-            ->add('productCategory', HiddenType::class)
-            ->add('language', HiddenType::class)
         ;
     }
     

@@ -8,9 +8,7 @@ parameters:
     product_categories_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
     product_category_definitions_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository
     #factories
-    product_categories_factory: Cms\ProductManagerBundle\Entity\Factory\ProductCategoriesFactory
-    product_category_definitions_factory: Cms\ProductManagerBundle\Entity\Factory\ProductCategoryDefinitionsFactory
-    products_factory: Cms\ProductManagerBundle\Entity\Factory\ProductFactory
+    product_repository_factory: Cms\ProductManagerBundle\Entity\Factory\ProductRespositoryFactory
     #controllers
     product_categories_controller: Cms\ProductManagerBundle\Controller\ProductCategoriesController
     product_controller: Cms\ProductManagerBundle\Controller\IndexController
@@ -31,7 +29,6 @@ services:
         class:     "%product_categories_entity%"
     product_category_definitions:
         class:     "%product_category_definitions_entity%"
-    #Factories
     #Repositories
     products_repository:
         class: "%product_entity_repository%"
@@ -43,11 +40,22 @@ services:
         factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
         arguments:
                 - "%product_categories_entity%"
+    product_categories_service:
+        class: Cms\CoreBundle\Repository\CoreRepository
+        factory: [ '@repository_factory',  getRepository]
+        arguments:
+            - '@product_categories_repository'
     product_categories_definitions_repository:
         class: "%product_category_definitions_repository%"
         factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
         arguments:
                 - "%product_category_definitions_entity%"
+    product_categories_definitions_service:
+        class: Cms\CoreBundle\Repository\CoreRepository
+        factory: [ '@repository_factory',  getRepository]
+        arguments:
+            - '@product_categories_definitions_repository'
+    #Services
     #Controllers
     product_controller:
         class:     "%product_controller%"
@@ -60,8 +68,8 @@ services:
         calls:
             - [setContainer, ["@service_container"]]
         arguments:
-                - "@product_categories_repository"
-                - "@product_categories_definitions_repository"
+                - "@product_categories_service"
+                - "@product_categories_definitions_service"
     #Forms
     product_categories_form:
         class: "%product_categories_form%"
@@ -74,7 +82,6 @@ services:
         class: "%product_category_definitions_form%"
         arguments:
                 - "@service_container"
-                - "@session"
         tags:
             - { name: form.type, alias: product_category_definitions }
     #Events and Listeners

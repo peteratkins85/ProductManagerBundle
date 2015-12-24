@@ -3,6 +3,7 @@
 namespace Cms\ProductManagerBundle\Controller;
 
 use Cms\CoreBundle\Controller\CoreController;
+use Cms\CoreBundle\Core;
 use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions;
 use Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository;
 use Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository;
@@ -54,6 +55,16 @@ class ProductCategoriesController extends CoreController
         $productCategory->getDefinitions()->add($productCategoryDefinition);
 
         $productCategoryForm = $this->createForm(ProductCategoriesType::class,$productCategory);
+
+        if ($request->isMethod('POST')) {
+
+            $productCategoryForm->handleRequest($request);
+
+            if ($productCategoryForm->isSubmitted() && $productCategoryForm->isValid()) {
+                var_dump($productCategory);exit;
+            }
+
+        }
 
         return $this->render('ProductManagerBundle:ProductCategory:add.html.twig', array(
             'pageName' => 'Add Product Category',

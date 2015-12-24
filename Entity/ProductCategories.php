@@ -322,14 +322,17 @@ class ProductCategories
     protected $productCategoryName;
 
     /**
-     * Get product category Name
+     * Get product category Name by Language ID
      *
      * @param integer $active
      * @return ProductCategories
      */
-    public function setProductCategoryName($languageId = 1)
+    public function setProductCategoryName($languageId)
     {
         $this->productCategoryName = '';
+
+        if (!$languageId)
+            return false;
 
         foreach ($this->definitions as $definition){
 
@@ -344,6 +347,20 @@ class ProductCategories
                 }
 
             }
+
+        }
+
+    }
+
+    public function getProductCategoryName(){
+
+        if (!$this->productCategoryName){
+
+            return false;
+
+        }else{
+
+            return $this->productCategoryName;
 
         }
 

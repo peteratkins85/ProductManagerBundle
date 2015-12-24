@@ -2,15 +2,15 @@
 
 namespace Cms\ProductManagerBundle\Form;
 
-use Cms\CoreBundle\CoreGlobals;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\Tests\Extension\Core\Type\CollectionTypeTest;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository;
-use Cms\ProductManagerBundle\Form\ProductCategoryDefinitionsType;
-use Symfony\Component\Form\FormRegistry;
+use Cms\ProductManagerBundle\Entity\ProductCategories as ProductCategory;
+use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions as ProductCategoryDefinitions;
+use Cms\CoreBundle\Entity\Languages as Languages;
 
 class ProductCategoriesType extends AbstractType
 {
@@ -20,6 +20,8 @@ class ProductCategoriesType extends AbstractType
      */
     protected $productCategoriesRepository;
     protected $productCategoryDefinitionsRepository;
+    /** @var Languages $language */
+    public $language;
 
     /**
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
@@ -27,17 +29,10 @@ class ProductCategoriesType extends AbstractType
      */
     public function __construct($container, $session){
 
-        if ($session->get('languages')){
-
-
-
-        }else{
-
-            $this->langaugeId = '1';
-
-
-        }
         $this->container = $container;
+        $this->language = $this->container->get('get_language');
+        $this->productCategoriesRepository = $this->container->get('product_categories_repository');
+        $this->productCategoryDefinitionsRepository = $this->container->get('product_categories_definitions_repository');
 
     }
 
@@ -48,24 +43,42 @@ class ProductCategoriesType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
-        $productCategoryDefinitionsForm = $this->container->get('product_category_definitions_form');
+
         $builder
 
             ->add('definitions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
-                    'entry_type' => ProductCategoryDefinitionsType::class
+                'entry_type' => ProductCategoryDefinitionsType::class
             ))
-            ->add('parent', EntityType::class , array(
-                'class' => CoreGlobals::PRODUCT_CATEGORIES_ENTITY,
+            ->add('parentProductCategoryId', ChoiceType::class , array(
                 'choices' => $this->productCategoriesRepository->getFormProductCategoryChoices(),
-                'placeholder' => 'Select parent category'
+                'choices_as_values' => true,
+                'attr' => array('class' => 'select2 input-block-level'),
+//                'choice_label' => function($category, $key, $index) {
+//                    /** @var ProductCategory $category */
+//                    foreach ($category->getDefinitions() as $definition){
+//                        /** @var ProductCategoryDefinitions $definition */
+//                        if ($definition->getLanguageId() == $this->language->getId()){
+//                            return $definition->getProductCategoryName();
+//                        }
+//                    }
+//
+//                },
+                'by_reference' => false,
+                'required' => true,
+//                'choice_attr' => function($val, $key, $index) {
+//                    // adds a class like attending_yes, attending_no, etc
+//                    return ['class' => 'attending_'.strtolower($key)];
+//                },
                 )
             )
-            ->add('add', 'submit', array(
+            ->add('add', SubmitType::class, array(
                 'attr' => array('class' => 'save'),
                 )
             )
         ;
     }
+
+
 
     public function configureOptions(OptionsResolver $resolver)
     {
