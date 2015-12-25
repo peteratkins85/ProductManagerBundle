@@ -24,7 +24,7 @@ class ProductCategories
     /**
      * @var integer
      */
-    private $parentProductCategoryId;
+    private $parentId;
 
     /**
      * @var \DateTime
@@ -101,26 +101,26 @@ class ProductCategories
     }
 
     /**
-     * Set parentProductCategoryId
+     * Set parentId
      *
-     * @param integer $parentProductCategoryId
+     * @param integer $parentId
      * @return ProductCategories
      */
-    public function setParentProductCategoryId($parentProductCategoryId)
+    public function setParentId($parentId)
     {
-        $this->parentProductCategoryId = $parentProductCategoryId;
+        $this->parentId = $parentId;
 
         return $this;
     }
 
     /**
-     * Get parentProductCategoryId
+     * Get parentId
      *
      * @return integer 
      */
-    public function getParentProductCategoryId()
+    public function getParentId()
     {
-        return $this->parentProductCategoryId;
+        return $this->parentId;
     }
 
     /**
@@ -386,4 +386,120 @@ class ProductCategories
     }
 
 
+    /**
+     * @var integer
+     */
+    private $lft;
+
+    /**
+     * @var integer
+     */
+    private $rgt;
+
+    /**
+     * @var integer
+     */
+    private $root;
+
+    /**
+     * @var integer
+     */
+    private $lvl;
+
+
+    /**
+     * Set lft
+     *
+     * @param integer $lft
+     *
+     * @return ProductCategories
+     */
+    public function setLft($lft)
+    {
+        $this->lft = $lft;
+
+        return $this;
+    }
+
+    /**
+     * Get lft
+     *
+     * @return integer
+     */
+    public function getLft()
+    {
+        return $this->lft;
+    }
+
+    /**
+     * Set rgt
+     *
+     * @param integer $rgt
+     *
+     * @return ProductCategories
+     */
+    public function setRgt($rgt)
+    {
+        $this->rgt = $rgt;
+
+        return $this;
+    }
+
+    /**
+     * Get rgt
+     *
+     * @return integer
+     */
+    public function getRgt()
+    {
+        return $this->rgt;
+    }
+
+    /**
+     * Set root
+     *
+     * @param integer $root
+     *
+     * @return ProductCategories
+     */
+    public function setRoot($root)
+    {
+        $this->root = $root;
+
+        return $this;
+    }
+
+    /**
+     * Get root
+     *
+     * @return integer
+     */
+    public function getRoot()
+    {
+        return $this->root;
+    }
+
+    /**
+     * Set lvl
+     *
+     * @param integer $lvl
+     *
+     * @return ProductCategories
+     */
+    public function setLvl($lvl)
+    {
+        $this->lvl = $lvl;
+
+        return $this;
+    }
+
+    /**
+     * Get lvl
+     *
+     * @return integer
+     */
+    public function getLvl()
+    {
+        return $this->lvl;
+    }
 }

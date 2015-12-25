@@ -50,14 +50,15 @@ class ProductCategoriesType extends AbstractType
                 'entry_type' => ProductCategoryDefinitionsType::class
             ))
             ->add('parent', ChoiceType::class , array(
-                'choices' => $this->productCategoriesRepository->getFormProductCategoryChoices(),
+                'choices' => $this->productCategoriesRepository->findAll(),
                 'choices_as_values' => true,
                 'attr' => array('class' => 'select2 input-block-level'),
                 'choice_label' => function($category, $key, $index) {
                     /** @var ProductCategory $category */
-                    //var_dump($category->getId()); exit;
+                    //var_dump($category->getDefinitions()); exit;
                     foreach ($category->getDefinitions() as $definition){
                         /** @var ProductCategoryDefinitions $definition */
+                        //var_dump($this->languageId);exit;
                         if ($definition->getLanguage()->getId() == $this->languageId){
                             return $definition->getProductCategoryName();
                         }

@@ -3,6 +3,7 @@
 namespace Cms\ProductManagerBundle\Form;
 
 
+use Cms\CoreBundle\CoreGlobals;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -36,25 +37,6 @@ class ProductCategoryDefinitionsType extends AbstractType
 
         $builder
             ->add('productCategoryName', TextType::class)
-            ->add('language', ChoiceType::class , array(
-                    'choices' => $this->container->get('language_repository')->findAll(),
-                    'choices_as_values' => true,
-                    'attr' => array('class' => 'select2 input-block-level'),
-//                    'choice_label' => function($category, $key, $index) {
-//                        /** @var ProductCategory $category */
-//                        //var_dump($category->getId()); exit;
-//                        foreach ($category->getDefinitions() as $definition){
-//                            /** @var ProductCategoryDefinitions $definition */
-//                            if ($definition->getLanguage()->getId() == $this->languageId){
-//                                return $definition->getProductCategoryName();
-//                            }
-//                        }
-//
-//                    },
-                    'by_reference' => false,
-                    'required' => true,
-
-            ))
         ;
     }
     

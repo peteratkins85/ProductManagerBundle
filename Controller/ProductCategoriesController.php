@@ -34,27 +34,27 @@ class ProductCategoriesController extends CoreController
     public function indexAction()
     {
 
-        $language = $this->getLanguage();
-
-        $languageEnt = $this->container->get('language_repository')->findById($language->getId());
-        $productCategory = new ProductCategories();
-        $productCategoryDefinition = new ProductCategoryDefinitions();
-        $productCategoryDefinition->setLanguage($languageEnt[0]);
-        $productCategoryDefinition->setProductCategoryName('Test Cat');
-        $productCategoryDefinition->setProductCategory($productCategory);
-        $productCategory->getDefinitions()->add($productCategoryDefinition);
-
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($productCategory);
-
-//        $em->merge($productCategoryDefinition->getLanguage());
-//        $em->merge($productCategoryDefinition->getProductCategory());
-
-        $em->flush();
-
-        exit;
+//        $languageId = $this->getLanguage();
+//
+//        $languageEnt = $this->container->get('language_repository')->find($languageID);
+//        $productCategory = new ProductCategories();
+//        $productCategoryDefinition = new ProductCategoryDefinitions();
+//        $productCategoryDefinition->setLanguage($languageEnt[0]);
+//        $productCategoryDefinition->setProductCategoryName('Test Cat');
+//        $productCategoryDefinition->setProductCategory($productCategory);
+//        $productCategory->getDefinitions()->add($productCategoryDefinition);
+//
+//
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $em->persist($productCategory);
+//
+////        $em->merge($productCategoryDefinition->getLanguage());
+////        $em->merge($productCategoryDefinition->getProductCategory());
+//
+//        $em->flush();
+//
+//        exit;
 
 
 
@@ -71,6 +71,31 @@ class ProductCategoriesController extends CoreController
 
     public function addAction(Request $request)
     {
+
+//        $languageRepository = $this->getLanguageRepository();
+//        $languageId = $this->get('get_language');
+//
+//        $root = new ProductCategories();
+//        $rootDef = new ProductCategoryDefinitions();
+//        $rootDef->setProductCategoryName('rootCategory');
+//        $rootDef->setLanguage($languageRepository->find($languageId));
+//        $root->addDefinition($rootDef);
+//
+//        $test = new ProductCategories();
+//        $testDef = new ProductCategoryDefinitions();
+//        $testDef->setProductCategoryName('Test');
+//        $testDef->setLanguage($languageRepository->find($languageId));
+//        $test->setParent($root);
+//        $test->addDefinition($testDef);
+//
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $em->persist($root);
+//        $em->persist($test);
+//
+//        $em->flush();
+//
+//        exit;
 
         $languageRepository = $this->getLanguageRepository();
         $languageId = $this->get('get_language');

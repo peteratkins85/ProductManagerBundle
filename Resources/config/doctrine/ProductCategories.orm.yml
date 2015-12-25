@@ -2,6 +2,9 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
     type: entity
     table: product_categories
     repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
+    gedmo:
+        tree:
+          type: nested
     id:
         id:
             type: integer
@@ -9,9 +12,6 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
             generator:
                 strategy: AUTO
     fields:
-        parentProductCategoryId:
-            type: integer
-            nullable: TRUE
         created:
             type: datetime
             nullable: TRUE
@@ -27,28 +27,43 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
         modifiedBy:
             type: integer
             nullable: TRUE
-#    properties:
-#        parentProductCategoryId:
-#            - Type:
-#                type: integer
-#                message: The value {{ value }} is not a valid {{ type }}.
+        lft:
+          type: integer
+          gedmo:
+            - treeLeft
+        rgt:
+          type: integer
+          gedmo:
+            - treeRight
+        root:
+          type: integer
+          nullable: true
+          gedmo:
+            - treeRoot
+        lvl:
+          type: integer
+          gedmo:
+            - treeLevel
     oneToMany:
         children:
-            targetEntity: Cms\Entity\ProductCategories
+            targetEntity: Cms\ProductManagerBundle\Entity\ProductCategories
             mappedBy: parent
-            cascade: [persist]
+            orderBy:
+                lft: ASC
         definitions:
             targetEntity: Cms\Entity\ProductCategoryDefinitions
             mappedBy: productCategory
             cascade: [persist]
     manyToOne:
         parent:
-            targetEntity: Cms\Entity\ProductCategories
+            targetEntity: Cms\ProductManagerBundle\Entity\ProductCategories
             inversedBy: children
-            cascade: [persist]
             joinColumn:
-                name: parentProductCategoryId
+                name: parentId
                 referencedColumnName: id
+                onDelete: CASCADE
+            gedmo:
+            - treeParent
     manyToMany:
         products:
             targetEntity: Cms\Entity\Products
