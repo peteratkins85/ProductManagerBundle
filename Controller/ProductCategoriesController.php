@@ -36,6 +36,29 @@ class ProductCategoriesController extends CoreController
 
         $language = $this->getLanguage();
 
+        $languageEnt = $this->container->get('language_repository')->findById($language->getId());
+        $productCategory = new ProductCategories();
+        $productCategoryDefinition = new ProductCategoryDefinitions();
+        $productCategoryDefinition->setLanguage($languageEnt[0]);
+        $productCategoryDefinition->setProductCategoryName('Test Cat');
+        $productCategoryDefinition->setProductCategory($productCategory);
+        $productCategory->getDefinitions()->add($productCategoryDefinition);
+
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($productCategory);
+
+//        $em->merge($productCategoryDefinition->getLanguage());
+//        $em->merge($productCategoryDefinition->getProductCategory());
+
+        $em->flush();
+
+        exit;
+
+
+
+
         $productCategories = $this->productCategoriesRepository->getAllProductCategories();
 
         return $this->render('ProductManagerBundle:ProductCategory:index.html.twig', array(
@@ -49,10 +72,12 @@ class ProductCategoriesController extends CoreController
     public function addAction(Request $request)
     {
 
-        $productCategory = $this->get('product_categories');
-        $productCategoryDefinition = $this->get('product_category_definitions');
-        $productCategoryDefinition->setLanguage($this->getLanguage());
-        $productCategory->getDefinitions()->add($productCategoryDefinition);
+        $languageRepository = $this->getLanguageRepository();
+        $languageId = $this->get('get_language');
+        $productCategory = $this->getProductCategoriesEntity();
+        $productCategoryDefinition = $this->getProductCategoryDefinitionsEntity();
+        $productCategoryDefinition->setLanguage($languageRepository->find($languageId));
+        $productCategory->addDefinition($productCategoryDefinition);
 
         $productCategoryForm = $this->createForm(ProductCategoriesType::class,$productCategory);
 
@@ -61,7 +86,15 @@ class ProductCategoriesController extends CoreController
             $productCategoryForm->handleRequest($request);
 
             if ($productCategoryForm->isSubmitted() && $productCategoryForm->isValid()) {
-                var_dump($productCategory);exit;
+
+                $languageId = $this->get('get_language');
+
+                //$productCategory->getDefinitions()[0]->setLanguage($languageRepository->find($languageId));
+                $em = $this->getDoctrine()->getManager();
+
+                $em->persist($productCategory);
+                $em->flush();
+
             }
 
         }

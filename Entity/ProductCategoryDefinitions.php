@@ -15,15 +15,6 @@ class ProductCategoryDefinitions
      */
     private $id;
 
-    /**
-     * @var integer
-     */
-    private $productCategoryId;
-
-    /**
-     * @var integer
-     */
-    private $languageId;
 
     /**
      * @var string
@@ -57,51 +48,9 @@ class ProductCategoryDefinitions
         return $this->id;
     }
 
-    /**
-     * Set productCategoryId
-     *
-     * @param integer $productCategoryId
-     * @return ProductCategoryDefinitions
-     */
-    public function setProductCategoryId($productCategoryId)
-    {
-        $this->productCategoryId = $productCategoryId;
 
-        return $this;
-    }
 
-    /**
-     * Get productCategoryId
-     *
-     * @return integer 
-     */
-    public function getProductCategoryId()
-    {
-        return $this->productCategoryId;
-    }
 
-    /**
-     * Set languageId
-     *
-     * @param integer $languageId
-     * @return ProductCategoryDefinitions
-     */
-    public function setLanguageId($languageId)
-    {
-        $this->languageId = $languageId;
-
-        return $this;
-    }
-
-    /**
-     * Get languageId
-     *
-     * @return integer 
-     */
-    public function getLanguageId()
-    {
-        return $this->languageId;
-    }
 
     /**
      * Set productCategoryName
@@ -170,5 +119,65 @@ class ProductCategoryDefinitions
     public function getLanguage()
     {
         return $this->language;
+    }
+
+
+    /**
+     * @var integer
+     */
+    private $productCategoryId;
+
+
+    /**
+     * Set productCategoryId
+     *
+     * @param integer $productCategoryId
+     *
+     * @return ProductCategoryDefinitions
+     */
+    public function setProductCategoryId($productCategoryId)
+    {
+        $this->productCategoryId = $productCategoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get productCategoryId
+     *
+     * @return integer
+     */
+    public function getProductCategoryId()
+    {
+        return $this->productCategoryId;
+    }
+    /**
+     * @var integer
+     */
+    private $languageId;
+
+
+    /**
+     * Set languageId
+     *
+     * @param integer $languageId
+     *
+     * @return ProductCategoryDefinitions
+     */
+    public function setLanguageId($languageId)
+    {
+        $this->languageId = $languageId;
+
+        return $this;
+    }
+
+    /**
+     * Get languageId
+     *
+     * @return integer
+     */
+    public function getLanguageId()
+    {
+        return $this->languageId;
     }
 }

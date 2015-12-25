@@ -5,6 +5,7 @@ namespace Cms\ProductManagerBundle\Form;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -30,11 +31,30 @@ class ProductCategoryDefinitionsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $languageId = $this->container->get('get_language');
+        $language = $this->container->get('language_repository')->find($languageId);
+
         $builder
-            ->add('languageId', HiddenType::class, array(
-                'data'=> $this->language->getId()
-            ))
             ->add('productCategoryName', TextType::class)
+            ->add('language', ChoiceType::class , array(
+                    'choices' => $this->container->get('language_repository')->findAll(),
+                    'choices_as_values' => true,
+                    'attr' => array('class' => 'select2 input-block-level'),
+//                    'choice_label' => function($category, $key, $index) {
+//                        /** @var ProductCategory $category */
+//                        //var_dump($category->getId()); exit;
+//                        foreach ($category->getDefinitions() as $definition){
+//                            /** @var ProductCategoryDefinitions $definition */
+//                            if ($definition->getLanguage()->getId() == $this->languageId){
+//                                return $definition->getProductCategoryName();
+//                            }
+//                        }
+//
+//                    },
+                    'by_reference' => false,
+                    'required' => true,
+
+            ))
         ;
     }
     

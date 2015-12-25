@@ -28,11 +28,13 @@ Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
         productCategory:
             targetEntity: Cms\Entity\ProductCategories
             inversedBy: definitions
+#            cascade: [persist,merge]
             joinColumn:
                 name: productCategoryId
                 referencedColumnName: id
         language:
             targetEntity: Cms\Entity\Languages
+#            cascade: [merge]
             joinColumn:
                 name: languageId
                 referencedColumnName: id

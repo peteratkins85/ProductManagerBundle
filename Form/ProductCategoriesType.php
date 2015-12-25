@@ -30,7 +30,7 @@ class ProductCategoriesType extends AbstractType
     public function __construct($container, $session){
 
         $this->container = $container;
-        $this->language = $this->container->get('get_language');
+        $this->languageId = $this->container->get('get_language');
         $this->productCategoriesRepository = $this->container->get('product_categories_repository');
         $this->productCategoryDefinitionsRepository = $this->container->get('product_categories_definitions_repository');
 
@@ -49,20 +49,21 @@ class ProductCategoriesType extends AbstractType
             ->add('definitions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
                 'entry_type' => ProductCategoryDefinitionsType::class
             ))
-            ->add('parentProductCategoryId', ChoiceType::class , array(
+            ->add('parent', ChoiceType::class , array(
                 'choices' => $this->productCategoriesRepository->getFormProductCategoryChoices(),
                 'choices_as_values' => true,
                 'attr' => array('class' => 'select2 input-block-level'),
-//                'choice_label' => function($category, $key, $index) {
-//                    /** @var ProductCategory $category */
-//                    foreach ($category->getDefinitions() as $definition){
-//                        /** @var ProductCategoryDefinitions $definition */
-//                        if ($definition->getLanguageId() == $this->language->getId()){
-//                            return $definition->getProductCategoryName();
-//                        }
-//                    }
-//
-//                },
+                'choice_label' => function($category, $key, $index) {
+                    /** @var ProductCategory $category */
+                    //var_dump($category->getId()); exit;
+                    foreach ($category->getDefinitions() as $definition){
+                        /** @var ProductCategoryDefinitions $definition */
+                        if ($definition->getLanguage()->getId() == $this->languageId){
+                            return $definition->getProductCategoryName();
+                        }
+                    }
+
+                },
                 'by_reference' => false,
                 'required' => true,
 //                'choice_attr' => function($val, $key, $index) {
@@ -72,7 +73,7 @@ class ProductCategoriesType extends AbstractType
                 )
             )
             ->add('add', SubmitType::class, array(
-                'attr' => array('class' => 'save'),
+                'attr' => array('class' => 'save')
                 )
             )
         ;

@@ -2,8 +2,8 @@
 
 namespace Cms\ProductManagerBundle\Entity\Repository;
 
-use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions;
-use Cms\ProductManagerBundle\Entity\ProductCategories;
+use Cms\CoreBundle\CoreGlobals;
+use Cms\CoreBundle\Entity\Languages;
 use Doctrine\ORM\EntityRepository;
 
 /**
@@ -14,6 +14,10 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductCategoriesRepository extends EntityRepository
 {
+    /**
+     * @var Languages
+     */
+    public $language;
 
 
     public function getAllProductCategories(){
@@ -26,17 +30,14 @@ class ProductCategoriesRepository extends EntityRepository
         $keys = array(
             'Category Id' => 'pc.id',
             'Category Name' => 'pcd.productCategoryName'
-//            'Parent Category Id' => 'pc.parentProductCategoryId'
-//            'Created' => 'pc.created',
-//            'Modified' => 'pc.modified',
-//            'Modified By' => 'pc.modifiedBy'
         );
+
 
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select($keys)
-            ->from($this->productCategoriesTable, 'pc')
-            ->innerjoin($this->productCategoryDefinitionsTable, 'pcd', 'WITH' , 'pc.id = pcd.productCategoryId AND pcd.languageId = :lang')
-            ->setParameter('lang', $this->getLanguageId());
+            ->from(CoreGlobals::PRODUCT_CATEGORIES_ENTITY, 'pc')
+            ->innerjoin(CoreGlobals::PRODUCT_CATEGORIES_DEFINITION_ENTITY, 'pcd', 'WITH' , 'pc.id = pcd.productCategoryId AND pcd.languageId = :lang')
+            ->setParameter('lang', $this->language->getId());
 
         $results = $qb->getQuery()->getResult(\Doctrine\ORM\Query::HYDRATE_OBJECT);
         $return['results'] = $results;
@@ -62,17 +63,15 @@ class ProductCategoriesRepository extends EntityRepository
         //Because product category names are stored in the product_category_definitions table
         //We need to call the setProductCategoryName() method which will retrieve the name
         //and set the productCategoryName variable with in the entity
+       // var_dump($categories); exit;
         foreach ($categories as $category){
 
-            $languageId = $this->getLanguageId();
 
-            $category->setProductCategoryName($languageId);
-
-            $return[$category->getProductCategoryName()] = $category->getId();
+            $return[] = $category;
 
         }
 
-        return $return;
+        return $categories;
 
     }
 

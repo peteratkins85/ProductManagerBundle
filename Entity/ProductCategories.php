@@ -294,7 +294,9 @@ class ProductCategories
      */
     public function addDefinition(\Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions)
     {
+
         $this->definitions[] = $definitions;
+        $definitions->setProductCategory($this);
 
         return $this;
     }
@@ -327,7 +329,7 @@ class ProductCategories
      * @param integer $active
      * @return ProductCategories
      */
-    public function setProductCategoryName($languageId)
+    public function setProductCategoryName($languageId = 1)
     {
         $this->productCategoryName = '';
 
@@ -336,7 +338,7 @@ class ProductCategories
 
         foreach ($this->definitions as $definition){
 
-            if ($definition->getLanguageId() == $languageId){
+            if ($definition->getLanguage()->getId() == $languageId){
 
                 if ($definition->getProductCategoryName()) {
 

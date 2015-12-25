@@ -27,11 +27,11 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
         modifiedBy:
             type: integer
             nullable: TRUE
-    properties:
-        parentProductCategoryId:
-            - Type:
-                type: integer
-                message: The value {{ value }} is not a valid {{ type }}.
+#    properties:
+#        parentProductCategoryId:
+#            - Type:
+#                type: integer
+#                message: The value {{ value }} is not a valid {{ type }}.
     oneToMany:
         children:
             targetEntity: Cms\Entity\ProductCategories
@@ -45,6 +45,7 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
         parent:
             targetEntity: Cms\Entity\ProductCategories
             inversedBy: children
+            cascade: [persist]
             joinColumn:
                 name: parentProductCategoryId
                 referencedColumnName: id
