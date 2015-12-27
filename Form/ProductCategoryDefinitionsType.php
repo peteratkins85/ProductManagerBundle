@@ -36,7 +36,9 @@ class ProductCategoryDefinitionsType extends AbstractType
         $language = $this->container->get('language_repository')->find($languageId);
 
         $builder
-            ->add('productCategoryName', TextType::class)
+            ->add('productCategoryName', TextType::class,array(
+                'label'=>'Name'
+            ))
         ;
     }
     

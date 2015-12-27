@@ -54,19 +54,14 @@ class ProductCategoriesType extends AbstractType
                 'choices_as_values' => true,
                 'attr' => array('class' => 'select2 input-block-level'),
                 'choice_label' => function($category, $key, $index) {
-                    /** @var ProductCategory $category */
-                    //var_dump($category->getDefinitions()); exit;
                     foreach ($category->getDefinitions() as $definition){
-                        /** @var ProductCategoryDefinitions $definition */
-                        //var_dump($this->languageId);exit;
                         if ($definition->getLanguage()->getId() == $this->languageId){
                             return $definition->getProductCategoryName();
                         }
                     }
-
                 },
                 'by_reference' => false,
-                'required' => true,
+                //'required' => true,
 //                'choice_attr' => function($val, $key, $index) {
 //                    // adds a class like attending_yes, attending_no, etc
 //                    return ['class' => 'attending_'.strtolower($key)];
@@ -74,7 +69,7 @@ class ProductCategoriesType extends AbstractType
                 )
             )
             ->add('add', SubmitType::class, array(
-                'attr' => array('class' => 'save')
+                'attr' => array('class' => 'btn btn-primary')
                 )
             )
         ;

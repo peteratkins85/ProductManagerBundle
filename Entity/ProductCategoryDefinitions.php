@@ -3,7 +3,6 @@
 namespace Cms\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-
 /**
  * ProductCategoryDefinitions
  */

@@ -8,7 +8,6 @@ Cms\ProductManagerBundle\Entity\Products:
             id: true
             generator:
                 strategy: AUTO
-
     fields:
         productName:
             type: string

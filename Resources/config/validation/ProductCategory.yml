@@ -1,0 +1,5 @@
+Cms\ProductManagerBundle\Entity\ProductCategories:
+    properties:
+        definitions:
+            - Valid:
+                traverse: true

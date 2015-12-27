@@ -321,7 +321,6 @@ class ProductCategories
         return $this->definitions;
     }
 
-    protected $productCategoryName;
 
     /**
      * Get product category Name by Language ID
@@ -329,7 +328,7 @@ class ProductCategories
      * @param integer $active
      * @return ProductCategories
      */
-    public function setProductCategoryName($languageId = 1)
+    public function setProductCategoryName()
     {
         $this->productCategoryName = '';
 
@@ -338,7 +337,7 @@ class ProductCategories
 
         foreach ($this->definitions as $definition){
 
-            if ($definition->getLanguage()->getId() == $languageId){
+            if ($definition->getLanguage()->getIsDefault()){
 
                 if ($definition->getProductCategoryName()) {
 

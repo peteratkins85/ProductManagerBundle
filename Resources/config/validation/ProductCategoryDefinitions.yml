@@ -1,9 +1,9 @@
 Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
     properties:
-            productCategoryName:
-                - NotBlank: ~
-                - Type:
-                    type: string
-                    message: The value {{ value }} is not a valid {{ type }}.
-                - Length:
-                    min: 3
+        productCategoryName:
+            - NotBlank: ~
+            - Type:
+                type: alpha
+                message: The value {{ value }} is not a valid {{ type }}.
+            - Length:
+                min: 3

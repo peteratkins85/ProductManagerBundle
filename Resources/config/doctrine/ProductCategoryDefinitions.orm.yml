@@ -11,6 +11,7 @@ Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
 #    indexes:
 #        name_index:
 #          columns: [ name ]
+
     uniqueConstraints:
         language_category:
             columns:
@@ -34,7 +35,6 @@ Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
                 referencedColumnName: id
         language:
             targetEntity: Cms\Entity\Languages
-#            cascade: [merge]
             joinColumn:
                 name: languageId
                 referencedColumnName: id
