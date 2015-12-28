@@ -10,7 +10,7 @@ namespace Cms\ProductManagerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Cms\ProductManagerBundle\Entity\ProductCategories;
+use Cms\ProductManagerBundle\Entity\ProductCategory;
 use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -35,13 +35,13 @@ class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureI
     public function load(ObjectManager $manager)
     {
 
-        $root = new ProductCategories();
-        $rootDef = new ProductCategoryDefinitions();
-        $rootDef->setProductCategoryName('rootCategory');
-        $rootDef->setLanguage($this->getReference('language'));
+        $language = $this->getReference('language');
+        $root = new ProductCategory();
+        //$root->setTra
+        $root->setProductCategoryName('rootCategory');
         $root->addDefinition($rootDef);
 
-        $test = new ProductCategories();
+        $test = new ProductCategory();
         $testDef = new ProductCategoryDefinitions();
         $testDef->setProductCategoryName('Test');
         $testDef->setLanguage($this->getReference('language'));

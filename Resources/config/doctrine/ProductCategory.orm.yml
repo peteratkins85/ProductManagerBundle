@@ -1,10 +1,13 @@
-Cms\ProductManagerBundle\Entity\ProductCategories:
+Cms\ProductManagerBundle\Entity\ProductCategory:
     type: entity
     table: product_categories
-    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
+    repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryRepository
     gedmo:
         tree:
-          type: nested
+            type: nested
+#        translation:
+#            lxocale: locale
+#            entity: Cms\ProductManagerBundle\Entity\ProductCategoryTranslations
     id:
         id:
             type: integer
@@ -12,6 +15,11 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
             generator:
                 strategy: AUTO
     fields:
+        productCategoryName:
+            type: string
+            length: 255
+            gedmo:
+              - translatable
         created:
             type: datetime
             nullable: TRUE
@@ -19,7 +27,7 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
               timestampable:
                 on: create
         modified:
-            type: time
+            type: datetime
             nullable: TRUE
             gedmo:
               timestampable:
@@ -46,26 +54,22 @@ Cms\ProductManagerBundle\Entity\ProductCategories:
             - treeLevel
     oneToMany:
         children:
-            targetEntity: Cms\ProductManagerBundle\Entity\ProductCategories
+            targetEntity: Cms\ProductManagerBundle\Entity\ProductCategory
             mappedBy: parent
             orderBy:
                 lft: ASC
-        definitions:
-            targetEntity: Cms\Entity\ProductCategoryDefinitions
-            mappedBy: productCategory
-            cascade: [persist]
     manyToOne:
         parent:
-            targetEntity: Cms\ProductManagerBundle\Entity\ProductCategories
+            targetEntity: Cms\ProductManagerBundle\Entity\ProductCategory
             inversedBy: children
             joinColumn:
                 name: parentId
                 referencedColumnName: id
                 onDelete: CASCADE
             gedmo:
-            - treeParent
-    manyToMany:
-        products:
-            targetEntity: Cms\Entity\Products
-            mappedBy: categories
+                - treeParent
+#    manyToMany:
+#        products:
+#            targetEntity: Cms\Entity\Products
+#            mappedBy: categories
     lifecycleCallbacks: {  }

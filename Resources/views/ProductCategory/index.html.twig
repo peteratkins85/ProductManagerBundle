@@ -17,16 +17,7 @@
                     </div>
                     <div class='row-fluid'>
                         <div class='span12 box bordered-box orange-border' style='margin-bottom:0;'>
-                            <div class='box-header dark-background'>
-                                <div class='title'>Data table with column filter in footer</div>
-                                <div class='actions'>
-                                    <a class="btn box-remove btn-mini btn-link" href="#"><i class='icon-remove'></i>
-                                    </a>
 
-                                    <a class="btn box-collapse btn-mini btn-link" href="#"><i></i>
-                                    </a>
-                                </div>
-                            </div>
                             <div class='box-content box-no-padding'>
                                 <div class='responsive-table'>
                                     <div class='scrollable-area'>
@@ -46,11 +37,12 @@
                                                     {% endfor %}
                                                     <td>
                                                         <div class='text-right'>
-                                                            <a class='btn btn-success btn-mini' href='#'>
-                                                                <i class='icon-ok'></i>
-                                                            </a>
+                                                            {#<a class='btn btn-success btn-mini' href='#'>#}
+                                                                {#<i class='icon-ok'></i>#}
+                                                            {#</a>#}
                                                             <a class='btn btn-danger btn-mini' href='#'>
                                                                 <i class='icon-remove'></i>
+                                                                Delete
                                                             </a>
                                                         </div>
                                                     </td>
@@ -66,7 +58,6 @@
                                                         <th>{{ title }}</th>
                                                     {% endif %}
                                                 {% endfor %}
-
                                             </tr>
                                             </tfoot>
                                         </table>

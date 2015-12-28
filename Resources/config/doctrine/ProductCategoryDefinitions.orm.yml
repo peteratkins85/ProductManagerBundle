@@ -2,6 +2,10 @@ Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
     type: entity
     table: product_category_definitions
     repositoryClass: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository
+    gedmo:
+        translation:
+            locale: locale
+            entity: Cms\ProductManagerBundle\Entity\ProductCategoryTranslations
     id:
         id:
             type: integer
@@ -11,7 +15,6 @@ Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
 #    indexes:
 #        name_index:
 #          columns: [ name ]
-
     uniqueConstraints:
         language_category:
             columns:
@@ -25,14 +28,16 @@ Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions:
         productCategoryName:
             type: string
             length: 255
+            gedmo:
+                - translatable
     manyToOne:
-        productCategory:
-            targetEntity: Cms\Entity\ProductCategories
-            inversedBy: definitions
-#            cascade: [persist,merge]
-            joinColumn:
-                name: productCategoryId
-                referencedColumnName: id
+#        productCategory:
+#            targetEntity: Cms\Entity\ProductCategory
+#            inversedBy: definitions
+#            cascade: [persist,remove]
+#            joinColumn:
+#                name: productCategoryId
+#                referencedColumnName: id
         language:
             targetEntity: Cms\Entity\Languages
             joinColumn:

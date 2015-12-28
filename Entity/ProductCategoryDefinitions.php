@@ -3,10 +3,12 @@
 namespace Cms\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\Translatable\Translatable;
 /**
  * ProductCategoryDefinitions
  */
-class ProductCategoryDefinitions
+class ProductCategoryDefinitions implements Translatable
 {
 
     /**
@@ -16,12 +18,19 @@ class ProductCategoryDefinitions
 
 
     /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
+
+    /**
      * @var string
      */
     private $productCategoryName;
 
     /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductCategories
+     * @var \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     private $productCategory;
 
@@ -49,7 +58,10 @@ class ProductCategoryDefinitions
 
 
 
-
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
 
     /**
      * Set productCategoryName
@@ -77,10 +89,10 @@ class ProductCategoryDefinitions
     /**
      * Set productCategory
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $productCategory
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $productCategory
      * @return ProductCategoryDefinitions
      */
-    public function setProductCategory(\Cms\ProductManagerBundle\Entity\ProductCategories $productCategory = null)
+    public function setProductCategory(\Cms\ProductManagerBundle\Entity\ProductCategory $productCategory = null)
     {
         $this->productCategory = $productCategory;
 
@@ -90,7 +102,7 @@ class ProductCategoryDefinitions
     /**
      * Get productCategory
      *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategories 
+     * @return \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     public function getProductCategory()
     {

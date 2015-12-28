@@ -1,0 +1,14 @@
+Cms\ProductManagerBundle\Entity\ProductCategoryTranslations:
+    type: entity
+    table: product_category_translations
+    repositoryClass: Cms\ProductManagerBundle\Repository\ProductCategoryTranslationsRepository
+    indexes:
+        product_category_index:
+          columns: [ locale, object_class, field, foreign_key ]
+    id:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+    lifecycleCallbacks: {  }

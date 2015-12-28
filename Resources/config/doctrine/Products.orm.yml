@@ -81,13 +81,13 @@ Cms\ProductManagerBundle\Entity\Products:
             mappedBy: product
     oneToOne:
         productCategory:
-            targetEntity: Cms\Entity\ProductCategories
+            targetEntity: Cms\Entity\ProductCategory
             joinColumn:
                 name: primaryProductCategoryId
                 referencedColumnName: id
 #    manyToMany:
 #        categories:
-#            targetEntity: ProductCategories
+#            targetEntity: ProductCategory
 #            inversedBy: products
 #            joinTable:
 #                name: product_category_relations

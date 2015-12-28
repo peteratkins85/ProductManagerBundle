@@ -3,13 +3,13 @@
 namespace Cms\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Translatable\Translatable;
 
 /**
- * ProductCategories
+ * ProductCategory
  */
-class ProductCategories
+class ProductCategory implements Translatable
 {
-
 
     /**
      * @var integer
@@ -47,7 +47,7 @@ class ProductCategories
     private $children;
 
     /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductCategories
+     * @var \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     private $parent;
 
@@ -55,6 +55,18 @@ class ProductCategories
      * @var \Doctrine\Common\Collections\Collection
      */
     private $products;
+
+    /**
+     * @var string
+     */
+    private $productCategoryName;
+
+    /**
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
+
 
     /**
      * Constructor
@@ -80,7 +92,7 @@ class ProductCategories
      * Set active
      *
      * @param integer $active
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setActive($active)
     {
@@ -104,7 +116,7 @@ class ProductCategories
      * Set parentId
      *
      * @param integer $parentId
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setParentId($parentId)
     {
@@ -127,7 +139,7 @@ class ProductCategories
      * Set created
      *
      * @param \DateTime $created
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setCreated($created)
     {
@@ -150,7 +162,7 @@ class ProductCategories
      * Set modified
      *
      * @param \DateTime $modified
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setModified($modified)
     {
@@ -173,7 +185,7 @@ class ProductCategories
      * Set modifiedBy
      *
      * @param integer $modifiedBy
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setModifiedBy($modifiedBy)
     {
@@ -195,10 +207,10 @@ class ProductCategories
     /**
      * Add children
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $children
-     * @return ProductCategories
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $children
+     * @return ProductCategory
      */
-    public function addChild(\Cms\ProductManagerBundle\Entity\ProductCategories $children)
+    public function addChild(\Cms\ProductManagerBundle\Entity\ProductCategory $children)
     {
         $this->children[] = $children;
 
@@ -208,9 +220,9 @@ class ProductCategories
     /**
      * Remove children
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $children
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $children
      */
-    public function removeChild(\Cms\ProductManagerBundle\Entity\ProductCategories $children)
+    public function removeChild(\Cms\ProductManagerBundle\Entity\ProductCategory $children)
     {
         $this->children->removeElement($children);
     }
@@ -228,10 +240,10 @@ class ProductCategories
     /**
      * Set parent
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $parent
-     * @return ProductCategories
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $parent
+     * @return ProductCategory
      */
-    public function setParent(\Cms\ProductManagerBundle\Entity\ProductCategories $parent = null)
+    public function setParent(\Cms\ProductManagerBundle\Entity\ProductCategory $parent = null)
     {
         $this->parent = $parent;
 
@@ -241,7 +253,7 @@ class ProductCategories
     /**
      * Get parent
      *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategories 
+     * @return \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     public function getParent()
     {
@@ -252,7 +264,7 @@ class ProductCategories
      * Add products
      *
      * @param \Cms\ProductManagerBundle\Entity\Products $products
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function addProduct(\Cms\ProductManagerBundle\Entity\Products $products)
     {
@@ -280,90 +292,27 @@ class ProductCategories
     {
         return $this->products;
     }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $definitions;
 
-
-    /**
-     * Add definitions
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions
-     * @return ProductCategories
-     */
-    public function addDefinition(\Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions)
-    {
-
-        $this->definitions[] = $definitions;
-        $definitions->setProductCategory($this);
-
-        return $this;
-    }
-
-    /**
-     * Remove definitions
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions
-     */
-    public function removeDefinition(\Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions $definitions)
-    {
-        $this->definitions->removeElement($definitions);
-    }
-
-    /**
-     * Get definitions
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDefinitions()
-    {
-        return $this->definitions;
-    }
 
 
     /**
      * Get product category Name by Language ID
      *
      * @param integer $active
-     * @return ProductCategories
+     * @return ProductCategory
      */
-    public function setProductCategoryName()
+    public function setProductCategoryName($productCategoryName)
     {
-        $this->productCategoryName = '';
 
-        if (!$languageId)
-            return false;
+        $this->productCategoryName = $productCategoryName;
 
-        foreach ($this->definitions as $definition){
-
-            if ($definition->getLanguage()->getIsDefault()){
-
-                if ($definition->getProductCategoryName()) {
-
-                    $this->productCategoryName = $definition->getProductCategoryName();
-
-                    return $this;
-
-                }
-
-            }
-
-        }
+        return $this;
 
     }
 
     public function getProductCategoryName(){
 
-        if (!$this->productCategoryName){
-
-            return false;
-
-        }else{
-
-            return $this->productCategoryName;
-
-        }
+        return $this->productCategoryName;
 
     }
 
@@ -373,14 +322,7 @@ class ProductCategories
 
             return (string) $this->productCategoryName;
 
-        }else{
-
-            $this->setProductCategoryName();
-            return (string) $this->productCategoryName;
-
         }
-
-
 
     }
 
@@ -411,7 +353,7 @@ class ProductCategories
      *
      * @param integer $lft
      *
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setLft($lft)
     {
@@ -435,7 +377,7 @@ class ProductCategories
      *
      * @param integer $rgt
      *
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setRgt($rgt)
     {
@@ -459,7 +401,7 @@ class ProductCategories
      *
      * @param integer $root
      *
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setRoot($root)
     {
@@ -483,7 +425,7 @@ class ProductCategories
      *
      * @param integer $lvl
      *
-     * @return ProductCategories
+     * @return ProductCategory
      */
     public function setLvl($lvl)
     {
@@ -501,4 +443,12 @@ class ProductCategories
     {
         return $this->lvl;
     }
+
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
+    }
+
+
 }

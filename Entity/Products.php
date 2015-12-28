@@ -63,7 +63,7 @@ class Products
     private $prices;
 
     /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductCategories
+     * @var \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     private $productCategory;
 
@@ -336,11 +336,11 @@ class Products
     /**
      * Set productCategory
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $productCategory
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $productCategory
      *
      * @return Products
      */
-    public function setProductCategory(\Cms\ProductManagerBundle\Entity\ProductCategories $productCategory = null)
+    public function setProductCategory(\Cms\ProductManagerBundle\Entity\ProductCategory $productCategory = null)
     {
         $this->productCategory = $productCategory;
 
@@ -350,7 +350,7 @@ class Products
     /**
      * Get productCategory
      *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategories
+     * @return \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     public function getProductCategory()
     {

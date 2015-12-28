@@ -1,19 +1,19 @@
 parameters:
     #entities
     product_entity: Cms\ProductManagerBundle\Entity\Products
-    product_categories_entity: Cms\ProductManagerBundle\Entity\ProductCategories
+    product_categories_entity: Cms\ProductManagerBundle\Entity\ProductCategory
     product_category_definitions_entity: Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions
     #repositories
     product_entity_repository: Cms\ProductManagerBundle\Entity\Repository\ProductsRepository
-    product_categories_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository
+    product_categories_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryRepository
     product_category_definitions_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository
     #factories
     product_repository_factory: Cms\ProductManagerBundle\Entity\Factory\ProductRespositoryFactory
     #controllers
-    product_categories_controller: Cms\ProductManagerBundle\Controller\ProductCategoriesController
+    product_categories_controller: Cms\ProductManagerBundle\Controller\ProductCategoryController
     product_controller: Cms\ProductManagerBundle\Controller\IndexController
     #forms
-    product_categories_form: Cms\ProductManagerBundle\Form\ProductCategoriesType
+    product_categories_form: Cms\ProductManagerBundle\Form\ProductCategoryType
     product_category_definitions_form: Cms\ProductManagerBundle\Form\ProductCategoryDefinitionsType
     #events and listeners
     product_event_subscriber: Cms\ProductManagerBundle\EventListeners\ProductEventSubscriber

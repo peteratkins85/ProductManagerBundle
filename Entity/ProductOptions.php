@@ -111,7 +111,7 @@ class ProductOptions
         return $this->optionPriority;
     }
     /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductCategories
+     * @var \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     private $product;
 
@@ -119,10 +119,10 @@ class ProductOptions
     /**
      * Set product
      *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategories $product
+     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $product
      * @return ProductOptions
      */
-    public function setProduct(\Cms\ProductManagerBundle\Entity\ProductCategories $product = null)
+    public function setProduct(\Cms\ProductManagerBundle\Entity\ProductCategory $product = null)
     {
         $this->product = $product;
 
@@ -132,7 +132,7 @@ class ProductOptions
     /**
      * Get product
      *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategories 
+     * @return \Cms\ProductManagerBundle\Entity\ProductCategory
      */
     public function getProduct()
     {

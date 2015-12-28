@@ -5,18 +5,19 @@ namespace Cms\ProductManagerBundle\Form;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Cms\ProductManagerBundle\Entity\Repository\ProductCategoriesRepository;
-use Cms\ProductManagerBundle\Entity\ProductCategories as ProductCategory;
+use Cms\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
+use Cms\ProductManagerBundle\Entity\ProductCategory as ProductCategory;
 use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions as ProductCategoryDefinitions;
 use Cms\CoreBundle\Entity\Languages as Languages;
 
-class ProductCategoriesType extends AbstractType
+class ProductCategoryType extends AbstractType
 {
 
     /**
-     * @var ProductCategoriesRepository object
+     * @var ProductCategoryRepository object
      */
     protected $productCategoriesRepository;
     protected $productCategoryDefinitionsRepository;
@@ -31,7 +32,7 @@ class ProductCategoriesType extends AbstractType
 
         $this->container = $container;
         $this->languageId = $this->container->get('get_language');
-        $this->productCategoriesRepository = $this->container->get('product_categories_repository');
+        $this->ProductCategoryRepository = $this->container->get('product_categories_repository');
         $this->productCategoryDefinitionsRepository = $this->container->get('product_categories_definitions_repository');
 
     }
@@ -46,26 +47,18 @@ class ProductCategoriesType extends AbstractType
 
         $builder
 
-            ->add('definitions', 'Symfony\Component\Form\Extension\Core\Type\CollectionType', array(
-                'entry_type' => ProductCategoryDefinitionsType::class
+            ->add('productCategoryName', TextType::class, array(
+                'label'=>'Name'
             ))
             ->add('parent', ChoiceType::class , array(
-                'choices' => $this->productCategoriesRepository->findAll(),
-                'choices_as_values' => true,
+                'choices' => $this->ProductCategoryRepository->findAll(),
+
                 'attr' => array('class' => 'select2 input-block-level'),
                 'choice_label' => function($category, $key, $index) {
-                    foreach ($category->getDefinitions() as $definition){
-                        if ($definition->getLanguage()->getId() == $this->languageId){
-                            return $definition->getProductCategoryName();
-                        }
-                    }
+                    return $category->getProductCategoryName();
+
                 },
                 'by_reference' => false,
-                //'required' => true,
-//                'choice_attr' => function($val, $key, $index) {
-//                    // adds a class like attending_yes, attending_no, etc
-//                    return ['class' => 'attending_'.strtolower($key)];
-//                },
                 )
             )
             ->add('add', SubmitType::class, array(
@@ -80,7 +73,7 @@ class ProductCategoriesType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cms\ProductManagerBundle\Entity\ProductCategories',
+            'data_class' => 'Cms\ProductManagerBundle\Entity\ProductCategory',
             'csrf_protection' => true,
             'csrf_field_name' => '_token'
         ));
