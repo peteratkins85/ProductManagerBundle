@@ -35,18 +35,17 @@ class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureI
     public function load(ObjectManager $manager)
     {
 
+//        $despatcher = $this->container->get('event_dispatcher');
+//        $eventListener = $this->container->get('stof_doctrine_extensions.event_listener.locale');
+//        $despatcher->addSubscriber($eventListener);
+
         $language = $this->getReference('language');
         $root = new ProductCategory();
-        //$root->setTra
         $root->setProductCategoryName('rootCategory');
-        $root->addDefinition($rootDef);
 
         $test = new ProductCategory();
-        $testDef = new ProductCategoryDefinitions();
-        $testDef->setProductCategoryName('Test');
-        $testDef->setLanguage($this->getReference('language'));
         $test->setParent($root);
-        $test->addDefinition($testDef);
+        $test->setProductCategoryName('Test');
 
         $em = $this->container->get('doctrine.orm.default_entity_manager');
 

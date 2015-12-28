@@ -48,23 +48,23 @@ class ProductCategoryController extends CoreController
     public function addAction(Request $request)
     {
         /**@var ProductCategory $productCategory **/
-        //$productCategory = $this->getProductCategoryRepository()->find(1);
+       // $productCategory = $this->getProductCategoryRepository()->find(1);
         $productCategory = $this->getProductCategoryEntity();
         //$productCategory->setTranslatableLocale('de_de');
         $productCategory->setProductCategoryName('German');
         $productCategory->getActive(0);
 
         $em = $this->getDoctrine()->getManager();
-        $repository = $this->getProductCategoryRepository();
-        $repository->translate($productCategory, 'productCategoryName', 'de', 'my category de')
-            ->translate($productCategory, 'productCategoryName', 'ru', 'my category ru')
-        ;
+//        $repository = $em->getRepository('ProductManagerBundle:ProductCategoryTranslations');
+//        $repository->translate($productCategory, 'productCategoryName', 'de', 'my category de')
+//            ->translate($productCategory, 'productCategoryName', 'ru', 'my category ru')
+//        ;
 
         $em->persist($productCategory);
         $em->flush();
         exit;
 
-
+        $productCategory = $this->getProductCategoryEntity();
         $productCategoryForm = $this->createForm(ProductCategoryType::class,$productCategory);
 
         if ($request->isMethod('POST')) {

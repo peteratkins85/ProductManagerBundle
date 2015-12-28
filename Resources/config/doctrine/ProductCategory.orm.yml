@@ -5,9 +5,9 @@ Cms\ProductManagerBundle\Entity\ProductCategory:
     gedmo:
         tree:
             type: nested
-#        translation:
-#            lxocale: locale
-#            entity: Cms\ProductManagerBundle\Entity\ProductCategoryTranslations
+        translation:
+            locale: locale
+            entity: Cms\ProductManagerBundle\Entity\ProductCategoryTranslations
     id:
         id:
             type: integer

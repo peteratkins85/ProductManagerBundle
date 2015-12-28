@@ -11,4 +11,22 @@ Cms\ProductManagerBundle\Entity\ProductCategoryTranslations:
             id: true
             generator:
                 strategy: AUTO
+    fields:
+        locale:
+            type: string
+            length: 8
+            gedmo:
+        objectClass:
+            column: object_class
+            type: string
+            length: 255
+        field:
+            type: string
+            length: 32
+        foreignKey:
+            column: foreign_key
+            type: string
+            length: 64
+        content:
+            type: text
     lifecycleCallbacks: {  }
