@@ -1,40 +1,53 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ProductOptionRelations
+ *
+ * @ORM\Table(name="product_option_relations")
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductOptionRelationsRepository")
  */
 class ProductOptionRelations
 {
-
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="productOptionGroupId", type="integer")
      */
     private $productOptionGroupId;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="productOptionId", type="integer")
      */
     private $productOptionId;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="productVariantId", type="integer")
      */
     private $productVariantId;
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -45,6 +58,7 @@ class ProductOptionRelations
      * Set productOptionGroupId
      *
      * @param integer $productOptionGroupId
+     *
      * @return ProductOptionRelations
      */
     public function setProductOptionGroupId($productOptionGroupId)
@@ -57,7 +71,7 @@ class ProductOptionRelations
     /**
      * Get productOptionGroupId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProductOptionGroupId()
     {
@@ -68,6 +82,7 @@ class ProductOptionRelations
      * Set productOptionId
      *
      * @param integer $productOptionId
+     *
      * @return ProductOptionRelations
      */
     public function setProductOptionId($productOptionId)
@@ -80,7 +95,7 @@ class ProductOptionRelations
     /**
      * Get productOptionId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProductOptionId()
     {
@@ -91,6 +106,7 @@ class ProductOptionRelations
      * Set productVariantId
      *
      * @param integer $productVariantId
+     *
      * @return ProductOptionRelations
      */
     public function setProductVariantId($productVariantId)
@@ -103,7 +119,7 @@ class ProductOptionRelations
     /**
      * Get productVariantId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProductVariantId()
     {

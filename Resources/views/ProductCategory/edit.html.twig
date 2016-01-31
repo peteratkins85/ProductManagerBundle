@@ -1,7 +1,38 @@
-{% extends "::base.html.twig" %}
-
-{% block title %}ProductManagerBundle:ProductCategory:edit{% endblock %}
-
+{# src/Atk/CmsBundle/Resources/views/security/login.html.twig #}
+{% extends 'CoreBundle:cms:base.html.twig' %}
+{% block title %}
+    {{ pageName }}
+{% endblock %}
+{% form_theme form 'CoreBundle:cms/form:bootstrap_horizontal_layout.html.twig' %}
 {% block body %}
-<h1>Welcome to the ProductCategory:edit page</h1>
+    <section id='content'>
+        <div class='container-fluid'>
+            <div class='row-fluid' id='content-wrapper'>
+                <div class='span12'>
+                    {% embed 'CoreBundle:cms:content/content-header.html.twig' %}
+                        {% block contentTitle %} New Product Category {% endblock %}
+                    {%  endembed %}
+                    <div class="row-fluid">
+                        <div class="span12 box">
+                            <div class="box-content">
+                                {{ form_start(form) }}
+                                    {{ form_row(form.productCategoryName) }}
+                                    {{ form_row(form.parent)}}
+                                    {{ form_row(form.productCategoryUrl) }}
+                                    {{ form_row(form.viewable) }}
+                                    {{ form_row(form.description) }}
+                                    {{ form_row(form.metaTitle) }}
+                                    {{ form_row(form.metaDescription) }}
+                                    {{ form_row(form.metaKeyWords) }}
+                                    {{ form_row(form.add) }}
+                                {{ form_end(form) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 {% endblock %}

@@ -1,96 +1,79 @@
 parameters:
     #entities
-    product_entity: Cms\ProductManagerBundle\Entity\Products
-    product_categories_entity: Cms\ProductManagerBundle\Entity\ProductCategory
-    product_category_definitions_entity: Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions
+    oni_product_entity: Oni\ProductManagerBundle\Entity\Product
+    oni_product_category_entity: Oni\ProductManagerBundle\Entity\ProductCategory
     #repositories
-    product_entity_repository: Cms\ProductManagerBundle\Entity\Repository\ProductsRepository
-    product_categories_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryRepository
-    product_category_definitions_repository: Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository
+    oni_product_repository: Oni\ProductManagerBundle\Entity\Repository\ProductsRepository
+    oni_product_category_repository: Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository
     #factories
-    product_repository_factory: Cms\ProductManagerBundle\Entity\Factory\ProductRespositoryFactory
+    oni_product_repository_factory: Oni\ProductManagerBundle\Entity\Factory\ProductRespositoryFactory
     #controllers
-    product_categories_controller: Cms\ProductManagerBundle\Controller\ProductCategoryController
-    product_controller: Cms\ProductManagerBundle\Controller\IndexController
+    oni_product_category_controller_class: Oni\ProductManagerBundle\Controller\ProductCategoryController
+    oni_product_controller_class: Oni\ProductManagerBundle\Controller\ProductController
     #forms
-    product_categories_form: Cms\ProductManagerBundle\Form\ProductCategoryType
-    product_category_definitions_form: Cms\ProductManagerBundle\Form\ProductCategoryDefinitionsType
+    oni_product_category_form: Oni\ProductManagerBundle\Form\ProductCategoryType
     #events and listeners
-    product_event_subscriber: Cms\ProductManagerBundle\EventListeners\ProductEventSubscriber
-    product_event: Cms\ProductManagerBundle\Event\ProductEvent
+    oni_product_event_subscriber: Oni\ProductManagerBundle\EventListeners\ProductEventSubscriber
+    oni_product_event: Oni\ProductManagerBundle\Event\ProductEvent
 
     
 
 services:
     #Entities
-    products:
-        class:     "%product_entity%"
-    product_categories:
-        class:     "%product_categories_entity%"
-    product_category_definitions:
-        class:     "%product_category_definitions_entity%"
+    oni_product_entity:
+        class:     "%oni_product_entity%"
+    oni_product_category_entity:
+        class:     "%oni_product_category_entity%"
     #Repositories
-    products_repository:
-        class: "%product_entity_repository%"
-        factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
+    oni_products_repository:
+        class: "%oni_product_repository%"
+        factory: [ '@oni_repository_factory',  getRepository]
         arguments:
-                - "%product_entity%"
-    product_categories_repository:
-        class: "%product_categories_repository%"
-        factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
+                - "%oni_product_entity%"
+    oni_product_categories_repository:
+        class: "%oni_product_category_repository%"
+        factory: [ '@oni_repository_factory',  getRepository]
         arguments:
-                - "%product_categories_entity%"
-    product_categories_service:
-        class: Cms\CoreBundle\Repository\CoreRepository
-        factory: [ '@repository_factory',  getRepository]
-        arguments:
-            - '@product_categories_repository'
-    product_categories_definitions_repository:
-        class: "%product_category_definitions_repository%"
-        factory: [ '@doctrine.orm.default_entity_manager',  getRepository]
-        arguments:
-                - "%product_category_definitions_entity%"
-    product_categories_definitions_service:
-        class: Cms\CoreBundle\Repository\CoreRepository
-        factory: [ '@repository_factory',  getRepository]
-        arguments:
-            - '@product_categories_definitions_repository'
+            - '%oni_product_category_entity%'
     #Services
+
     #Controllers
-    product_controller:
-        class:     "%product_controller%"
-        calls:
-            - [setContainer, ["@service_container"]]
+    oni_product_controller_class:
+        class: "%oni_product_controller_class%"
+    oni_product_category_controller_class:
+        class: "%oni_product_category_controller_class%"
+    oni_product_controller:
+        class: "%oni_product_controller_class%"
+        factory: [ '@oni_controller_factory',  getController]
         arguments:
-                - "@products_repository"
-    product_categories_controller:
-        class:     "%product_categories_controller%"
-        calls:
-            - [setContainer, ["@service_container"]]
+            - '@oni_product_controller_class'
+    oni_product_categories_controller:
+        class: "%oni_product_category_controller_class%"
+        factory: [ '@oni_controller_factory',  getController]
         arguments:
-                - "@product_categories_service"
-                - "@product_categories_definitions_service"
+            - '@oni_product_category_controller_class'
+#    oni_product_categories_controller:
+#        class: "%oni_product_categories_controller%"
+#        calls:
+#            - [setContainer, ["@service_container"]]
+#            - [setTranslator, ["@translator"]]
+        arguments:
+            - "@oni_product_categories_repository"
     #Forms
-    product_categories_form:
-        class: "%product_categories_form%"
-        arguments:
-                - "@service_container"
-                - "@session"
-        tags:
-              - { name: form.type, alias: product_category }
-    product_category_definitions_form:
-        class: "%product_category_definitions_form%"
+    oni_product_category_form:
+        class: "%oni_product_category_form%"
         arguments:
                 - "@service_container"
         tags:
-            - { name: form.type, alias: product_category_definitions }
+              - { name: form.type, alias: oni_product_category }
     #Events and Listeners
-    product_event_subscriber:
-        class: "%product_event_subscriber%"
+    oni_product_event:
+        class: "%oni_product_event%"
+    oni_product_event_subscriber:
+        class: "%oni_product_event_subscriber%"
         tags:
             - { name: kernel.event_subscriber }
-    product_event:
-        class: "%product_event%"
+
 
     ## CATEGORIES
 

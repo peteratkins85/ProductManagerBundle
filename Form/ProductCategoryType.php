@@ -1,17 +1,20 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Form;
+namespace Oni\ProductManagerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Cms\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
-use Cms\ProductManagerBundle\Entity\ProductCategory as ProductCategory;
-use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions as ProductCategoryDefinitions;
-use Cms\CoreBundle\Entity\Languages as Languages;
+use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
+use Oni\ProductManagerBundle\Entity\ProductCategory as ProductCategory;
+use Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions as ProductCategoryDefinitions;
+use Oni\CoreBundle\Entity\Languages as Languages;
 
 class ProductCategoryType extends AbstractType
 {
@@ -20,7 +23,6 @@ class ProductCategoryType extends AbstractType
      * @var ProductCategoryRepository object
      */
     protected $productCategoriesRepository;
-    protected $productCategoryDefinitionsRepository;
     /** @var Languages $language */
     public $language;
 
@@ -28,12 +30,11 @@ class ProductCategoryType extends AbstractType
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param \Symfony\Component\HttpFoundation\Session\Session $session
      */
-    public function __construct($container, $session){
+    public function __construct($container){
 
         $this->container = $container;
-        $this->languageId = $this->container->get('get_language');
-        $this->ProductCategoryRepository = $this->container->get('product_categories_repository');
-        $this->productCategoryDefinitionsRepository = $this->container->get('product_categories_definitions_repository');
+        $this->locale = $this->container->get('oni_get_locale');
+        $this->ProductCategoryRepository = $this->container->get('oni_product_categories_repository');
 
     }
 
@@ -44,25 +45,54 @@ class ProductCategoryType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
 
+        $buttonName = $options['data']->getId() > 0 ? 'Save' : 'Add';
+        $id = $options['data']->getId();
+        $exclude = $id;
 
         $builder
-
             ->add('productCategoryName', TextType::class, array(
-                'label'=>'Name'
+                'label'=>'Name',
+            ))
+            ->add('productCategoryUrl', TextType::class, array(
+                'label'=>'CategoryUrl',
+            ))
+            ->add('viewable', CheckboxType::class, array(
+                'label'=>'Viewable',
+                'attr' => array(
+                    'plugin' => 'switch'
+                )
+            ))
+            ->add('description', TextareaType::class, array(
+                'label'=>'Description',
+                'required' => false,
+                'attr'=> array(
+                    'class'=>'ckeditor'
+                )
+            ))
+            ->add('metaTitle', TextType::class, array(
+                'label'=>'Meta Title',
+                'required' => false,
+            ))
+            ->add('metaDescription', TextareaType::class, array(
+                'label'=>'Meta Description',
+                'required' => false,
+            ))
+            ->add('metaKeyWords', TextType::class, array(
+                'label'=>'Meta Keys Words',
+                'required' => false,
             ))
             ->add('parent', ChoiceType::class , array(
-                'choices' => $this->ProductCategoryRepository->findAll(),
-
-                'attr' => array('class' => 'select2 input-block-level'),
+                'choices' => $this->ProductCategoryRepository->findAllWithFallBack($exclude),
+                'attr' => array('class' => 'select2 input-xlarge'),
                 'choice_label' => function($category, $key, $index) {
                     return $category->getProductCategoryName();
-
                 },
                 'by_reference' => false,
                 )
             )
             ->add('add', SubmitType::class, array(
-                'attr' => array('class' => 'btn btn-primary')
+                'attr' => array('class' => 'btn btn-primary'),
+                'label' => $buttonName
                 )
             )
         ;
@@ -73,7 +103,7 @@ class ProductCategoryType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cms\ProductManagerBundle\Entity\ProductCategory',
+            'data_class' => 'Oni\ProductManagerBundle\Entity\ProductCategory',
             'csrf_protection' => true,
             'csrf_field_name' => '_token'
         ));
@@ -84,6 +114,6 @@ class ProductCategoryType extends AbstractType
      */
     public function getName()
     {
-        return 'product_category';
+        return 'oni_product_category';
     }
 }

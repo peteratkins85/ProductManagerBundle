@@ -1,33 +1,30 @@
 {# src/Atk/CmsBundle/Resources/views/security/login.html.twig #}
-{% extends 'cms/base.html.twig' %}
-{% form_theme form 'cms/form/bootstrap_3_layout.html.twig' %}
+{% extends 'CoreBundle:cms:base.html.twig' %}
+{% block title %}
+    {{ pageName }}
+{% endblock %}
+{% form_theme form 'CoreBundle:cms/form:bootstrap_horizontal_layout.html.twig' %}
 {% block body %}
+
     <section id='content'>
         <div class='container-fluid'>
             <div class='row-fluid' id='content-wrapper'>
                 <div class='span12'>
-                    {% embed 'cms/content/content-header.html.twig' %}
+                    {% embed 'CoreBundle:cms:content/content-header.html.twig' %}
                         {% block contentTitle %} New Product Category {% endblock %}
                     {%  endembed %}
                     <div class="row-fluid">
                         <div class="span12 box">
-                            {#<div class="box-header blue-background">#}
-                                {#<div class="title">#}
-                                    {#<div class="icon-edit"></div>#}
-                                    {#New Product Category#}
-                                {#</div>#}
-                                {#<div class="actions">#}
-                                    {#&#123;&#35;<a class="btn box-remove btn-mini btn-link" href="#"><i class="icon-remove"></i>&#35;&#125;#}
-                                    {#&#123;&#35;</a>&#35;&#125;#}
-
-                                    {#<a id="product-form" class="btn box-collapse btn-mini btn-link" href="#"><i></i>#}
-                                    {#</a>#}
-                                {#</div>#}
-                            {#</div>#}
                             <div class="box-content">
                                 {{ form_start(form) }}
                                     {{ form_row(form.productCategoryName) }}
                                     {{ form_row(form.parent)}}
+                                    {{ form_row(form.productCategoryUrl) }}
+                                    {{ form_row(form.viewable) }}
+                                    {{ form_row(form.description) }}
+                                    {{ form_row(form.metaTitle) }}
+                                    {{ form_row(form.metaDescription) }}
+                                    {{ form_row(form.metaKeyWords) }}
                                     {{ form_row(form.add) }}
                                 {{ form_end(form) }}
                             </div>
@@ -37,6 +34,4 @@
             </div>
         </div>
     </section>
-
-
 {% endblock %}

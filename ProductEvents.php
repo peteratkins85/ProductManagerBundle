@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace Cms\ProductManagerBundle;
+namespace Oni\ProductManagerBundle;
 
 /**
  * Contains all events thrown in the FOSUserBundle

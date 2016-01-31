@@ -1,50 +1,94 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ProductPrices
+ *
+ * @ORM\Table(name="product_prices")
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductPricesRepository")
  */
 class ProductPrices
 {
-
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="productId", type="integer", nullable=true)
      */
-    private $productVarientId;
+    private $productId;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="nowPrice", type="decimal")
      */
     private $nowPrice;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="wasPrice", type="decimal")
      */
     private $wasPrice;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="wholesalePrice", type="decimal")
      */
     private $wholesalePrice;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="currencyId", type="integer")
      */
     private $currencyId;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="zoneId", type="integer")
+     */
+    private $zoneId;
+
+    /**
+     * @var \Oni\ProductManagerBundle\Entity\Currencies
+     *
+     * @ORM\OneToOne(targetEntity="Oni\ProductManagerBundle\Entity\Currencies")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="currencyId", referencedColumnName="id", unique=true)
+     * })
+     */
+    private $currency;
+
+    /**
+     * @var \Oni\CoreBundle\Entity\Zones
+     *
+     * @ORM\OneToOne(targetEntity="Oni\CoreBundle\Entity\Zones")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="zoneId", referencedColumnName="id", unique=true)
+     * })
+     */
+    private $zone;
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -52,129 +96,10 @@ class ProductPrices
     }
 
     /**
-     * Set productVarientId
-     *
-     * @param integer $productVarientId
-     * @return ProductVariantPrices
-     */
-    public function setProductVarientId($productVarientId)
-    {
-        $this->productVarientId = $productVarientId;
-
-        return $this;
-    }
-
-    /**
-     * Get productVarientId
-     *
-     * @return integer 
-     */
-    public function getProductVarientId()
-    {
-        return $this->productVarientId;
-    }
-
-    /**
-     * Set nowPrice
-     *
-     * @param string $nowPrice
-     * @return ProductVariantPrices
-     */
-    public function setNowPrice($nowPrice)
-    {
-        $this->nowPrice = $nowPrice;
-
-        return $this;
-    }
-
-    /**
-     * Get nowPrice
-     *
-     * @return string 
-     */
-    public function getNowPrice()
-    {
-        return $this->nowPrice;
-    }
-
-    /**
-     * Set wasPrice
-     *
-     * @param string $wasPrice
-     * @return ProductVariantPrices
-     */
-    public function setWasPrice($wasPrice)
-    {
-        $this->wasPrice = $wasPrice;
-
-        return $this;
-    }
-
-    /**
-     * Get wasPrice
-     *
-     * @return string 
-     */
-    public function getWasPrice()
-    {
-        return $this->wasPrice;
-    }
-
-    /**
-     * Set wholesalePrice
-     *
-     * @param string $wholesalePrice
-     * @return ProductVariantPrices
-     */
-    public function setWholesalePrice($wholesalePrice)
-    {
-        $this->wholesalePrice = $wholesalePrice;
-
-        return $this;
-    }
-
-    /**
-     * Get wholesalePrice
-     *
-     * @return string 
-     */
-    public function getWholesalePrice()
-    {
-        return $this->wholesalePrice;
-    }
-
-    /**
-     * Set currencyId
-     *
-     * @param integer $currencyId
-     * @return ProductVariantPrices
-     */
-    public function setCurrencyId($currencyId)
-    {
-        $this->currencyId = $currencyId;
-
-        return $this;
-    }
-
-    /**
-     * Get currencyId
-     *
-     * @return integer 
-     */
-    public function getCurrencyId()
-    {
-        return $this->currencyId;
-    }
-    /**
-     * @var integer
-     */
-    private $productId;
-
-
-    /**
      * Set productId
      *
      * @param integer $productId
+     *
      * @return ProductPrices
      */
     public function setProductId($productId)
@@ -187,27 +112,114 @@ class ProductPrices
     /**
      * Get productId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProductId()
     {
         return $this->productId;
     }
-    /**
-     * @var integer
-     */
-    private $zoneId = 1;
 
     /**
-     * @var \Cms\ProductManagerBundle\Entity\Zones
+     * Set nowPrice
+     *
+     * @param string $nowPrice
+     *
+     * @return ProductPrices
      */
-    private $zone;
+    public function setNowPrice($nowPrice)
+    {
+        $this->nowPrice = $nowPrice;
 
+        return $this;
+    }
+
+    /**
+     * Get nowPrice
+     *
+     * @return string
+     */
+    public function getNowPrice()
+    {
+        return $this->nowPrice;
+    }
+
+    /**
+     * Set wasPrice
+     *
+     * @param string $wasPrice
+     *
+     * @return ProductPrices
+     */
+    public function setWasPrice($wasPrice)
+    {
+        $this->wasPrice = $wasPrice;
+
+        return $this;
+    }
+
+    /**
+     * Get wasPrice
+     *
+     * @return string
+     */
+    public function getWasPrice()
+    {
+        return $this->wasPrice;
+    }
+
+    /**
+     * Set wholesalePrice
+     *
+     * @param string $wholesalePrice
+     *
+     * @return ProductPrices
+     */
+    public function setWholesalePrice($wholesalePrice)
+    {
+        $this->wholesalePrice = $wholesalePrice;
+
+        return $this;
+    }
+
+    /**
+     * Get wholesalePrice
+     *
+     * @return string
+     */
+    public function getWholesalePrice()
+    {
+        return $this->wholesalePrice;
+    }
+
+    /**
+     * Set currencyId
+     *
+     * @param integer $currencyId
+     *
+     * @return ProductPrices
+     */
+    public function setCurrencyId($currencyId)
+    {
+        $this->currencyId = $currencyId;
+
+        return $this;
+    }
+
+    /**
+     * Get currencyId
+     *
+     * @return integer
+     */
+    public function getCurrencyId()
+    {
+        return $this->currencyId;
+    }
 
     /**
      * Set zoneId
      *
      * @param integer $zoneId
+     *
      * @return ProductPrices
      */
     public function setZoneId($zoneId)
@@ -220,7 +232,7 @@ class ProductPrices
     /**
      * Get zoneId
      *
-     * @return integer 
+     * @return integer
      */
     public function getZoneId()
     {
@@ -228,40 +240,13 @@ class ProductPrices
     }
 
     /**
-     * Set zone
-     *
-     * @param \Cms\ProductManagerBundle\Entity\Zones $zone
-     * @return ProductPrices
-     */
-    public function setZone(\Cms\ContentManagerBundle\Entity\Zones $zone = null)
-    {
-        $this->zone = $zone;
-
-        return $this;
-    }
-
-    /**
-     * Get zone
-     *
-     * @return \Cms\ProductManagerBundle\Entity\Zones 
-     */
-    public function getZone()
-    {
-        return $this->zone;
-    }
-    /**
-     * @var \Cms\ProductManagerBundle\Entity\Currencies
-     */
-    private $currency;
-
-
-    /**
      * Set currency
      *
-     * @param \Cms\ProductManagerBundle\Entity\Currencies $currency
+     * @param \Oni\ProductManagerBundle\Entity\Currencies $currency
+     *
      * @return ProductPrices
      */
-    public function setCurrency(\Cms\ProductManagerBundle\Entity\Currencies $currency = null)
+    public function setCurrency(\Oni\ProductManagerBundle\Entity\Currencies $currency = null)
     {
         $this->currency = $currency;
 
@@ -271,10 +256,34 @@ class ProductPrices
     /**
      * Get currency
      *
-     * @return \Cms\ProductManagerBundle\Entity\Currencies 
+     * @return \Oni\ProductManagerBundle\Entity\Currencies
      */
     public function getCurrency()
     {
         return $this->currency;
+    }
+
+    /**
+     * Set zone
+     *
+     * @param \Oni\CoreBundle\Entity\Zones $zone
+     *
+     * @return ProductPrices
+     */
+    public function setZone(\Oni\CoreBundle\Entity\Zones $zone = null)
+    {
+        $this->zone = $zone;
+
+        return $this;
+    }
+
+    /**
+     * Get zone
+     *
+     * @return \Oni\CoreBundle\Entity\Zones
+     */
+    public function getZone()
+    {
+        return $this->zone;
     }
 }

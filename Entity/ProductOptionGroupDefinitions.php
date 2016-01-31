@@ -1,39 +1,53 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ProductOptionGroupDefinitions
+ *
+ * @ORM\Table(name="product_option_group_definitions")
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductOptionGroupDefinitionsRepository")
  */
 class ProductOptionGroupDefinitions
 {
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="productOptionGroupName", type="string", length=150)
      */
     private $productOptionGroupName;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="languageId", type="integer")
      */
     private $languageId;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="productOptionGroupId", type="integer")
      */
     private $productOptionGroupId;
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -44,6 +58,7 @@ class ProductOptionGroupDefinitions
      * Set productOptionGroupName
      *
      * @param string $productOptionGroupName
+     *
      * @return ProductOptionGroupDefinitions
      */
     public function setProductOptionGroupName($productOptionGroupName)
@@ -56,7 +71,7 @@ class ProductOptionGroupDefinitions
     /**
      * Get productOptionGroupName
      *
-     * @return string 
+     * @return string
      */
     public function getProductOptionGroupName()
     {
@@ -67,6 +82,7 @@ class ProductOptionGroupDefinitions
      * Set languageId
      *
      * @param integer $languageId
+     *
      * @return ProductOptionGroupDefinitions
      */
     public function setLanguageId($languageId)
@@ -79,7 +95,7 @@ class ProductOptionGroupDefinitions
     /**
      * Get languageId
      *
-     * @return integer 
+     * @return integer
      */
     public function getLanguageId()
     {
@@ -90,6 +106,7 @@ class ProductOptionGroupDefinitions
      * Set productOptionGroupId
      *
      * @param integer $productOptionGroupId
+     *
      * @return ProductOptionGroupDefinitions
      */
     public function setProductOptionGroupId($productOptionGroupId)
@@ -102,38 +119,10 @@ class ProductOptionGroupDefinitions
     /**
      * Get productOptionGroupId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProductOptionGroupId()
     {
         return $this->productOptionGroupId;
-    }
-    /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductOptionGroups
-     */
-    private $productOptionGroup;
-
-
-    /**
-     * Set productOptionGroup
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductOptionGroups $productOptionGroup
-     * @return ProductOptionGroupDefinitions
-     */
-    public function setProductOptionGroup(\Cms\ProductManagerBundle\Entity\ProductOptionGroups $productOptionGroup = null)
-    {
-        $this->productOptionGroup = $productOptionGroup;
-
-        return $this;
-    }
-
-    /**
-     * Get productOptionGroup
-     *
-     * @return \Cms\ProductManagerBundle\Entity\ProductOptionGroups 
-     */
-    public function getProductOptionGroup()
-    {
-        return $this->productOptionGroup;
     }
 }

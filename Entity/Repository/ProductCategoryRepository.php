@@ -1,14 +1,12 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity\Repository;
+namespace Oni\ProductManagerBundle\Entity\Repository;
 
-use Cms\CoreBundle\CoreGlobals;
-use Cms\CoreBundle\Entity\Languages;
-use Doctrine\ORM\EntityRepository;
-use Gedmo\Tree\NestedTreeRootRepositoryTest;
+use Oni\CoreBundle\CoreGlobals;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
-use Gedmo\Translatable\Entity\Repository\TranslationRepository;
-use Doctrine\ORM\EntityManager;
+use Symfony\Component\DependencyInjection\ContainerAwareInterface;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 /**
  * ProductCategoryRepository
  *
@@ -19,12 +17,16 @@ class ProductCategoryRepository extends NestedTreeRepository
 {
 
 
-    /**
-     * Set via Repository Factory
-     */
-    public $languageId;
+    /** @var ContainerInterface $container **/
+    public $container;
 
-    public function getAllProductCategories(){
+    /** @var  TranslatorInterface */
+    protected $translator;
+
+    private $table = CoreGlobals::PRODUCT_CATEGORIES_ENTITY;
+
+
+    public function getAllProductCategories($offset = 2, $maxResults = 20){
 
         $return = array(
             'results' => array(),
@@ -32,17 +34,33 @@ class ProductCategoryRepository extends NestedTreeRepository
         );
 
         $keys = array(
-            'Category Id' => 'pc.id',
-            'Category Name' => 'pc.productCategoryName'
+            'id' => 'pc.id',
+            //translation ids as keys
+            'name' => 'pc.productCategoryName',
+            'product_bundle.category.url' => 'pc.productCategoryUrl'
         );
 
 
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select($keys)
-            ->from(CoreGlobals::PRODUCT_CATEGORIES_ENTITY, 'pc')
+            ->from($this->table, 'pc')
+            //->setFirstResult($offset)
+            //->setMaxResults($maxResults)
             ->where('pc.lvl != 0');
 
-        $results = $qb->getQuery()->getResult(\Doctrine\ORM\Query::HYDRATE_OBJECT);
+        $query = $qb->getQuery();
+
+        $query->setHint(
+            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
+
+        //$results = new Paginator($query, $fetchJoinCollection = true);
+
+        $results = $query->getResult();
+
         $return['results'] = $results;
         $return['titles'] = $keys;
 
@@ -53,22 +71,76 @@ class ProductCategoryRepository extends NestedTreeRepository
 
     /****
      *
+     * Get all With fallback false
+     *
+     * @param array|integer $exclude
+     * @return object
+     *
+     */
+    public function findAllWithFallBack($exclude){
+
+
+        $q = $this->getEntityManager()->createQueryBuilder();
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select('t')
+            ->from($this->table, 't');
+
+        if ($exclude){
+
+            $qb->where($q->expr()->notIn('t.id',$exclude));
+
+        }
+
+
+
+
+
+        $query = $qb->getQuery()->setHint(
+            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
+        $category = $query->getResult();
+
+
+        return $category;
+
+    }
+
+    /****
+     *
      * Get product all product categories for Form
      *
      * @return mixed
      *
      */
-    public function getFormProductCategoryChoices(){
+    public function getFormProductCategoryChoices($excludeId = false){
 
 
         $return = array();
 
+
+
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('*')
-            ->from(CoreGlobals::PRODUCT_CATEGORIES_ENTITY, 'pc')
-            ->where('pc.lvl != 1');
+            ->from($this->table, 't')
+            ->where('t.lvl != 1');
 
-        $categories = $qb->getQuery()->getResult(\Doctrine\ORM\Query::HYDRATE_SCALAR);
+        if ($excludeId){
+            $qb->where('t.Id != :excludeId')
+                ->setParameter('excludeId', $excludeId);
+        }
+
+        $query = $qb->getQuery();
+
+        $query->setHint(
+            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
+
+        $categories = $query->getResult(\Doctrine\ORM\Query::HYDRATE_SCALAR);
 
         foreach ($categories as $category){
 
@@ -80,7 +152,6 @@ class ProductCategoryRepository extends NestedTreeRepository
         return $categories;
 
     }
-
 
 
 }

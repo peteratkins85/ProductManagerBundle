@@ -1,6 +1,6 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Repository;
+namespace Oni\ProductManagerBundle\Repository;
 use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 
 /**

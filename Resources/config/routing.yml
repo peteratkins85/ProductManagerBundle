@@ -1,22 +1,22 @@
-add_product:
+oni_add_product:
     path:     /admin/products/add
-    defaults: { _controller: product_controller:addAction }
+    defaults: { _controller: oni_product_controller:addAction }
 
-product_list:
+oni_product_list:
     path:     /admin/products
-    defaults: { _controller: product_controller:indexAction  }
+    defaults: { _controller: oni_product_controller:indexAction  }
 
-edit_product:
-    path:     /admin/products/edit
-    defaults: { _controller: product_controller:Index:edit }
+oni_edit_product:
+    path:     /admin/products/edit/{product}
+    defaults: { _controller: oni_product_controller:Index:edit }
 
-add_category:
+oni_add_category:
     path:     /admin/product/category/add
-    defaults: { _controller: product_categories_controller:addAction }
+    defaults: { _controller: oni_product_categories_controller:addAction }
 
-categories_list:
+oni_categories_list:
     path:     /admin/product/categories
-    defaults: { _controller: product_categories_controller:indexAction }
+    defaults: { _controller: oni_product_categories_controller:indexAction }
 
 #blog:
 #    path:      /blog/{page}
@@ -29,6 +29,20 @@ categories_list:
 #    defaults: { _controller: AppBundle:Main:contactForm }
 #    methods:  [GET, POST]
 
-edit_category:
-    path:     /admin/product/category/edit
-    defaults: { _controller: ProductManagerBundle:ProductCategory:edit }
+oni_edit_category:
+    path:     /admin/product/category/edit/{productCategoryId}
+    defaults: { _controller: oni_product_categories_controller:editAction }
+    requirements:
+            productCategoryId:  \d+
+
+oni_edit_category:
+    path:     /admin/product/category/edit/{productCategoryId}
+    defaults: { _controller: oni_product_categories_controller:editAction }
+    requirements:
+            productCategoryId:  \d+
+
+oni_delete_category:
+    path:     /admin/product/category/delete/{productCategoryId}
+    defaults: { _controller: oni_product_categories_controller:deleteAction }
+    requirements:
+            productCategoryId:  \d+

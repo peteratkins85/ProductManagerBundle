@@ -1,9 +1,9 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Form;
+namespace Oni\ProductManagerBundle\Form;
 
 
-use Cms\CoreBundle\CoreGlobals;
+use Oni\CoreBundle\CoreGlobals;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -22,7 +22,7 @@ class ProductCategoryDefinitionsType extends AbstractType
     public function __construct(ContainerInterface $container){
 
         $this->container = $container;
-        $this->language = $this->container->get('language_repository')->getDefaultLanguage();
+        $this->language = $this->container->get('oni_language_repository')->getDefaultLanguage();
 
     }
 
@@ -32,8 +32,6 @@ class ProductCategoryDefinitionsType extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $languageId = $this->container->get('get_language');
-        $language = $this->container->get('language_repository')->find($languageId);
 
         $builder
             ->add('productCategoryName', TextType::class,array(
@@ -50,7 +48,7 @@ class ProductCategoryDefinitionsType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions',
+            'data_class' => 'Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions',
             'csrf_protection' => true,
             'csrf_field_name' => '_token'
         ));
@@ -62,6 +60,6 @@ class ProductCategoryDefinitionsType extends AbstractType
      */
     public function getName()
     {
-        return 'product_category_definitions';
+        return 'oni_product_category_definitions';
     }
 }

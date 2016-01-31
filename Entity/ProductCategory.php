@@ -1,72 +1,159 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Translatable\Translatable;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * ProductCategory
+ *
+ * @ORM\Table(name="oni_product_categories",
+ *     uniqueConstraints={@UniqueConstraint(name="search_idx", columns={"productCategoryName"})
+ *     }
+ * )
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository")
+ * @Gedmo\TranslationEntity(class="Oni\ProductManagerBundle\Entity\ProductCategoryTranslations")
+ * @Gedmo\Tree(type="nested")
  */
-class ProductCategory implements Translatable
+class ProductCategory
 {
-
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
-     * @var integer
+     * @var string
+     * @Gedmo\Translatable
+     * @ORM\Column(name="productCategoryName", type="string", length=255)
      */
-    private $active;
+    private $productCategoryName;
 
     /**
-     * @var integer
+     * @var string
+     * @ORM\Column(name="productCategoryUrl", type="string", length=255)
      */
-    private $parentId;
+    private $productCategoryUrl;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=true)
      */
     private $created;
 
     /**
+     *
+     * @var boolean
+     * @ORM\Column(name="viewable",type="boolean")
+     *
+     */
+    private $viewable = 1;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="description" , type="string", length=255 , nullable=true)
+     *
+     */
+    private $description;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="metaTitle" , type="string", length=255, nullable=true)
+     *
+     */
+    private $metaTitle;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="metaDescription" , type="string", length=255, nullable=true)
+     *
+     */
+    private $metaDescription;
+
+    /**
+     *
+     * @var string
+     *
+     * @ORM\Column(name="metaKeyWords" , type="string", length=255, nullable=true)
+     *
+     */
+    private $metaKeyWords;
+
+
+    /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="modifiedBy", type="integer", nullable=true)
      */
     private $modifiedBy;
 
     /**
+     * @var integer
+     * @Gedmo\TreeLeft
+     * @ORM\Column(name="lft", type="integer")
+     */
+    private $lft;
+
+    /**
+     * @var integer
+     * @Gedmo\TreeRight
+     * @ORM\Column(name="rgt", type="integer")
+     */
+    private $rgt;
+
+    /**
+     * @var integer
+     * @Gedmo\TreeRoot
+     * @ORM\Column(name="root", type="integer", nullable=true)
+     */
+    private $root;
+
+    /**
+     * @var integer
+     * @Gedmo\TreeLevel
+     * @ORM\Column(name="lvl", type="integer")
+     */
+    private $lvl;
+
+    /**
      * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory", mappedBy="parent")
+     * @ORM\OrderBy({
+     *     "lft"="ASC"
+     * })
      */
     private $children;
 
     /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductCategory
+     * @var \Oni\ProductManagerBundle\Entity\ProductCategory
+     * @Gedmo\TreeParent
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory", inversedBy="children")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="parentId", referencedColumnName="id", onDelete="CASCADE")
+     * })
      */
     private $parent;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $products;
-
-    /**
-     * @var string
-     */
-    private $productCategoryName;
-
-    /**
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
-     */
-    private $locale;
-
 
     /**
      * Constructor
@@ -74,14 +161,25 @@ class ProductCategory implements Translatable
     public function __construct()
     {
         $this->children = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->definitions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * @Gedmo\Locale
+     * Used locale to override Translation listener`s locale
+     * this is not a mapped field of entity metadata, just a simple property
+     */
+    private $locale;
+
+    public function setTranslatableLocale($locale)
+    {
+        $this->locale = $locale;
     }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -89,56 +187,34 @@ class ProductCategory implements Translatable
     }
 
     /**
-     * Set active
+     * Set productCategoryName
      *
-     * @param integer $active
+     * @param string $productCategoryName
+     *
      * @return ProductCategory
      */
-    public function setActive($active)
+    public function setProductCategoryName($productCategoryName)
     {
-        $this->active = $active;
-
-        return $this;
-    }
-
-
-    /**
-     * Get active
-     *
-     * @return integer 
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Set parentId
-     *
-     * @param integer $parentId
-     * @return ProductCategory
-     */
-    public function setParentId($parentId)
-    {
-        $this->parentId = $parentId;
+        $this->productCategoryName = $productCategoryName;
 
         return $this;
     }
 
     /**
-     * Get parentId
+     * Get productCategoryName
      *
-     * @return integer 
+     * @return string
      */
-    public function getParentId()
+    public function getProductCategoryName()
     {
-        return $this->parentId;
+        return $this->productCategoryName;
     }
 
     /**
      * Set created
      *
      * @param \DateTime $created
+     *
      * @return ProductCategory
      */
     public function setCreated($created)
@@ -151,7 +227,7 @@ class ProductCategory implements Translatable
     /**
      * Get created
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getCreated()
     {
@@ -162,6 +238,7 @@ class ProductCategory implements Translatable
      * Set modified
      *
      * @param \DateTime $modified
+     *
      * @return ProductCategory
      */
     public function setModified($modified)
@@ -174,7 +251,7 @@ class ProductCategory implements Translatable
     /**
      * Get modified
      *
-     * @return \DateTime 
+     * @return \DateTime
      */
     public function getModified()
     {
@@ -185,6 +262,7 @@ class ProductCategory implements Translatable
      * Set modifiedBy
      *
      * @param integer $modifiedBy
+     *
      * @return ProductCategory
      */
     public function setModifiedBy($modifiedBy)
@@ -197,156 +275,12 @@ class ProductCategory implements Translatable
     /**
      * Get modifiedBy
      *
-     * @return integer 
+     * @return integer
      */
     public function getModifiedBy()
     {
         return $this->modifiedBy;
     }
-
-    /**
-     * Add children
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $children
-     * @return ProductCategory
-     */
-    public function addChild(\Cms\ProductManagerBundle\Entity\ProductCategory $children)
-    {
-        $this->children[] = $children;
-
-        return $this;
-    }
-
-    /**
-     * Remove children
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $children
-     */
-    public function removeChild(\Cms\ProductManagerBundle\Entity\ProductCategory $children)
-    {
-        $this->children->removeElement($children);
-    }
-
-    /**
-     * Get children
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getChildren()
-    {
-        return $this->children;
-    }
-
-    /**
-     * Set parent
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $parent
-     * @return ProductCategory
-     */
-    public function setParent(\Cms\ProductManagerBundle\Entity\ProductCategory $parent = null)
-    {
-        $this->parent = $parent;
-
-        return $this;
-    }
-
-    /**
-     * Get parent
-     *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategory
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
-     * Add products
-     *
-     * @param \Cms\ProductManagerBundle\Entity\Products $products
-     * @return ProductCategory
-     */
-    public function addProduct(\Cms\ProductManagerBundle\Entity\Products $products)
-    {
-        $this->products[] = $products;
-
-        return $this;
-    }
-
-    /**
-     * Remove products
-     *
-     * @param \Cms\ProductManagerBundle\Entity\Products $products
-     */
-    public function removeProduct(\Cms\ProductManagerBundle\Entity\Products $products)
-    {
-        $this->products->removeElement($products);
-    }
-
-    /**
-     * Get products
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getProducts()
-    {
-        return $this->products;
-    }
-
-
-
-    /**
-     * Get product category Name by Language ID
-     *
-     * @param integer $active
-     * @return ProductCategory
-     */
-    public function setProductCategoryName($productCategoryName)
-    {
-
-        $this->productCategoryName = $productCategoryName;
-
-        return $this;
-
-    }
-
-    public function getProductCategoryName(){
-
-        return $this->productCategoryName;
-
-    }
-
-    public function __toString(){
-
-        if ($this->productCategoryName){
-
-            return (string) $this->productCategoryName;
-
-        }
-
-    }
-
-
-    /**
-     * @var integer
-     */
-    private $lft;
-
-    /**
-     * @var integer
-     */
-    private $rgt;
-
-    /**
-     * @var integer
-     */
-    private $root;
-
-    /**
-     * @var integer
-     */
-    private $lvl;
-
 
     /**
      * Set lft
@@ -444,11 +378,208 @@ class ProductCategory implements Translatable
         return $this->lvl;
     }
 
-
-    public function setTranslatableLocale($locale)
+    /**
+     * Add child
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $child
+     *
+     * @return ProductCategory
+     */
+    public function addChild(\Oni\ProductManagerBundle\Entity\ProductCategory $child)
     {
-        $this->locale = $locale;
+        $this->children[] = $child;
+
+        return $this;
+    }
+
+    /**
+     * Remove child
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $child
+     */
+    public function removeChild(\Oni\ProductManagerBundle\Entity\ProductCategory $child)
+    {
+        $this->children->removeElement($child);
+    }
+
+    /**
+     * Get children
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getChildren()
+    {
+        return $this->children;
+    }
+
+    /**
+     * Set parent
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $parent
+     *
+     * @return ProductCategory
+     */
+    public function setParent(\Oni\ProductManagerBundle\Entity\ProductCategory $parent = null)
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
+
+    /**
+     * Get parent
+     *
+     * @return \Oni\ProductManagerBundle\Entity\ProductCategory
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * Set productCategoryUrl
+     *
+     * @param string $productCategoryUrl
+     *
+     * @return ProductCategory
+     */
+    public function setProductCategoryUrl($productCategoryUrl)
+    {
+        $this->productCategoryUrl = $productCategoryUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get productCategoryUrl
+     *
+     * @return string
+     */
+    public function getProductCategoryUrl()
+    {
+        return $this->productCategoryUrl;
     }
 
 
+
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return ProductCategory
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set metaTitle
+     *
+     * @param string $metaTitle
+     *
+     * @return ProductCategory
+     */
+    public function setMetaTitle($metaTitle)
+    {
+        $this->metaTitle = $metaTitle;
+
+        return $this;
+    }
+
+    /**
+     * Get metaTitle
+     *
+     * @return string
+     */
+    public function getMetaTitle()
+    {
+        return $this->metaTitle;
+    }
+
+    /**
+     * Set metaDescription
+     *
+     * @param string $metaDescription
+     *
+     * @return ProductCategory
+     */
+    public function setMetaDescription($metaDescription)
+    {
+        $this->metaDescription = $metaDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get metaDescription
+     *
+     * @return string
+     */
+    public function getMetaDescription()
+    {
+        return $this->metaDescription;
+    }
+
+    /**
+     * Set metaKeyWords
+     *
+     * @param string $metaKeyWords
+     *
+     * @return ProductCategory
+     */
+    public function setMetaKeyWords($metaKeyWords)
+    {
+        $this->metaKeyWords = $metaKeyWords;
+
+        return $this;
+    }
+
+    /**
+     * Get metaKeyWords
+     *
+     * @return string
+     */
+    public function getMetaKeyWords()
+    {
+        return $this->metaKeyWords;
+    }
+
+    /**
+     * Set viewable
+     *
+     * @param boolean $viewable
+     *
+     * @return ProductCategory
+     */
+    public function setViewable($viewable)
+    {
+        $this->viewable = $viewable;
+
+        return $this;
+    }
+
+    /**
+     * Get viewable
+     *
+     * @return boolean
+     */
+    public function getViewable()
+    {
+        return $this->viewable;
+    }
 }

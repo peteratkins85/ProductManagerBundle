@@ -1,41 +1,53 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Currencies
+ *
+ * @ORM\Table(name="currencies")
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\CurrenciesRepository")
  */
 class Currencies
 {
-
-
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="currency", type="string", length=60)
      */
     private $currency;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="currencyCode", type="string", length=5)
      */
     private $currencyCode;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="isDefault", type="integer")
      */
     private $isDefault;
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -46,6 +58,7 @@ class Currencies
      * Set currency
      *
      * @param string $currency
+     *
      * @return Currencies
      */
     public function setCurrency($currency)
@@ -58,7 +71,7 @@ class Currencies
     /**
      * Get currency
      *
-     * @return string 
+     * @return string
      */
     public function getCurrency()
     {
@@ -69,6 +82,7 @@ class Currencies
      * Set currencyCode
      *
      * @param string $currencyCode
+     *
      * @return Currencies
      */
     public function setCurrencyCode($currencyCode)
@@ -81,7 +95,7 @@ class Currencies
     /**
      * Get currencyCode
      *
-     * @return string 
+     * @return string
      */
     public function getCurrencyCode()
     {
@@ -92,6 +106,7 @@ class Currencies
      * Set isDefault
      *
      * @param integer $isDefault
+     *
      * @return Currencies
      */
     public function setIsDefault($isDefault)
@@ -104,7 +119,7 @@ class Currencies
     /**
      * Get isDefault
      *
-     * @return integer 
+     * @return integer
      */
     public function getIsDefault()
     {

@@ -1,0 +1,13 @@
+product_bundle:
+    product.manager: Product Manager
+    product.categories : Product Categories
+    product.category : Product Category
+    add.product.category: Add New Product Category
+    edit.product.category: Edit Product Category
+    category.url: Category Url
+    products: Products
+    product: Product
+    product.category.deleted: Product Category deleted!
+    invalid.product.category.id: Invalid product category Id
+    add.product: Add New Product
+    product.code: Product Code

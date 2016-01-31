@@ -1,41 +1,53 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ProductOptions
+ *
+ * @ORM\Table(name="product_options")
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductOptionsRepository")
  */
 class ProductOptions
 {
-
-
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="productOptionGroupsId", type="integer")
      */
     private $productOptionGroupsId;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="optionValue", type="string", length=100)
      */
     private $optionValue;
 
     /**
      * @var integer
+     *
+     * @ORM\Column(name="optionPriority", type="integer")
      */
     private $optionPriority;
+
 
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
@@ -46,6 +58,7 @@ class ProductOptions
      * Set productOptionGroupsId
      *
      * @param integer $productOptionGroupsId
+     *
      * @return ProductOptions
      */
     public function setProductOptionGroupsId($productOptionGroupsId)
@@ -58,7 +71,7 @@ class ProductOptions
     /**
      * Get productOptionGroupsId
      *
-     * @return integer 
+     * @return integer
      */
     public function getProductOptionGroupsId()
     {
@@ -69,6 +82,7 @@ class ProductOptions
      * Set optionValue
      *
      * @param string $optionValue
+     *
      * @return ProductOptions
      */
     public function setOptionValue($optionValue)
@@ -81,7 +95,7 @@ class ProductOptions
     /**
      * Get optionValue
      *
-     * @return string 
+     * @return string
      */
     public function getOptionValue()
     {
@@ -92,6 +106,7 @@ class ProductOptions
      * Set optionPriority
      *
      * @param integer $optionPriority
+     *
      * @return ProductOptions
      */
     public function setOptionPriority($optionPriority)
@@ -104,83 +119,10 @@ class ProductOptions
     /**
      * Get optionPriority
      *
-     * @return integer 
+     * @return integer
      */
     public function getOptionPriority()
     {
         return $this->optionPriority;
-    }
-    /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductCategory
-     */
-    private $product;
-
-
-    /**
-     * Set product
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $product
-     * @return ProductOptions
-     */
-    public function setProduct(\Cms\ProductManagerBundle\Entity\ProductCategory $product = null)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * Get product
-     *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategory
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $definitions;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->definitions = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Add definitions
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductOptionDefinitions $definitions
-     * @return ProductOptions
-     */
-    public function addDefinition(\Cms\ProductManagerBundle\Entity\ProductOptionDefinitions $definitions)
-    {
-        $this->definitions[] = $definitions;
-
-        return $this;
-    }
-
-    /**
-     * Remove definitions
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductOptionDefinitions $definitions
-     */
-    public function removeDefinition(\Cms\ProductManagerBundle\Entity\ProductOptionDefinitions $definitions)
-    {
-        $this->definitions->removeElement($definitions);
-    }
-
-    /**
-     * Get definitions
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getDefinitions()
-    {
-        return $this->definitions;
     }
 }

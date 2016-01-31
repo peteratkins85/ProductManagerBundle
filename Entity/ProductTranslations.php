@@ -5,12 +5,12 @@ namespace Oni\ProductManagerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductCategoryTranslations
+ * ProductTranslations
  *
- * @ORM\Table(name="oni_product_category_translations", indexes={@ORM\Index(name="oni_product_category_index", columns={"locale", "object_class", "field", "foreign_key"})})
- * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductCategoryTranslationsRepository")
+ * @ORM\Table(name="oni_product_translations", indexes={@ORM\Index(name="oni_product_category_index", columns={"locale", "object_class", "field", "foreign_key"})})
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductTranslationsRepository")
  */
-class ProductCategoryTranslations
+class ProductTranslations
 {
     /**
      * @var integer
@@ -73,7 +73,7 @@ class ProductCategoryTranslations
      *
      * @param string $locale
      *
-     * @return ProductCategoryTranslations
+     * @return ProductTranslations
      */
     public function setLocale($locale)
     {
@@ -97,7 +97,7 @@ class ProductCategoryTranslations
      *
      * @param string $objectClass
      *
-     * @return ProductCategoryTranslations
+     * @return ProductTranslations
      */
     public function setObjectClass($objectClass)
     {
@@ -121,7 +121,7 @@ class ProductCategoryTranslations
      *
      * @param string $field
      *
-     * @return ProductCategoryTranslations
+     * @return ProductTranslations
      */
     public function setField($field)
     {
@@ -145,7 +145,7 @@ class ProductCategoryTranslations
      *
      * @param string $foreignKey
      *
-     * @return ProductCategoryTranslations
+     * @return ProductTranslations
      */
     public function setForeignKey($foreignKey)
     {
@@ -169,7 +169,7 @@ class ProductCategoryTranslations
      *
      * @param string $content
      *
-     * @return ProductCategoryTranslations
+     * @return ProductTranslations
      */
     public function setContent($content)
     {

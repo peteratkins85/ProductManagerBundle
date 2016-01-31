@@ -1,10 +1,10 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Events;
+namespace Oni\ProductManagerBundle\Events;
 
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\HttpFoundation\Request;
-use Cms\ProductManagerBundle\Entity\Products;
+use Oni\ProductManagerBundle\Entity\Products;
 
 class ProductEvent extends Event
 {

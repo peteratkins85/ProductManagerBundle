@@ -6,12 +6,12 @@
  * Time: 19:42
  */
 
-namespace Cms\ProductManagerBundle\DataFixtures\ORM;
+namespace Oni\ProductManagerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Cms\ProductManagerBundle\Entity\ProductCategory;
-use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions;
+use Oni\ProductManagerBundle\Entity\ProductCategory;
+use Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -35,23 +35,32 @@ class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureI
     public function load(ObjectManager $manager)
     {
 
-//        $despatcher = $this->container->get('event_dispatcher');
-//        $eventListener = $this->container->get('stof_doctrine_extensions.event_listener.locale');
-//        $despatcher->addSubscriber($eventListener);
-
-        $language = $this->getReference('language');
+        $em = $this->container->get('doctrine.orm.default_entity_manager');
         $root = new ProductCategory();
         $root->setProductCategoryName('rootCategory');
+        $root->setProductCategoryUrl('root-category-url');
+        $root->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet cursus lorem. Nulla pharetra felis urna. Donec et dignissim lorem, ac condimentum ante. Proin dictum neque elit, eu condimentum neque condimentum vitae.');
+        $root->setMetaTitle('root title');
+
+        $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
+        $repository->translate($root, 'productCategoryName', 'en', 'rootCategory')
+                   ->translate($root, 'productCategoryName', 'de', 'rootCategory de')
+        ;
 
         $test = new ProductCategory();
         $test->setParent($root);
         $test->setProductCategoryName('Test');
+        $test->setProductCategoryUrl('test-url');
+        $test->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet cursus lorem. Nulla pharetra felis urna. Donec et dignissim lorem, ac condimentum ante. Proin dictum neque elit, eu condimentum neque condimentum vitae.');
+        $test->setMetaTitle('test title');
 
-        $em = $this->container->get('doctrine.orm.default_entity_manager');
+
+        $repository->translate($test, 'productCategoryName', 'en', 'Test')
+                   ->translate($test, 'productCategoryName', 'de', 'Test de')
+        ;
 
         $em->persist($root);
         $em->persist($test);
-
         $em->flush();
 
     }

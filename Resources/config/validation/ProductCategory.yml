@@ -1,11 +1,52 @@
-Cms\ProductManagerBundle\Entity\ProductCategory:
+Oni\ProductManagerBundle\Entity\ProductCategory:
     properties:
         productCategoryName:
             - NotBlank: ~
-            - Type:
-                type: alpha
-                message: Product Category Name {{ value }} is not a valid {{ type }}.
+            - Regex:
+                pattern: "/^[\w\d _-]+$/"
+                message: url.can.only.contain
             - Length:
                 min: 3
-                minMessage: Name is too short. It should have 3 characters or more.
-
+                max: 30
+                minMessage: two.or.more.chars
+                maxMessage: fifty.or.less.chars.
+        productCategoryUrl:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/^[\w\d_-]+$/'
+                message: url.can.only.contain
+            - Length:
+                min: 2
+                max: 50
+                minMessage: two.or.more.chars
+                maxMessage: fifty.or.less.chars
+        description:
+            - NotBlank: ~
+            - Type:
+                type: string
+        metaTitle:
+            - NotBlank: ~
+            - Type:
+                type: string
+            - Length:
+                min: 2
+                minMessage: two.or.more.chars
+                max: 50
+                maxMessage: fifty.or.less.chars
+        metaDescription:
+            - Type:
+                type: string
+            - Length:
+                max: 100
+                maxMessage: onehundred.or.less.chars
+        metaKeyWords:
+            - Type:
+                type: string
+            - Length:
+                max: 50
+                maxMessage: fifty.or.less.chars
+    constraints:
+        - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
+            fields: [productCategoryUrl]
+            errorPath: productCategoryUrl
+            message: url.already.in.use

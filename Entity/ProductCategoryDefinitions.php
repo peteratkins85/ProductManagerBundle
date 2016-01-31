@@ -1,143 +1,65 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Gedmo\Mapping\Annotation as Gedmo;
-use Gedmo\Translatable\Translatable;
+
 /**
  * ProductCategoryDefinitions
+ *
+ * @ORM\Table(name="oni_product_category_definitions", uniqueConstraints={@ORM\UniqueConstraint(name="language_category", columns={"languageId", "productCategoryId"})})
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository")
  */
-class ProductCategoryDefinitions implements Translatable
+class ProductCategoryDefinitions
 {
-
     /**
      * @var integer
+     *
+     * @ORM\Column(name="id", type="integer")
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="productCategoryId", type="integer")
+     */
+    private $productCategoryId;
 
     /**
-     * @Gedmo\Locale
-     * Used locale to override Translation listener`s locale
-     * this is not a mapped field of entity metadata, just a simple property
+     * @var integer
+     *
+     * @ORM\Column(name="languageId", type="integer")
      */
-    private $locale;
+    private $languageId;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="productCategoryName", type="string", length=255)
      */
     private $productCategoryName;
 
     /**
-     * @var \Cms\ProductManagerBundle\Entity\ProductCategory
-     */
-    private $productCategory;
-
-    /**
-     * @var \Cms\ContentManagerBundle\Entity\Languages
+     * @var string
+     *
+     * @ORM\Column(name="language", type="string")
      */
     private $language;
 
 
-    public function __toString(){
-
-        return (string) $this->productCategoryName;
-
-    }
 
     /**
      * Get id
      *
-     * @return integer 
+     * @return integer
      */
     public function getId()
     {
         return $this->id;
     }
-
-
-
-    public function setTranslatableLocale($locale)
-    {
-        $this->locale = $locale;
-    }
-
-    /**
-     * Set productCategoryName
-     *
-     * @param string $productCategoryName
-     * @return ProductCategoryDefinitions
-     */
-    public function setProductCategoryName($productCategoryName)
-    {
-        $this->productCategoryName = $productCategoryName;
-
-        return $this;
-    }
-
-    /**
-     * Get productCategoryName
-     *
-     * @return string 
-     */
-    public function getProductCategoryName()
-    {
-        return $this->productCategoryName;
-    }
-
-    /**
-     * Set productCategory
-     *
-     * @param \Cms\ProductManagerBundle\Entity\ProductCategory $productCategory
-     * @return ProductCategoryDefinitions
-     */
-    public function setProductCategory(\Cms\ProductManagerBundle\Entity\ProductCategory $productCategory = null)
-    {
-        $this->productCategory = $productCategory;
-
-        return $this;
-    }
-
-    /**
-     * Get productCategory
-     *
-     * @return \Cms\ProductManagerBundle\Entity\ProductCategory
-     */
-    public function getProductCategory()
-    {
-        return $this->productCategory;
-    }
-
-    /**
-     * Set language
-     *
-     * @param \Cms\ContentManagerBundle\Entity\Languages $language
-     * @return ProductCategoryDefinitions
-     */
-    public function setLanguage(\Cms\CoreBundle\Entity\Languages $language = null)
-    {
-        $this->language = $language;
-
-        return $this;
-    }
-
-    /**
-     * Get language
-     *
-     * @return \Cms\ContentManagerBundle\Entity\Languages 
-     */
-    public function getLanguage()
-    {
-        return $this->language;
-    }
-
-
-    /**
-     * @var integer
-     */
-    private $productCategoryId;
-
 
     /**
      * Set productCategoryId
@@ -162,11 +84,6 @@ class ProductCategoryDefinitions implements Translatable
     {
         return $this->productCategoryId;
     }
-    /**
-     * @var integer
-     */
-    private $languageId;
-
 
     /**
      * Set languageId
@@ -190,5 +107,53 @@ class ProductCategoryDefinitions implements Translatable
     public function getLanguageId()
     {
         return $this->languageId;
+    }
+
+    /**
+     * Set productCategoryName
+     *
+     * @param string $productCategoryName
+     *
+     * @return ProductCategoryDefinitions
+     */
+    public function setProductCategoryName($productCategoryName)
+    {
+        $this->productCategoryName = $productCategoryName;
+
+        return $this;
+    }
+
+    /**
+     * Get productCategoryName
+     *
+     * @return string
+     */
+    public function getProductCategoryName()
+    {
+        return $this->productCategoryName;
+    }
+
+    /**
+     * Set language
+     *
+     * @param string $language
+     *
+     * @return ProductCategoryDefinitions
+     */
+    public function setLanguage($language)
+    {
+        $this->language = $language;
+
+        return $this;
+    }
+
+    /**
+     * Get language
+     *
+     * @return string
+     */
+    public function getLanguage()
+    {
+        return $this->language;
     }
 }

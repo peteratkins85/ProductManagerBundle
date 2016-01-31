@@ -1,44 +1,28 @@
 <?php
 
-namespace Cms\ProductManagerBundle\Controller;
+namespace Oni\ProductManagerBundle\Controller;
 
-use Cms\CoreBundle\Controller\CoreController;
-use Cms\CoreBundle\Core;
-use Cms\ProductManagerBundle\Entity\ProductCategoryDefinitions;
-use Cms\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
-use Cms\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository;
-use Cms\ProductManagerBundle\Form\ProductCategoryType;
-use Cms\ProductManagerBundle\Entity\ProductCategory;
+use Oni\CoreBundle\Controller\CoreController;
+use Oni\CoreBundle\Core;
+use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
+use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryDefinitionsRepository;
+use Oni\ProductManagerBundle\Form\ProductCategoryType;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\DateTime;
+use Symfony\Component\Translation\Translator;
 
 class ProductCategoryController extends CoreController
 {
 
-    private $productCategoriesEntity;
-    private $productCategoryDefinitionsEntity;
-    private $productCategoriesRepository ;
-
-    public function __construct(
-        ProductCategoryRepository $productCategoryRepository,
-        ProductCategoryDefinitionsRepository $productCategoryDefinitionsRepository
-    ){
-
-        $this->ProductCategoryRepository =  $productCategoryRepository;
-        $this->productCategoryDefinitionsRepository = $productCategoryDefinitionsRepository;
-
-    }
-
-
-
     public function indexAction()
     {
 
-        $productCategories = $this->ProductCategoryRepository->getAllProductCategories();
+        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access!');
+
+        $productCategories = $this->getProductCategoryRepository()->getAllProductCategories();
 
         return $this->render('ProductManagerBundle:ProductCategory:index.html.twig', array(
-            'pageName' => 'Product Categories',
+            'pageName' => $this->get('translator')->trans('product_bundle.product.categories'),
             'productCategories' => $productCategories['results'],
             'titles' => $productCategories['titles']
         ));
@@ -47,24 +31,10 @@ class ProductCategoryController extends CoreController
 
     public function addAction(Request $request)
     {
-        /**@var ProductCategory $productCategory **/
-       // $productCategory = $this->getProductCategoryRepository()->find(1);
-        $productCategory = $this->getProductCategoryEntity();
-        //$productCategory->setTranslatableLocale('de_de');
-        $productCategory->setProductCategoryName('German');
-        $productCategory->getActive(0);
 
-        $em = $this->getDoctrine()->getManager();
-//        $repository = $em->getRepository('ProductManagerBundle:ProductCategoryTranslations');
-//        $repository->translate($productCategory, 'productCategoryName', 'de', 'my category de')
-//            ->translate($productCategory, 'productCategoryName', 'ru', 'my category ru')
-//        ;
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
 
-        $em->persist($productCategory);
-        $em->flush();
-        exit;
-
-        $productCategory = $this->getProductCategoryEntity();
+        $productCategory = $this->get('oni_product_category_entity');
         $productCategoryForm = $this->createForm(ProductCategoryType::class,$productCategory);
 
         if ($request->isMethod('POST')) {
@@ -73,16 +43,15 @@ class ProductCategoryController extends CoreController
 
             if ($productCategoryForm->isSubmitted() && $productCategoryForm->isValid()) {
 
-                $languageId = $this->get('get_language');
                 $em = $this->getDoctrine()->getManager();
 
                 $em->persist($productCategory);
 
                 $em->flush();
 
-                $this->flashNotification('Product category added!');
+                $this->addFlash('notice',$this->translator->trans('product_bundle.product.category.deleted'));
 
-                $productCategoryForm = $this->createForm(ProductCategoryType::class,$productCategory);
+                return $this->redirectToRoute('oni_categories_list');
 
             }else{
 
@@ -93,7 +62,7 @@ class ProductCategoryController extends CoreController
         }
 
         return $this->render('ProductManagerBundle:ProductCategory:add.html.twig', array(
-            'pageName' => 'Add Product Category',
+            'pageName' => $this->get('translator')->trans('product_bundle.add.product.category'),
             'form' => $productCategoryForm->createView()
         ));
 
@@ -101,14 +70,66 @@ class ProductCategoryController extends CoreController
 
 
 
-    public function editAction($productCategoryId)
+    public function editAction($productCategoryId,Request $request)
     {
 
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
 
+        $productCategory = $this->getProductCategoryRepository()->find($productCategoryId);
+        $productCategoryForm = $this->createForm(ProductCategoryType::class,$productCategory);
+
+        if ($request->isMethod('POST')) {
+
+            $productCategoryForm->handleRequest($request);
+
+            if ($productCategoryForm->isSubmitted() && $productCategoryForm->isValid()) {
+
+                $em = $this->getDoctrine()->getManager();
+                $em->persist($productCategory);
+
+                $em->flush();
+
+                $this->addFlash('notice','Product category amended!');
+
+                $em->refresh($productCategory);
+                $productCategoryForm = $this->createForm(ProductCategoryType::class,$productCategory);
+
+            }else{
+
+                $this->flashErrors($productCategoryForm);
+
+            }
+
+        }
 
         return $this->render('ProductManagerBundle:ProductCategory:edit.html.twig', array(
-                // ...
-            ));
+            'pageName' => $this->translator->trans('product_bundle.edit.product.category'),
+            'form' => $productCategoryForm->createView()
+        ));
+
+    }
+
+    public function deleteAction($productCategoryId)
+    {
+
+        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
+
+        $productCategory = $this->getProductCategoryRepository()->find($productCategoryId);
+
+        if ($productCategory) {
+
+            $em = $this->getDoctrine()->getManager();
+            $em->remove($productCategory);
+            $em->flush();
+            $this->addFlash('notice',$this->translator->trans('product_bundle.product.category.deleted'));
+
+        }else{
+
+            $this->addFlash('error', $this->translator->trans('product_bundle.invalid.product.category.id'));
+
+        }
+
+        return $this->redirectToRoute('oni_categories_list');
 
     }
 

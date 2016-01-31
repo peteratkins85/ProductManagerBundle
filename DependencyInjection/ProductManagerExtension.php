@@ -1,6 +1,6 @@
 <?php
 
-namespace Cms\ProductManagerBundle\DependencyInjection;
+namespace Oni\ProductManagerBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;

@@ -1,6 +1,6 @@
 <?php
 
-namespace Cms\ProductManagerBundle;
+namespace Oni\ProductManagerBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
