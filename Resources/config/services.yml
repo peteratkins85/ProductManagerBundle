@@ -44,12 +44,12 @@ services:
         class: "%oni_product_category_controller_class%"
     oni_product_controller:
         class: "%oni_product_controller_class%"
-        factory: [ '@oni_controller_factory',  getController]
+        factory: [ '@oni_controller_factory',  getService]
         arguments:
             - '@oni_product_controller_class'
     oni_product_categories_controller:
         class: "%oni_product_category_controller_class%"
-        factory: [ '@oni_controller_factory',  getController]
+        factory: [ '@oni_controller_factory',  getService]
         arguments:
             - '@oni_product_category_controller_class'
 #    oni_product_categories_controller:
