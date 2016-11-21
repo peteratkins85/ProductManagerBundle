@@ -2,9 +2,9 @@ Oni\ProductManagerBundle\Entity\ProductCategory:
     properties:
         productCategoryName:
             - NotBlank: ~
-            - Regex:
-                pattern: '/^[\w\d _-]+$/'
-                message: url.can.only.contain
+#            - Regex:
+#                pattern: '/^[\\\/:\*\?"<>\|]+$/'
+#                message: name.can.only.contain
             - Length:
                 min: 3
                 max: 30

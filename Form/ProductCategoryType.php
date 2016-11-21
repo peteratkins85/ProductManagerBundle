@@ -2,27 +2,25 @@
 
 namespace Oni\ProductManagerBundle\Form;
 
+use Oni\ProductManagerBundle\Service\ProductCategoryService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
 use Oni\ProductManagerBundle\Entity\ProductCategory as ProductCategory;
-use Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions as ProductCategoryDefinitions;
 use Oni\CoreBundle\Entity\Languages as Languages;
 
 class ProductCategoryType extends AbstractType
 {
 
     /**
-     * @var ProductCategoryRepository object
+     * @var ProductCategoryService
      */
-    protected $productCategoriesRepository;
+    protected $productCategoryService;
     /** @var Languages $language */
     public $language;
 
@@ -30,12 +28,11 @@ class ProductCategoryType extends AbstractType
      * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param \Symfony\Component\HttpFoundation\Session\Session $session
      */
-    public function __construct($container){
-
+    public function __construct($container)
+    {
         $this->container = $container;
         $this->locale = $this->container->get('oni_get_locale');
-        $this->ProductCategoryRepository = $this->container->get('oni_product_categories_repository');
-
+        $this->productCategoryService  = $this->container->get('oni_product_category_service');
     }
 
     /**
@@ -82,10 +79,10 @@ class ProductCategoryType extends AbstractType
                 'required' => false,
             ))
             ->add('parent', ChoiceType::class , array(
-                'choices' => $this->ProductCategoryRepository->findAllWithFallBack($exclude),
+                'choices' => $this->productCategoryService->findAllWithFallBack($exclude),
                 'attr' => array('class' => 'select2 input-xlarge'),
-                'choice_label' => function($category, $key, $index) {
-                    return $category->getProductCategoryName();
+                'choice_label' => function(ProductCategory $category, $key, $index) {
+                    return !empty($category->getProductCategoryName()) ? $category->getProductCategoryName() : $category->getProductCategoryUrl();
                 },
                 'by_reference' => false,
                 )

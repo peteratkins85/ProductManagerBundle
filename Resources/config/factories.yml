@@ -1,0 +1,9 @@
+services:
+      oni_product_controller_factory:
+              class: Oni\ProductManagerBundle\Factory\Controller\ProductControllerFactory
+      oni_product_categories_controller_factory:
+              class: Oni\ProductManagerBundle\Factory\Controller\ProductCategoryControllerFactory
+      oni_product_service_factory:
+              class: Oni\ProductManagerBundle\Factory\Service\ProductServiceFactory
+      oni_product_category_service_factory:
+              class: Oni\ProductManagerBundle\Factory\Service\ProductCategoryServiceFactory

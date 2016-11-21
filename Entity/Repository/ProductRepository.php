@@ -3,6 +3,7 @@
 namespace Oni\ProductManagerBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 use Gedmo\Tree\RepositoryInterface;
 use Oni\CoreBundle\CoreGlobals;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -24,28 +25,17 @@ class ProductRepository extends EntityRepository
 
     private $table = CoreGlobals::PRODUCT_ENTITY;
 
-    public function getAllProduct($offset = 2, $maxResults = 20){
-
-        $return = array(
-            'results' => array(),
-            'titles' => array()
-        );
-
-        //Keys for below array are used for table headings
-        $keys = array(
-            'id' => 'p.id',
-            //trans id as keys
-            'name' => 'p.productName',
-            'product_bundle.product.code' => 'p.productCode'
-        );
-
+    public function getAllProduct($currentPage = 1, $limit = 10){
 
         $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select($keys)
+            ->select([
+                'p.id',
+                'p.productName',
+                'p.productCode'
+            ])
             ->from($this->table, 'p');
-            //->setFirstResult($offset)
-            //->setMaxResults($maxResults)
-            //->where('p.lvl != 0');
+//            ->setFirstResult($limit * ($currentPage - 1))
+//            ->setMaxResults($limit);
 
         $query = $qb->getQuery();
 
@@ -56,15 +46,12 @@ class ProductRepository extends EntityRepository
 
         $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
 
-        //$results = new Paginator($query, $fetchJoinCollection = true);
+        //$results = new Paginator($query);
 
         $results = $query->getResult();
 
-        $return['results'] = $results;
-        $return['titles'] = $keys;
 
-
-        return $return;
+        return $results;
 
     }
 

@@ -2,13 +2,16 @@
 
 namespace Oni\ProductManagerBundle\Entity\Repository;
 
+use Doctrine\ORM\AbstractQuery;
 use Oni\CoreBundle\CoreGlobals;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
+use Oni\CoreBundle\Doctrine\Spec\Specification;
 use Oni\CoreBundle\Entity\Repository\CoreRepositoryInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * ProductCategoryRepository
@@ -26,29 +29,24 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
     /** @var  TranslatorInterface */
     protected $translator;
 
+    /**
+     * @var string
+     */
     private $table = CoreGlobals::PRODUCT_CATEGORIES_ENTITY;
 
-
-    public function getAllProductCategories($offset = 2, $maxResults = 20){
-
-        $return = array(
-            'results' => array(),
-            'titles' => array()
-        );
-
-        $keys = array(
-            'id' => 'pc.id',
-            //translation ids as keys
-            'name' => 'pc.productCategoryName',
-            'product_bundle.category.url' => 'pc.productCategoryUrl'
-        );
-
-
-        $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select($keys)
+    /**
+     * @return array
+     */
+    public function getAllProductCategories()
+    {
+        $qb = $this->getEntityManager()
+            ->createQueryBuilder()
+            ->select([
+                'pc.id',
+                'pc.productCategoryName',
+                'pc.productCategoryUrl'
+            ])
             ->from($this->table, 'pc')
-            //->setFirstResult($offset)
-            //->setMaxResults($maxResults)
             ->where('pc.lvl != 0');
 
         $query = $qb->getQuery();
@@ -60,15 +58,54 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
 
         $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
 
-        //$results = new Paginator($query, $fetchJoinCollection = true);
-
-        $results = $query->getResult();
-
-        $return['results'] = $results;
-        $return['titles'] = $keys;
+        $results = $query->getResult(AbstractQuery::HYDRATE_ARRAY);
 
 
-        return $return;
+        return $results;
+    }
+
+
+    /**
+     * @param int $page
+     * @param int $maxResults
+     * @return arra
+     */
+    public function getAllProductCategoriesWithLimit($page = 1, $maxResults = 20)
+    {
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select([
+                'pc.id',
+                'pc.productCategoryName',
+                'pc.productCategoryUrl'
+            ])
+            ->from($this->table, 'pc')
+            ->setFirstResult($offset)
+            ->setMaxResults($maxResults)
+            ->where('pc.lvl != 0');
+
+        $qb = $this->getEntityManager()->createQueryBuilder()
+            ->select([
+                'count(pc.id)',
+            ])
+            ->from($this->table, 'pc')
+//            ->setFirstResult($offset)
+//            ->setMaxResults($maxResults)
+            ->where('pc.lvl != 0');
+
+
+        $query = $qb->getQuery();
+
+        $query->setHint(
+            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
+
+        $results = $query->getResult(AbstractQuery::HYDRATE_ARRAY);
+
+
+        return $results;
 
     }
 
@@ -113,12 +150,9 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
      * @return mixed
      *
      */
-    public function getFormProductCategoryChoices($excludeId = false){
-
-
-        $return = array();
-
-
+    public function getFormProductCategoryChoices($excludeId = false)
+    {
+        $return = [];
 
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select('*')
@@ -170,8 +204,32 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
      *
      * @return mixed
      */
-    public function setTranslator( Translator $translator )
+    public function setTranslator( TranslatorInterface $translator )
     {
         $this->translator = $translator;
     }
+
+    public function match(Specification $specification)
+    {
+        if ( ! $specification->supports($this->getEntityName())) {
+            throw new \InvalidArgumentException("Specification not supported by this repository.");
+        }
+
+        $qb = $this->createQueryBuilder('pc');
+        $expr = $specification->match($qb, 'pc');
+
+        $query = $qb->where($expr)->getQuery();
+
+        $query->setHint(
+            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
+            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
+        );
+
+        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
+
+        $specification->modifyQuery($query);
+
+        return $query->getResult();
+    }
+
 }

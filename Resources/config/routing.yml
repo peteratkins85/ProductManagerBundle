@@ -18,6 +18,10 @@ oni_categories_list:
     path:     /admin/product/categories
     defaults: { _controller: oni_product_categories_controller:indexAction }
 
+oni_ajax_product_list:
+    path:     /admin/ajax/products
+    defaults: { _controller: oni_product_categories_controller:productListAction  }
+
 #blog:
 #    path:      /blog/{page}
 #    defaults:  { _controller: AppBundle:Blog:index, page: 1 }
@@ -32,17 +36,8 @@ oni_categories_list:
 oni_edit_category:
     path:     /admin/product/category/edit/{productCategoryId}
     defaults: { _controller: oni_product_categories_controller:editAction }
-    requirements:
-            productCategoryId:  \d+
 
-oni_edit_category:
-    path:     /admin/product/category/edit/{productCategoryId}
-    defaults: { _controller: oni_product_categories_controller:editAction }
-    requirements:
-            productCategoryId:  \d+
 
 oni_delete_category:
     path:     /admin/product/category/delete/{productCategoryId}
     defaults: { _controller: oni_product_categories_controller:deleteAction }
-    requirements:
-            productCategoryId:  \d+

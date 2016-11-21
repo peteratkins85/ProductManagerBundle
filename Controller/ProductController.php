@@ -3,23 +3,43 @@
 namespace Oni\ProductManagerBundle\Controller;
 
 use Oni\CoreBundle\Controller\CoreController;
+use Oni\ProductManagerBundle\Service\ProductService;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
 use Oni\ProductManagerBundle\Entity\Repository\ProductsRepository;;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Oni\ProductManagerBundle\Form\ProductType;
 
+/**
+ * Class ProductController
+ * @package Oni\ProductManagerBundle\Controller
+ * @author peter.atkins85@gmail.com
+ */
 class ProductController extends CoreController
 {
+
+    /**
+     * @var ProductService
+     */
+    protected $productService;
+
+    /**
+     * ProductController constructor.
+     * @param ProductService $productService
+     */
+    public function __construct(ProductService $productService)
+    {
+        $this->productService = $productService;
+    }
+
 
     public function indexAction()
     {
 
-        $products = $this->getProductRepository()->getAllProduct();
+        $products = $this->productService->getAllProduct();
         return $this->render('ProductManagerBundle:Product:index.html.twig', array(
             'pageName' => 'Products',
-            'products' => $products['results'],
-            'titles' => $products['titles']
+            'products' => $products
         ));
 
     }

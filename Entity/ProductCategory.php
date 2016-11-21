@@ -54,7 +54,7 @@ class ProductCategory
      * @ORM\Column(name="viewable",type="boolean")
      *
      */
-    private $viewable = 1;
+    private $viewable = true;
 
     /**
      *
