@@ -31,13 +31,15 @@ class ProductCategoryServiceFactory extends CoreAbstractFactory
 
         $objectManager  = $container->get('doctrine.orm.entity_manager');
         $class = 'Oni\\ProductManagerBundle\\Entity\\ProductCategory';
+        $locale = $container->get('oni_get_locale');
 
         if (!class_exists('\\'.$class))
             Throw InvalidEntityClassException($class. 'Entity does not exist');
 
         $productService = new ProductCategoryService(
             $objectManager,
-            $class
+            $class,
+            $locale
         );
 
         return $productService;

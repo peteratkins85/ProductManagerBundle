@@ -19,7 +19,7 @@ oni_categories_list:
     defaults: { _controller: oni_product_categories_controller:indexAction }
 
 oni_ajax_product_list:
-    path:     /admin/ajax/products
+    path:     /admin/ajax/product/categories
     defaults: { _controller: oni_product_categories_controller:productListAction  }
 
 #blog:

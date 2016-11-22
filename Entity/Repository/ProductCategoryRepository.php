@@ -209,6 +209,10 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
         $this->translator = $translator;
     }
 
+    /**
+     * @param Specification $specification
+     * @return array
+     */
     public function match(Specification $specification)
     {
         if ( ! $specification->supports($this->getEntityName())) {
@@ -217,16 +221,7 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
 
         $qb = $this->createQueryBuilder('pc');
         $expr = $specification->match($qb, 'pc');
-
         $query = $qb->where($expr)->getQuery();
-
-        $query->setHint(
-            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
-            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
-        );
-
-        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
-
         $specification->modifyQuery($query);
 
         return $query->getResult();

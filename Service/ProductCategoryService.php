@@ -26,6 +26,11 @@ class ProductCategoryService
      */
     protected $productCategoryRepository;
 
+    /**
+     * @var string
+     */
+    protected $locale;
+
 
     /**
      * ProductCategoryService constructor.
@@ -34,9 +39,11 @@ class ProductCategoryService
      */
     public function __construct(
         ObjectManager $objectManager,
-        $class
+        string $class,
+        string $locale
     )
     {
+        $this->locale = $locale;
         $this->productCategoryRepository = $objectManager->getRepository($class);
         $metadata = $objectManager->getClassMetadata($class);
         $this->class = $metadata->getName();
@@ -72,11 +79,11 @@ class ProductCategoryService
      * @param string $request
      * @return array
      */
-    public function getProductCategoriesForDataTable($request = 's')
+    public function getProductCategoriesForDataTable($query = 'e')
     {
-        $countSpec = new ProductCategoryDataTable($request, 10, true);
+        $countSpec = new ProductCategoryDataTable($this->locale, $query, 10, true);
         $totalCount = $this->productCategoryRepository->match($countSpec);
-        $resultSpec   =  new ProductCategoryDataTable($request, 10);
+        $resultSpec = new ProductCategoryDataTable($this->locale, $query, 10);
         $results = $this->productCategoryRepository->match($resultSpec);
 
         $data = [
