@@ -4,6 +4,7 @@ namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
 
 /**
  * Product
@@ -15,6 +16,9 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Product
 {
+
+    use TimestampableEntity;
+
     /**
      * @var integer
      *
@@ -27,16 +31,16 @@ class Product
     /**
      * @var string
      * @Gedmo\Translatable
-     * @ORM\Column(name="productName", type="string", length=50)
+     * @ORM\Column(type="string", length=50)
      */
-    private $productName;
+    private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="productCode", type="string", length=10)
+     * @ORM\Column(name="sku", type="string", length=10)
      */
-    private $productCode;
+    private $sku;
 
     /**
      * @var string
@@ -48,46 +52,29 @@ class Product
     /**
      * @var string
      *
+     * @ORM\Column(type="string", length=15)
+     */
+    private $upc;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="visibility", type="string", length=20)
      */
     private $visibility;
 
     /**
-     * @var integer
-     *
-     * @ORM\Column(name="enabled", type="integer")
+     * @var string
+     * @ORM\Column(type="string")
      */
-    private $enabled = 1;
-
-
+    private $status;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="isVarientOf", type="integer", nullable=true)
+     * @ORM\Column(name="isVariantOf", type="integer", nullable=true)
      */
-    private $isVarientOf;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime")
-     */
-    private $created;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="modified", type="time")
-     */
-    private $modified;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="modifiedBy", type="integer")
-     */
-    private $modifiedBy;
+    private $isVariantOf;
 
     /**
      * @var integer
@@ -99,48 +86,35 @@ class Product
     /**
      * @var integer
      *
-     * @ORM\Column(name="defaultProductCategoryId", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $defaultProductCategoryId;
 
-    /***
-     *
+    /**
      * @var string
      *
-     * @ORM\Column(name="description", type="string")
-     *
+     * @ORM\Column(type="string")
      */
     private $description;
 
-
-    /***
-     *
+    /**
      * @var string
      *
-     * @ORM\Column(name="shortDescription", type="string")
-     *
+     * @ORM\Column(type="string")
      */
     private $shortDescription;
 
     /**
-     *
      * @var string
-     *
      * @ORM\Column(name="tags", type="string")
-     *
      */
     private $tags;
 
     /**
-     *
      * @var integer
-     *
-     * @ORM\Column(name="saleable",type="integer")
-     *
+     * @ORM\Column(name="saleable",type="boolean")
      */
     private $saleable;
-
-
 
     /**
      *
@@ -163,7 +137,7 @@ class Product
      *
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="variants")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="isVarientOf", referencedColumnName="id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="isVariantOf", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $parentProduct;
@@ -238,30 +212,6 @@ class Product
     }
 
     /**
-     * Set productCode
-     *
-     * @param string $productCode
-     *
-     * @return Product
-     */
-    public function setProductCode($productCode)
-    {
-        $this->productCode = $productCode;
-
-        return $this;
-    }
-
-    /**
-     * Get productCode
-     *
-     * @return string
-     */
-    public function getProductCode()
-    {
-        return $this->productCode;
-    }
-
-    /**
      * Set visibility
      *
      * @param string $visibility
@@ -285,125 +235,6 @@ class Product
         return $this->visibility;
     }
 
-    /**
-     * Set active
-     *
-     * @param integer $active
-     *
-     * @return Product
-     */
-    public function setActive($active)
-    {
-        $this->active = $active;
-
-        return $this;
-    }
-
-    /**
-     * Get active
-     *
-     * @return integer
-     */
-    public function getActive()
-    {
-        return $this->active;
-    }
-
-    /**
-     * Set isVarientOf
-     *
-     * @param integer $isVarientOf
-     *
-     * @return Product
-     */
-    public function setIsVarientOf($isVarientOf)
-    {
-        $this->isVarientOf = $isVarientOf;
-
-        return $this;
-    }
-
-    /**
-     * Get isVarientOf
-     *
-     * @return integer
-     */
-    public function getIsVarientOf()
-    {
-        return $this->isVarientOf;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return Product
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set modified
-     *
-     * @param \DateTime $modified
-     *
-     * @return Product
-     */
-    public function setModified($modified)
-    {
-        $this->modified = $modified;
-
-        return $this;
-    }
-
-    /**
-     * Get modified
-     *
-     * @return \DateTime
-     */
-    public function getModified()
-    {
-        return $this->modified;
-    }
-
-    /**
-     * Set modifiedBy
-     *
-     * @param integer $modifiedBy
-     *
-     * @return Product
-     */
-    public function setModifiedBy($modifiedBy)
-    {
-        $this->modifiedBy = $modifiedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get modifiedBy
-     *
-     * @return integer
-     */
-    public function getModifiedBy()
-    {
-        return $this->modifiedBy;
-    }
 
     /**
      * Set productTypeId
@@ -620,5 +451,221 @@ class Product
     public function getBarcode()
     {
         return $this->barcode;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     *
+     * @return Product
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set tags
+     *
+     * @param string $tags
+     *
+     * @return Product
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Get tags
+     *
+     * @return string
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set saleable
+     *
+     * @param boolean $saleable
+     *
+     * @return Product
+     */
+    public function setSaleable($saleable)
+    {
+        $this->saleable = $saleable;
+
+        return $this;
+    }
+
+    /**
+     * Get saleable
+     *
+     * @return boolean
+     */
+    public function getSaleable()
+    {
+        return $this->saleable;
+    }
+
+    /**
+     * Set isVariantOf
+     *
+     * @param integer $isVariantOf
+     *
+     * @return Product
+     */
+    public function setIsVariantOf($isVariantOf)
+    {
+        $this->isVariantOf = $isVariantOf;
+
+        return $this;
+    }
+
+    /**
+     * Get isVariantOf
+     *
+     * @return integer
+     */
+    public function getIsVariantOf()
+    {
+        return $this->isVariantOf;
+    }
+
+    /**
+     * Set sku
+     *
+     * @param string $sku
+     *
+     * @return Product
+     */
+    public function setSku($sku)
+    {
+        $this->sku = $sku;
+
+        return $this;
+    }
+
+    /**
+     * Get sku
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        return $this->sku;
+    }
+
+    /**
+     * Set upc
+     *
+     * @param string $upc
+     *
+     * @return Product
+     */
+    public function setUpc($upc)
+    {
+        $this->upc = $upc;
+
+        return $this;
+    }
+
+    /**
+     * Get upc
+     *
+     * @return string
+     */
+    public function getUpc()
+    {
+        return $this->upc;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Product
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Product
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set shortDescription
+     *
+     * @param string $shortDescription
+     *
+     * @return Product
+     */
+    public function setShortDescription($shortDescription)
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get shortDescription
+     *
+     * @return string
+     */
+    public function getShortDescription()
+    {
+        return $this->shortDescription;
     }
 }

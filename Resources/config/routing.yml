@@ -10,6 +10,10 @@ oni_edit_product:
     path:     /admin/products/edit/{product}
     defaults: { _controller: oni_product_controller:Index:edit }
 
+oni_edit_ajax_get_products:
+    path:     /admin/ajax/products
+    defaults: { _controller: oni_product_controller:Index:edit }
+
 oni_add_category:
     path:     /admin/product/category/add
     defaults: { _controller: oni_product_categories_controller:addAction }
@@ -18,9 +22,9 @@ oni_categories_list:
     path:     /admin/product/categories
     defaults: { _controller: oni_product_categories_controller:indexAction }
 
-oni_ajax_product_list:
+oni_ajax_get_product_categories:
     path:     /admin/ajax/product/categories
-    defaults: { _controller: oni_product_categories_controller:productListAction  }
+    defaults: { _controller: oni_product_categories_controller:getProductCategoriesAction  }
 
 #blog:
 #    path:      /blog/{page}

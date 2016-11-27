@@ -32,7 +32,7 @@ class ProductCategoryType extends AbstractType
     {
         $this->container = $container;
         $this->locale = $this->container->get('oni_get_locale');
-        $this->productCategoryService  = $this->container->get('oni_product_category_service');
+        $this->productCategoryService = $this->container->get('oni_product_category_service');
     }
 
     /**
@@ -47,63 +47,61 @@ class ProductCategoryType extends AbstractType
         $exclude = $id;
 
         $builder
-            ->add('productCategoryName', TextType::class, array(
-                'label'=>'Name',
-            ))
-            ->add('productCategoryUrl', TextType::class, array(
-                'label'=>'CategoryUrl',
-            ))
-            ->add('viewable', CheckboxType::class, array(
-                'label'=>'Viewable',
-                'attr' => array(
+            ->add('name', TextType::class, [
+                'label' => 'Name',
+            ])
+            ->add('url', TextType::class, [
+                'label' => 'CategoryUrl',
+            ])
+            ->add('viewable', CheckboxType::class, [
+                'label' => 'Viewable',
+                'attr'  => [
                     'plugin' => 'switch'
-                )
-            ))
-            ->add('description', TextareaType::class, array(
-                'label'=>'Description',
+                ]
+            ])
+            ->add('description', TextareaType::class, [
+                'label'    => 'Description',
                 'required' => false,
-                'attr'=> array(
-                    'class'=>'ckeditor'
-                )
-            ))
-            ->add('metaTitle', TextType::class, array(
-                'label'=>'Meta Title',
+                'attr'     => [
+                    'class' => 'ckeditor'
+                ]
+            ])
+            ->add('metaTitle', TextType::class, [
+                'label'    => 'Meta Title',
                 'required' => false,
-            ))
-            ->add('metaDescription', TextareaType::class, array(
-                'label'=>'Meta Description',
+            ])
+            ->add('metaDescription', TextareaType::class, [
+                'label'    => 'Meta Description',
                 'required' => false,
-            ))
-            ->add('metaKeyWords', TextType::class, array(
-                'label'=>'Meta Keys Words',
+            ])
+            ->add('metaKeyWords', TextType::class, [
+                'label'    => 'Meta Keys Words',
                 'required' => false,
-            ))
-            ->add('parent', ChoiceType::class , array(
-                'choices' => $this->productCategoryService->findAllWithFallBack($exclude),
-                'attr' => array('class' => 'select2 input-xlarge'),
-                'choice_label' => function(ProductCategory $category, $key, $index) {
-                    return !empty($category->getProductCategoryName()) ? $category->getProductCategoryName() : $category->getProductCategoryUrl();
-                },
-                'by_reference' => false,
-                )
+            ])
+            ->add('parent', ChoiceType::class, [
+                    'choices'      => $this->productCategoryService->findAllWithFallBack($exclude),
+                    'attr'         => ['class' => 'select2 input-xlarge'],
+                    'choice_label' => function (ProductCategory $category, $key, $index) {
+                        return !empty($category->getName()) ? $category->getName() : $category->getUrl();
+                    },
+                    'by_reference' => false,
+                ]
             )
-            ->add('add', SubmitType::class, array(
-                'attr' => array('class' => 'btn btn-primary'),
-                'label' => $buttonName
-                )
-            )
-        ;
+            ->add('add', SubmitType::class, [
+                    'attr'  => ['class' => 'btn btn-primary'],
+                    'label' => $buttonName
+                ]
+            );
     }
-
 
 
     public function configureOptions(OptionsResolver $resolver)
     {
-        $resolver->setDefaults(array(
-            'data_class' => 'Oni\ProductManagerBundle\Entity\ProductCategory',
+        $resolver->setDefaults([
+            'data_class'      => 'Oni\ProductManagerBundle\Entity\ProductCategory',
             'csrf_protection' => true,
             'csrf_field_name' => '_token'
-        ));
+        ]);
     }
 
     /**

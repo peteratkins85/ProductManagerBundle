@@ -38,9 +38,9 @@ class ProductCategoryDefinitions
     /**
      * @var string
      *
-     * @ORM\Column(name="productCategoryName", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $productCategoryName;
+    private $name;
 
     /**
      * @var string
@@ -110,27 +110,27 @@ class ProductCategoryDefinitions
     }
 
     /**
-     * Set productCategoryName
+     * Set name
      *
-     * @param string $productCategoryName
+     * @param string $name
      *
      * @return ProductCategoryDefinitions
      */
-    public function setProductCategoryName($productCategoryName)
+    public function setName($name)
     {
-        $this->productCategoryName = $productCategoryName;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get productCategoryName
+     * Get name
      *
      * @return string
      */
-    public function getProductCategoryName()
+    public function getName()
     {
-        return $this->productCategoryName;
+        return $this->name;
     }
 
     /**

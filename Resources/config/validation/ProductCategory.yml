@@ -1,6 +1,6 @@
 Oni\ProductManagerBundle\Entity\ProductCategory:
     properties:
-        productCategoryName:
+        name:
             - NotBlank: ~
 #            - Regex:
 #                pattern: '/^[\\\/:\*\?"<>\|]+$/'
@@ -10,7 +10,7 @@ Oni\ProductManagerBundle\Entity\ProductCategory:
                 max: 30
                 minMessage: two.or.more.chars
                 maxMessage: fifty.or.less.chars.
-        productCategoryUrl:
+        url:
             - NotBlank: ~
             - Regex:
                 pattern: '/^[\w\d_-]+$/'
@@ -47,6 +47,6 @@ Oni\ProductManagerBundle\Entity\ProductCategory:
                 maxMessage: fifty.or.less.chars
     constraints:
         - Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity:
-            fields: [productCategoryUrl]
-            errorPath: productCategoryUrl
+            fields: [url]
+            errorPath: url
             message: url.already.in.use

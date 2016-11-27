@@ -5,12 +5,13 @@ namespace Oni\ProductManagerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
 
 /**
  * ProductCategory
  *
  * @ORM\Table(name="oni_product_categories",
- *     uniqueConstraints={@UniqueConstraint(name="search_idx", columns={"productCategoryName"})
+ *     uniqueConstraints={@UniqueConstraint(name="search_idx", columns={"name"})
  *     }
  * )
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository")
@@ -19,6 +20,9 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  */
 class ProductCategory
 {
+
+    use TimestampableEntity;
+
     /**
      * @var integer
      *
@@ -31,22 +35,15 @@ class ProductCategory
     /**
      * @var string
      * @Gedmo\Translatable
-     * @ORM\Column(name="productCategoryName", type="string", length=255)
+     * @ORM\Column(name="name", type="string", length=255)
      */
-    private $productCategoryName;
+    private $name;
 
     /**
      * @var string
-     * @ORM\Column(name="productCategoryUrl", type="string", length=255)
+     * @ORM\Column(name="url", type="string", length=255)
      */
-    private $productCategoryUrl;
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=true)
-     */
-    private $created;
+    private $url;
 
     /**
      *
@@ -57,29 +54,20 @@ class ProductCategory
     private $viewable = true;
 
     /**
-     *
      * @var string
-     *
      * @ORM\Column(name="description" , type="string", length=255 , nullable=true)
-     *
      */
     private $description;
 
     /**
-     *
      * @var string
-     *
      * @ORM\Column(name="metaTitle" , type="string", length=255, nullable=true)
-     *
      */
     private $metaTitle;
 
     /**
-     *
      * @var string
-     *
      * @ORM\Column(name="metaDescription" , type="string", length=255, nullable=true)
-     *
      */
     private $metaDescription;
 
@@ -91,21 +79,6 @@ class ProductCategory
      *
      */
     private $metaKeyWords;
-
-
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="modifiedBy", type="integer", nullable=true)
-     */
-    private $modifiedBy;
 
     /**
      * @var integer
@@ -134,6 +107,12 @@ class ProductCategory
      * @ORM\Column(name="lvl", type="integer")
      */
     private $lvl;
+
+    /**
+     * @var integer
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $parentId;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -184,102 +163,6 @@ class ProductCategory
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set productCategoryName
-     *
-     * @param string $productCategoryName
-     *
-     * @return ProductCategory
-     */
-    public function setProductCategoryName($productCategoryName)
-    {
-        $this->productCategoryName = $productCategoryName;
-
-        return $this;
-    }
-
-    /**
-     * Get productCategoryName
-     *
-     * @return string
-     */
-    public function getProductCategoryName()
-    {
-        return $this->productCategoryName;
-    }
-
-    /**
-     * Set created
-     *
-     * @param \DateTime $created
-     *
-     * @return ProductCategory
-     */
-    public function setCreated($created)
-    {
-        $this->created = $created;
-
-        return $this;
-    }
-
-    /**
-     * Get created
-     *
-     * @return \DateTime
-     */
-    public function getCreated()
-    {
-        return $this->created;
-    }
-
-    /**
-     * Set modified
-     *
-     * @param \DateTime $modified
-     *
-     * @return ProductCategory
-     */
-    public function setModified($modified)
-    {
-        $this->modified = $modified;
-
-        return $this;
-    }
-
-    /**
-     * Get modified
-     *
-     * @return \DateTime
-     */
-    public function getModified()
-    {
-        return $this->modified;
-    }
-
-    /**
-     * Set modifiedBy
-     *
-     * @param integer $modifiedBy
-     *
-     * @return ProductCategory
-     */
-    public function setModifiedBy($modifiedBy)
-    {
-        $this->modifiedBy = $modifiedBy;
-
-        return $this;
-    }
-
-    /**
-     * Get modifiedBy
-     *
-     * @return integer
-     */
-    public function getModifiedBy()
-    {
-        return $this->modifiedBy;
     }
 
     /**
@@ -437,33 +320,6 @@ class ProductCategory
     }
 
     /**
-     * Set productCategoryUrl
-     *
-     * @param string $productCategoryUrl
-     *
-     * @return ProductCategory
-     */
-    public function setProductCategoryUrl($productCategoryUrl)
-    {
-        $this->productCategoryUrl = $productCategoryUrl;
-
-        return $this;
-    }
-
-    /**
-     * Get productCategoryUrl
-     *
-     * @return string
-     */
-    public function getProductCategoryUrl()
-    {
-        return $this->productCategoryUrl;
-    }
-
-
-
-
-    /**
      * Set description
      *
      * @param string $description
@@ -581,5 +437,77 @@ class ProductCategory
     public function getViewable()
     {
         return $this->viewable;
+    }
+
+    /**
+     * Set parentId
+     *
+     * @param integer $parentId
+     *
+     * @return ProductCategory
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+
+        return $this;
+    }
+
+    /**
+     * Get parentId
+     *
+     * @return integer
+     */
+    public function getParentId()
+    {
+        return $this->parentId;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return ProductCategory
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return ProductCategory
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
     }
 }

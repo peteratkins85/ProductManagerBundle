@@ -29,22 +29,15 @@
                                                 <th>Id</th>
                                                 <th>Name</th>
                                                 <th>Url</th>
+                                                <th>Parent</th>
+                                                <th>Update By</th>
+                                                <th>Last Updated</th>
+                                                <th></th>
                                             </tr>
                                             </thead>
                                         </table>
                                         <template data-table-oni-product-category-options="1">
-                                            <td>
-                                                <div class='text-right'>
-                                                    <a class='btn btn-default btn-mini' href='/app_dev.php/admin/product/category/edit/{productCategoryId}'>
-                                                        <i class='icon-edit'></i>
-                                                        {{ 'edit'|trans }}
-                                                    </a>
-                                                    <a class='btn btn-danger btn-mini oni-delete-action' data-toggle="modal" delete-msg="{{ 'modal-messages.delete.confirm.msg'|trans({'%name%':'sdfsdfsdf' , '%item%': 'product_bundle.product.category'|trans}) }}"  delete-url="/app_dev.php/admin/product/category/delete/{productCategoryId}" href='#confirm-delete'>
-                                                        <i class='icon-remove'></i>
-                                                        {{ 'delete'|trans }}
-                                                    </a>
-                                                </div>
-                                            </td>
+                                            {% include "@Core/cms/partials/dataTable/edit-options.twig" with { 'id' : '{productCategoryId}', 'name' : '{productCategoryName}' } %}
                                         </template>
                                     </div>
                                 </div>
@@ -60,5 +53,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('oni_assets/javascript/product_category_table.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/productmanager/js/product_category_table.js') }}" type="text/javascript"></script>
 {% endblock %}

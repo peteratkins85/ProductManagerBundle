@@ -10,6 +10,7 @@ namespace Oni\ProductManagerBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
+use Oni\CoreBundle\Common\DataTable;
 use Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory\ProductCategoryDataTable;
 use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
 
@@ -79,19 +80,50 @@ class ProductCategoryService
      * @param string $request
      * @return array
      */
-    public function getProductCategoriesForDataTable($query = 'e')
+    public function getProductCategoriesForDataTable(array $query)
     {
-        $countSpec = new ProductCategoryDataTable($this->locale, $query, 10, true);
+        $dataTable = new DataTable($query);
+
+        $countSpec = new ProductCategoryDataTable(
+            ['getRecordCount' => true, 'locale' => $this->locale, 'includeFilter' => false],
+            $dataTable
+        );
         $totalCount = $this->productCategoryRepository->match($countSpec);
-        $resultSpec = new ProductCategoryDataTable($this->locale, $query, 10);
+        $totalCount = isset($totalCount[0]['total']) ? $totalCount[0]['total'] : 0;
+        $dataTable->setRecordsTotal($totalCount);
+
+        if ($dataTable->getSearch()){
+            $filteredCountSpec = new ProductCategoryDataTable(
+                ['getRecordCount' => true, 'locale'  => $this->locale],
+                $dataTable
+            );
+            $filteredTotalCount = $this->productCategoryRepository->match($filteredCountSpec);
+            $filteredTotalCount = isset($filteredTotalCount[0]['total']) ? $filteredTotalCount[0]['total'] : 0;
+            $dataTable->setRecordsFiltered($filteredTotalCount);
+        }else{
+            $dataTable->setRecordsFiltered($totalCount);
+        }
+
+        $resultSpec = new ProductCategoryDataTable(
+            ['locale' => $this->locale,],
+            $dataTable
+        );
         $results = $this->productCategoryRepository->match($resultSpec);
+        $this->formatDateResults($results, 'jS M H:i:s');
+        $dataTable->setResults($results);
 
-        $data = [
-            'results' => $results,
-            'total' => $totalCount[0]['total']
-        ];
+        return $dataTable->getResponse();
+    }
 
-        return $data;
+    public function formatDateResults(array &$resultData, string $dateFormat = 'Y-m-d H:i:s')
+    {
+        foreach ($resultData as &$data){
+            if (is_array($data)){
+                $this->formatDateResults($data, $dateFormat);
+            }elseif ($data instanceof \DateTime) {
+                $data = $data->format($dateFormat);
+            }
+        }
     }
 
 }

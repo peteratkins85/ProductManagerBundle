@@ -15,7 +15,7 @@ class IdEquals implements Specification
     private $id;
 
     /**
-     * ProductCategoryNameContains constructor.
+     * NameContains constructor.
      * @param $id
      */
     public function __construct($id)
@@ -31,9 +31,9 @@ class IdEquals implements Specification
      */
     public function match(QueryBuilder $qb, $dqlAlias)
     {
-        $qb->setParameter('id', '%' . $this->id . '%');
+        $qb->setParameter('id',  $this->id);
 
-        return $qb->expr()->like($dqlAlias . '.id', ':id');
+        return $qb->expr()->eq($dqlAlias . '.id  ', ':id');
     }
 
     /**

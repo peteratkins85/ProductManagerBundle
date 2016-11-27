@@ -3,12 +3,10 @@
 namespace Oni\ProductManagerBundle\Controller;
 
 use Oni\CoreBundle\Controller\CoreController;
-use Oni\ProductManagerBundle\Service\ProductService;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Bundle\FrameworkBundle\Templating\EngineInterface;
-use Oni\ProductManagerBundle\Entity\Repository\ProductsRepository;;
-use Symfony\Component\HttpFoundation\Session\Session;
+use Oni\ProductManagerBundle\Entity\Product;
 use Oni\ProductManagerBundle\Form\ProductType;
+use Oni\ProductManagerBundle\Service\ProductService;
+use Oni\ProductManagerBundle\Entity\Repository\ProductsRepository;
 
 /**
  * Class ProductController
@@ -27,7 +25,7 @@ class ProductController extends CoreController
      * ProductController constructor.
      * @param ProductService $productService
      */
-    public function __construct(ProductService $productService)
+    public function __construct($productService)
     {
         $this->productService = $productService;
     }
@@ -35,12 +33,10 @@ class ProductController extends CoreController
 
     public function indexAction()
     {
-
-        $products = $this->productService->getAllProduct();
-        return $this->render('ProductManagerBundle:Product:index.html.twig', array(
-            'pageName' => 'Products',
-            'products' => $products
-        ));
+        return $this->render(
+            'ProductManagerBundle:Product:index.html.twig',
+            ['pageName' => 'Products']
+        );
 
     }
 
@@ -49,7 +45,7 @@ class ProductController extends CoreController
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
 
-        $product = $this->get('oni_product_entity');
+        $product = new Product();
         $productForm = $this->createForm(ProductType::class, $product);
 
         return $this->render('ProductManagerBundle:Product:add.html.twig', array(
@@ -60,12 +56,10 @@ class ProductController extends CoreController
     }
 
 
-
     public function editAction()
     {
-        return $this->render('ProductManagerBundle:Product:edit.html.twig', array(
-                // ...
-            ));
+        return $this->render('ProductManagerBundle:Product:edit.html.twig', array(// ...
+        ));
 
     }
 

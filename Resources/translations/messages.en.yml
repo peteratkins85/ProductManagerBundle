@@ -8,6 +8,7 @@ product_bundle:
     products: Products
     product: Product
     product.category.deleted: Product Category deleted!
+    product.category.added: New product category added successfully!
     invalid.product.category.id: Invalid product category Id
     add.product: Add New Product
     product.code: Product Code

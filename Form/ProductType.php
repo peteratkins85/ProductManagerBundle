@@ -16,11 +16,12 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('productName')
-            ->add('productCode')
+            ->add('sku')
+            ->add('upc')
             ->add('visibility')
-            ->add('active')
-            ->add('isVarientOf')
-            ->add('modifiedBy')
+            ->add('status')
+            ->add('isVariantOf')
+            ->add('updatedBy')
             ->add('productTypeId')
             ->add('parentProduct')
             ->add('productType')

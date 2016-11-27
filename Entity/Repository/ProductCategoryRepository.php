@@ -43,8 +43,8 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
             ->createQueryBuilder()
             ->select([
                 'pc.id',
-                'pc.productCategoryName',
-                'pc.productCategoryUrl'
+                'pc.name',
+                'pc.url'
             ])
             ->from($this->table, 'pc')
             ->where('pc.lvl != 0');
@@ -75,8 +75,8 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
         $qb = $this->getEntityManager()->createQueryBuilder()
             ->select([
                 'pc.id',
-                'pc.productCategoryName',
-                'pc.productCategoryUrl'
+                'pc.name',
+                'pc.url'
             ])
             ->from($this->table, 'pc')
             ->setFirstResult($offset)

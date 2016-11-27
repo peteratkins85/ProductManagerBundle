@@ -19,7 +19,7 @@ use Oni\CoreBundle\Doctrine\Spec\DataTableSpecificationTrait;
  * @package Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory
  * @author peter.atkins85@gmail.com
  */
-class ProductCategoryDataTable implements Specification
+class ProductDataTable implements Specification
 {
 
     use SpecificationTraits;
@@ -36,10 +36,6 @@ class ProductCategoryDataTable implements Specification
     protected $fields = [
         '{alias}.id',
         '{alias}.name',
-        '{alias}.url',
-        'pcp.name as parent',
-        '{alias}.updatedBy',
-        '{alias}.updatedAt'
     ];
 
     /**
@@ -115,11 +111,11 @@ class ProductCategoryDataTable implements Specification
         $this->addFieldAlias($dqlAlias);
         $qb->select($this->fields)
             ->innerJoin(
-            'ProductManagerBundle:ProductCategory',
-            'pcp',
-            \Doctrine\ORM\Query\Expr\Join::WITH,
-            $dqlAlias . '.parentId = pcp.id'
-        );
+                'ProductManagerBundle:ProductCategory',
+                'pcp',
+                \Doctrine\ORM\Query\Expr\Join::WITH,
+                $dqlAlias . '.parentId = pcp.id'
+            );
 
         if (!$this->getRecordCount) {
             $qb->orderBy(

@@ -34,7 +34,7 @@ class ProductCategoryDefinitionsType extends AbstractType
     {
 
         $builder
-            ->add('productCategoryName', TextType::class,array(
+            ->add('name', TextType::class,array(
                 'label'=>'Name'
             ))
         ;

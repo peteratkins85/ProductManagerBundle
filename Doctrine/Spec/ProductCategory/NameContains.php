@@ -11,11 +11,11 @@ class NameContains implements Specification {
     /**
      * @var string
      */
-    private $productCategoryName;
+    private $name;
 
-    public function __construct($productCategoryName)
+    public function __construct($name)
     {
-        $this->productCategoryName = $productCategoryName;
+        $this->name = $name;
     }
 
     /**
@@ -26,9 +26,9 @@ class NameContains implements Specification {
      */
     public function match( QueryBuilder $qb, $dqlAlias )
     {
-        $qb->setParameter('name', '%'.$this->productCategoryName.'%');
+        $qb->setParameter('name', '%'.$this->name.'%');
 
-        return $qb->expr()->like($dqlAlias . '.productCategoryName', ':name');
+        return $qb->expr()->like($dqlAlias . '.name', ':name');
     }
 
     /**

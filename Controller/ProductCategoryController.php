@@ -30,19 +30,19 @@ class ProductCategoryController extends CoreController
 
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access!');
 
-        //$productCategories = $this->productCategoryService->getAllProductCategories();
-
         return $this->render('ProductManagerBundle:ProductCategory:index.html.twig', array(
         ));
 
     }
 
     /**
+     * @param Request $request
      * @return JsonResponse
      */
-    public function productListAction()
+    public function getProductCategoriesAction(Request $request)
     {
-        $productCategories = $this->productCategoryService->getProductCategoriesForDataTable();
+        $query = $request->query->all();
+        $productCategories = $this->productCategoryService->getProductCategoriesForDataTable($query);
 
         return new JsonResponse($productCategories);
     }
@@ -69,7 +69,7 @@ class ProductCategoryController extends CoreController
 
                 $em->flush();
 
-                $this->addFlash('notice', $this->translator->trans('product_bundle.product.category.deleted'));
+                $this->addFlash('notice', $this->translator->trans('product_bundle.product.category.added'));
 
                 return $this->redirectToRoute('oni_categories_list');
 
@@ -133,7 +133,7 @@ class ProductCategoryController extends CoreController
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
 
-        $productCategory = $this->getProductCategoryRepository()->find($productCategoryId);
+        $productCategory = $this->productCategoryService->getProductCategoryById($productCategoryId);
 
         if ($productCategory) {
 
