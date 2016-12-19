@@ -1,16 +1,14 @@
 $(document).ready(function () {
 
-    var ONI = {};
     ONI.ui || (ONI.ui = {});
 
     ONI.ui.productCategory = {
-
         tableSelector : ".data-table-oni-product-categories",
         tableConfig:{
             processing: true,
             serverSide: true,
             ajax: {
-                url: "http://onisystem.local/app_dev.php/admin/ajax/product/categories",
+                url: ONI.configurePath("/admin/ajax/product/categories"),
             },
             columns: [
                 {data: 'id'},
@@ -40,7 +38,7 @@ $(document).ready(function () {
             }
         },
 
-        init: function (config) {
+        init: function () {
             this.buildDataTable()
         },
         buildDataTable: function () {

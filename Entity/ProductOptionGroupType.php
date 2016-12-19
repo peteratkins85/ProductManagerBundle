@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProductOptionGroupTypes
  *
- * @ORM\Table(name="product_option_group_types")
+ * @ORM\Table(name="oni_product_option_group_types")
  * @ORM\Entity
  */
-class ProductOptionGroupTypes
+class ProductOptionGroupType
 {
     /**
      * @var integer
@@ -31,9 +31,9 @@ class ProductOptionGroupTypes
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionGroups", mappedBy="optionGroupType")
+     * @ORM\OneToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionGroup", mappedBy="optionGroupType")
      */
-    private $optionGroups;
+    private $productOptionGroups;
 
     /**
      * Constructor
@@ -79,36 +79,36 @@ class ProductOptionGroupTypes
     }
 
     /**
-     * Add optionGroup
+     * Add productOptionGroup
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroups $optionGroup
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup
      *
-     * @return ProductOptionGroupTypes
+     * @return ProductOptionGroupType
      */
-    public function addOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroups $optionGroup)
+    public function addProductOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup)
     {
-        $this->optionGroups[] = $optionGroup;
+        $this->productOptionGroups[] = $productOptionGroup;
 
         return $this;
     }
 
     /**
-     * Remove optionGroup
+     * Remove productOptionGroup
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroups $optionGroup
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup
      */
-    public function removeOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroups $optionGroup)
+    public function removeProductOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup)
     {
-        $this->optionGroups->removeElement($optionGroup);
+        $this->productOptionGroups->removeElement($productOptionGroup);
     }
 
     /**
-     * Get optionGroups
+     * Get productOptionGroups
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getOptionGroups()
+    public function getProductOptionGroups()
     {
-        return $this->optionGroups;
+        return $this->productOptionGroups;
     }
 }

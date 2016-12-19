@@ -20,8 +20,10 @@ class ProductControllerFactory extends CoreAbstractFactory
     {
 
         $productService = $serviceContainer->get('oni_product_service');
+        $productTypeService = $serviceContainer->get('oni_product_type_service');
         $productController = new ProductController(
-            $productService
+            $productService,
+            $productTypeService
         );
 
         $this->injectCommonDependencies($productController, $serviceContainer);

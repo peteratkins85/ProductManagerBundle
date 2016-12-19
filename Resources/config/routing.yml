@@ -2,13 +2,23 @@ oni_add_product:
     path:     /admin/products/add
     defaults: { _controller: oni_product_controller:addAction }
 
+oni_add_product_wizard:
+    path:     /admin/product/wizard/{productType}
+    defaults: { _controller: oni_product_controller:wizardAction }
+    requirements:
+            productType:  \d+
+
 oni_product_list:
     path:     /admin/products
     defaults: { _controller: oni_product_controller:indexAction  }
 
 oni_edit_product:
-    path:     /admin/products/edit/{product}
+    path:     /admin/product/edit/{product}
     defaults: { _controller: oni_product_controller:Index:edit }
+
+oni_add_product_option_group:
+    path:     /admin/product/option/group/add
+    defaults: { _controller: oni_product_controller:addOptionGroupAction }
 
 oni_edit_ajax_get_products:
     path:     /admin/ajax/products

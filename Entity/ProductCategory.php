@@ -135,6 +135,11 @@ class ProductCategory
     private $parent;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="categories")
+     */
+    private $products;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -509,5 +514,39 @@ class ProductCategory
     public function getUrl()
     {
         return $this->url;
+    }
+
+    /**
+     * Add product
+     *
+     * @param \Oni\ProductManagerBundle\Entity\Product $product
+     *
+     * @return ProductCategory
+     */
+    public function addProduct(\Oni\ProductManagerBundle\Entity\Product $product)
+    {
+        $this->products[] = $product;
+
+        return $this;
+    }
+
+    /**
+     * Remove product
+     *
+     * @param \Oni\ProductManagerBundle\Entity\Product $product
+     */
+    public function removeProduct(\Oni\ProductManagerBundle\Entity\Product $product)
+    {
+        $this->products->removeElement($product);
+    }
+
+    /**
+     * Get products
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

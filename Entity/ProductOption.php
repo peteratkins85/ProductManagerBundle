@@ -7,10 +7,10 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProductOptions
  *
- * @ORM\Table(name="product_options")
- * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductOptionsRepository")
+ * @ORM\Table(name="oni_product_options")
+ * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductOptionRepository")
  */
-class ProductOptions
+class ProductOption
 {
     /**
      * @var integer
@@ -27,6 +27,11 @@ class ProductOptions
      * @ORM\Column(name="productOptionGroupsId", type="integer")
      */
     private $productOptionGroupsId;
+
+    /**
+     * @var
+     */
+    private $name;
 
     /**
      * @var string

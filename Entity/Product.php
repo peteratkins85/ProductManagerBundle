@@ -19,6 +19,12 @@ class Product
 
     use TimestampableEntity;
 
+    const DISABLED_REDIRECT = 404;
+
+    const DISABLED_PAGE_NOT_FOUND = 301;
+
+    const DISABLED_TEMP_REDIRECT = 302;
+
     /**
      * @var integer
      *
@@ -64,17 +70,11 @@ class Product
     private $visibility;
 
     /**
-     * @var string
-     * @ORM\Column(type="string")
-     */
-    private $status;
-
-    /**
      * @var integer
      *
-     * @ORM\Column(name="isVariantOf", type="integer", nullable=true)
+     * @ORM\Column(name="parentId", type="integer", nullable=true)
      */
-    private $isVariantOf;
+    private $parentId;
 
     /**
      * @var integer
@@ -106,6 +106,24 @@ class Product
 
     /**
      * @var string
+     * @ORM\Column(name="enabled", type="boolean")
+     */
+    private $enabled;
+
+    /**
+     * @var string
+     * @ORM\Column(name="disabledAction", type="string", length=10)
+     */
+    private $disabledAction;
+
+    /**
+     * @var string
+     * @ORM\Column(name="redirectUrl", type="string", length=200)
+     */
+    private $redirectUrl;
+
+    /**
+     * @var string
      * @ORM\Column(name="tags", type="string")
      */
     private $tags;
@@ -117,13 +135,40 @@ class Product
     private $saleable;
 
     /**
-     *
+     * @var integer
+     * @ORM\Column(name="condition",type="string", length=20)
+     */
+    private $condition;
+
+    /**
+     * @var
+     * @ORM\Column(name="brandId", type="integer")
+     */
+    private $brandId;
+
+    /**
+     * @var
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Brand", inversedBy="products")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="brandId", referencedColumnName="id")
+     * })
+     */
+    private $brand;
+
+    /**
      * @ORM\OneToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="defaultProductCategoryId", referencedColumnName="id")
      * })
      */
     private $defaultProductCategory;
+
+    /**
+     *
+     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory", inversedBy="products")
+     * @ORM\JoinTable(name="oni_products_categories_relations")
+     */
+    private $categories;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -137,15 +182,15 @@ class Product
      *
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="variants")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="isVariantOf", referencedColumnName="id", onDelete="CASCADE")
+     *   @ORM\JoinColumn(name="parentId", referencedColumnName="id", onDelete="CASCADE")
      * })
      */
     private $parentProduct;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\ProductTypes
+     * @var \Oni\ProductManagerBundle\Entity\ProductType
      *
-     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductTypes", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductType", inversedBy="products")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="productTypeId", referencedColumnName="id")
      * })
@@ -168,6 +213,11 @@ class Product
     private $prices;
 
     /**
+     * @var
+     */
+    private $images;
+
+    /**
      * Constructor
      */
     public function __construct()
@@ -186,55 +236,6 @@ class Product
     {
         return $this->id;
     }
-
-    /**
-     * Set productName
-     *
-     * @param string $productName
-     *
-     * @return Product
-     */
-    public function setProductName($productName)
-    {
-        $this->productName = $productName;
-
-        return $this;
-    }
-
-    /**
-     * Get productName
-     *
-     * @return string
-     */
-    public function getProductName()
-    {
-        return $this->productName;
-    }
-
-    /**
-     * Set visibility
-     *
-     * @param string $visibility
-     *
-     * @return Product
-     */
-    public function setVisibility($visibility)
-    {
-        $this->visibility = $visibility;
-
-        return $this;
-    }
-
-    /**
-     * Get visibility
-     *
-     * @return string
-     */
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
 
     /**
      * Set productTypeId
@@ -321,11 +322,11 @@ class Product
     /**
      * Set productType
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductTypes $productType
+     * @param \Oni\ProductManagerBundle\Entity\ProductType $productType
      *
      * @return Product
      */
-    public function setProductType(\Oni\ProductManagerBundle\Entity\ProductTypes $productType = null)
+    public function setProductType(\Oni\ProductManagerBundle\Entity\ProductType $productType = null)
     {
         $this->productType = $productType;
 
@@ -335,7 +336,7 @@ class Product
     /**
      * Get productType
      *
-     * @return \Oni\ProductManagerBundle\Entity\ProductTypes
+     * @return \Oni\ProductManagerBundle\Entity\ProductType
      */
     public function getProductType()
     {
@@ -377,7 +378,6 @@ class Product
     }
 
 
-
     /**
      * Set defaultProductCategoryId
      *
@@ -409,8 +409,9 @@ class Product
      *
      * @return Product
      */
-    public function setDefaultProductCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory = null)
-    {
+    public function setDefaultProductCategory(
+        \Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory = null
+    ) {
         $this->defaultProductCategory = $defaultProductCategory;
 
         return $this;
@@ -425,8 +426,6 @@ class Product
     {
         return $this->defaultProductCategory;
     }
-
-
 
 
     /**
@@ -451,30 +450,6 @@ class Product
     public function getBarcode()
     {
         return $this->barcode;
-    }
-
-    /**
-     * Set status
-     *
-     * @param string $status
-     *
-     * @return Product
-     */
-    public function setStatus($status)
-    {
-        $this->status = $status;
-
-        return $this;
-    }
-
-    /**
-     * Get status
-     *
-     * @return string
-     */
-    public function getStatus()
-    {
-        return $this->status;
     }
 
     /**
@@ -667,5 +642,233 @@ class Product
     public function getShortDescription()
     {
         return $this->shortDescription;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
+     *
+     * @return Product
+     */
+    public function addCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
+    {
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
+     */
+    public function removeCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Product
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set disabledAction
+     *
+     * @param string $disabledAction
+     *
+     * @return Product
+     */
+    public function setDisabledAction($disabledAction)
+    {
+        $this->disabledAction = $disabledAction;
+
+        return $this;
+    }
+
+    /**
+     * Get disabledAction
+     *
+     * @return string
+     */
+    public function getDisabledAction()
+    {
+        return $this->disabledAction;
+    }
+
+    /**
+     * Set redirectUrl
+     *
+     * @param string $redirectUrl
+     *
+     * @return Product
+     */
+    public function setRedirectUrl($redirectUrl)
+    {
+        $this->redirectUrl = $redirectUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get redirectUrl
+     *
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        return $this->redirectUrl;
+    }
+
+    /**
+     * Set condition
+     *
+     * @param string $condition
+     *
+     * @return Product
+     */
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Get condition
+     *
+     * @return string
+     */
+    public function getCondition()
+    {
+        return $this->condition;
+    }
+
+    /**
+     * Set parentId
+     *
+     * @param integer $parentId
+     *
+     * @return Product
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+
+        return $this;
+    }
+
+    /**
+     * Get parentId
+     *
+     * @return integer
+     */
+    public function getParentId()
+    {
+        return $this->parentId;
+    }
+
+    /**
+     * Set brandId
+     *
+     * @param integer $brandId
+     *
+     * @return Product
+     */
+    public function setBrandId($brandId)
+    {
+        $this->brandId = $brandId;
+
+        return $this;
+    }
+
+    /**
+     * Get brandId
+     *
+     * @return integer
+     */
+    public function getBrandId()
+    {
+        return $this->brandId;
+    }
+
+    /**
+     * Set brand
+     *
+     * @param \Oni\ProductManagerBundle\Entity\Brand $brand
+     *
+     * @return Product
+     */
+    public function setBrand(\Oni\ProductManagerBundle\Entity\Brand $brand = null)
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * Get brand
+     *
+     * @return \Oni\ProductManagerBundle\Entity\Brand
+     */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+
+
+    /**
+     * Set visibility
+     *
+     * @param string $visibility
+     *
+     * @return Product
+     */
+    public function setVisibility($visibility)
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    /**
+     * Get visibility
+     *
+     * @return string
+     */
+    public function getVisibility()
+    {
+        return $this->visibility;
     }
 }

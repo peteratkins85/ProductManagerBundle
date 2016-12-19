@@ -155,7 +155,7 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
         $return = [];
 
         $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select('*')
+            ->select('t')
             ->from($this->table, 't')
             ->where('t.lvl != 1');
 

@@ -9,43 +9,40 @@
 namespace Oni\ProductManagerBundle\Factory\Service;
 
 
-use Oni\CoreBundle\Exceptions\RuntimeException;
 use Oni\CoreBundle\Factory\CoreAbstractFactory;
+use Oni\ProductManagerBundle\Form\ProductType;
 use Oni\ProductManagerBundle\Service\ProductService;
+use Oni\ProductManagerBundle\Service\ProductTypeService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * Class ProductServiceFactory
+ * Class ProductTypeServiceFactory
  * @package Oni\ProductManagerBundle\Factory\Service
  * @author peter.atkins85@gmail.com
  */
-class ProductServiceFactory extends CoreAbstractFactory
+class ProductTypeServiceFactory extends CoreAbstractFactory
 {
 
     /**
      * @param ContainerInterface $container
-     * @return ProductService
+     * @return ProductTypeService
      */
     public function getService(ContainerInterface $container)
     {
 
         $objectManager  = $container->get('doctrine.orm.entity_manager');
-        $productTypeService = $container->get('oni_product_type_service');
-        $productOptionService = $container->get('oni_product_option_service');
-        $class = '\\Oni\\ProductManagerBundle\\Entity\\Product';
+        $class = '\\Oni\\ProductManagerBundle\\Entity\\ProductType';
 
         if (!class_exists($class)) {
-            throw new RuntimeException($class . 'Entity does not exist');
+            throw new RuntimeException($class . 'entity does not exist');
         }
 
-        $productService = new ProductService(
+        $service = new ProductTypeService(
             $objectManager,
-            $class,
-            $productTypeService,
-            $productOptionService
+            $class
         );
 
-        return $productService;
+        return $service;
 
     }
 

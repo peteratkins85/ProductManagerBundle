@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Currencies
  *
- * @ORM\Table(name="currencies")
+ * @ORM\Table(name="oni_currencies")
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\CurrenciesRepository")
  */
 class Currencies

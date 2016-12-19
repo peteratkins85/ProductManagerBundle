@@ -5,25 +5,28 @@ namespace Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Oni\CoreBundle\Common\DataTable;
+use Oni\CoreBundle\Common\LocaleAwareInterface;
 use Oni\CoreBundle\Doctrine\Spec\AndX;
 use Oni\CoreBundle\Doctrine\Spec\AsArrayLimit;
+use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
 use Oni\CoreBundle\Doctrine\Spec\OrX;
 use Oni\CoreBundle\Doctrine\Spec\SingleScalar;
 use Oni\CoreBundle\Doctrine\Spec\Specification;
-use Oni\CoreBundle\Doctrine\Spec\SpecificationTraits;
+use Oni\CoreBundle\Doctrine\Spec\Traits;
 use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\CoreBundle\Doctrine\Spec\DataTableSpecificationTrait;
+use Oni\CoreBundle\Doctrine\Spec\DataFilterTrait;
 
 /**
  * Class ProductCategoryDataTable
  * @package Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory
  * @author peter.atkins85@gmail.com
  */
-class ProductCategoryDataTable implements Specification
+class ProductCategorySearch implements Specification, LocaleAwareInterface
 {
 
-    use SpecificationTraits;
-    use DataTableSpecificationTrait;
+    use Traits;
+    use DataFilterTrait;
+    use LocaleTrait;
 
     /**
      * @var Specification
@@ -44,48 +47,39 @@ class ProductCategoryDataTable implements Specification
 
     /**
      * ProductCategoryDataTable constructor.
-     * @param $config array
-     *        $config['getRecordCount'] boolean
-     *        $config['locale'] string   e.g. FR|EN|DE
-     * @param DataTable $dataTable
+     * @param
      */
-    public function __construct($config, DataTable $dataTable)
+    public function __construct($params)
     {
 
-        if (empty($config['locale'])) {
-            throw new \InvalidArgumentException('Error: locale is either not set or invalid');
-        }
-        $this->dataTable = $dataTable;
-        $this->locale = $config['locale'];
-        $this->setup($config);
-
+        $this->setFilters($params);
         $queryClass = new AndX(
             new OrX(
-                new NameContains($this->dataTable->getSearch()),
-                new IdEquals($this->dataTable->getSearch())
+                new NameContains($this->search),
+                new IdEquals($this->search)
             ),
             new NotRootCategory()
         );
 
         if (!$this->getRecordCount) {
 
-            if ($this->dataTable->getSearch()) {
+            if ($this->search) {
                 $this->spec = new AsArrayLimit(
                     $queryClass,
-                    $this->dataTable->getLength(),
-                    $this->dataTable->getStart()
+                    $this->limit,
+                    $this->offset
                 );
             } else {
                 $this->spec = new AsArrayLimit(
                     new NotRootCategory(),
-                    $this->dataTable->getLength(),
-                    $this->dataTable->getStart()
+                    $this->limit,
+                    $this->offset
                 );
             }
 
         } else {
 
-            if ($this->dataTable->getSearch() && $this->includeFilter) {
+            if ($this->search && $this->includeFilterOnGetRecordCount) {
 
                 $this->spec = new SingleScalar(
                     $queryClass

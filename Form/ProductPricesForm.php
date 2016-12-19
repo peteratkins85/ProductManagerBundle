@@ -6,7 +6,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductType extends AbstractType
+class ProductPricesType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -15,17 +15,14 @@ class ProductType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('productName')
-            ->add('sku')
-            ->add('upc')
-            ->add('visibility')
-            ->add('status')
-            ->add('isVariantOf')
-            ->add('updatedBy')
-            ->add('productTypeId')
-            ->add('parentProduct')
-            ->add('productType')
-            ->add('prices')
+            ->add('productId')
+            ->add('nowPrice')
+            ->add('wasPrice')
+            ->add('wholesalePrice')
+            ->add('currencyId')
+            ->add('zoneId')
+            ->add('currency')
+            ->add('zone')
         ;
     }
     
@@ -35,16 +32,7 @@ class ProductType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Oni\ProductManagerBundle\Entity\Product'
+            'data_class' => 'Oni\ProductManagerBundle\Entity\ProductPrices'
         ));
     }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return 'oni_product_form';
     }
-
-}

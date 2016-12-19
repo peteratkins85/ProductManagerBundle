@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProductOptionRelations
  *
- * @ORM\Table(name="product_option_relations")
+ * @ORM\Table(name="oni_product_option_relations")
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductOptionRelationsRepository")
  */
 class ProductOptionRelations

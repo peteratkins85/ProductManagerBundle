@@ -14,25 +14,28 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Oni\ProductManagerBundle\Entity\ProductCategory as ProductCategory;
 use Oni\CoreBundle\Entity\Languages as Languages;
 
-class ProductCategoryType extends AbstractType
+class ProductCategoryForm extends AbstractType
 {
 
     /**
      * @var ProductCategoryService
      */
     protected $productCategoryService;
-    /** @var Languages $language */
-    public $language;
 
     /**
-     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
-     * @param \Symfony\Component\HttpFoundation\Session\Session $session
+     * @var string
      */
-    public function __construct($container)
+    protected $locale;
+
+    /**
+     * ProductCategoryType constructor.
+     * @param ProductCategoryService $productCategoryService
+     * @param string $locale
+     */
+    public function __construct(ProductCategoryService $productCategoryService, string $locale)
     {
-        $this->container = $container;
-        $this->locale = $this->container->get('oni_get_locale');
-        $this->productCategoryService = $this->container->get('oni_product_category_service');
+        $this->locale = $locale;
+        $this->productCategoryService = $productCategoryService;
     }
 
     /**

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: peteratkins
- * Date: 08/11/2016
- * Time: 22:54
- */
 
 namespace Oni\ProductManagerBundle\Service;
 
@@ -20,25 +14,39 @@ class ProductService
      */
     protected $productRepository;
 
+    /**
+     * @var ProductTypeService
+     */
+    protected $productTypeService;
 
     /**
-     * ProductService constructor.
-     * @param ObjectManager $objectManager
-     * @param $class
+     * @var ProductOptionService
      */
+    protected $productOptionService;
+
+
     public function __construct(
         ObjectManager $objectManager,
-        $class
+        $class,
+        ProductTypeService $productTypeService,
+        ProductOptionService $productOptionService
     )
     {
+        $this->productOptionService = $productOptionService;
+        $this->productTypeService = $productTypeService;
         $this->productRepository = $objectManager->getRepository($class);
         $metadata = $objectManager->getClassMetadata($class);
         $this->class = $metadata->getName();
     }
 
+    /**
+     * @return mixed
+     */
     public function getAllProduct()
     {
         return $this->productRepository->getAllProduct();
     }
+
+
 
 }

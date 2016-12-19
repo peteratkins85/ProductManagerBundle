@@ -6,6 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Gedmo\Tree\RepositoryInterface;
 use Oni\CoreBundle\CoreGlobals;
+use Oni\CoreBundle\Doctrine\Spec\Specification;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 
@@ -17,42 +18,23 @@ use Symfony\Component\Translation\TranslatorInterface;
  */
 class ProductRepository extends EntityRepository
 {
-    /** @var  ContainerInterface */
-    public $container;
 
-    /** @var  TranslatorInterface */
-    public $translator;
+    /**
+     * @param Specification $specification
+     * @return array
+     */
+    public function match(Specification $specification)
+    {
+        if ( ! $specification->supports($this->getEntityName())) {
+            throw new \InvalidArgumentException("Specification not supported by this repository.");
+        }
 
-    private $table = CoreGlobals::PRODUCT_ENTITY;
+        $qb = $this->createQueryBuilder('p');
+        $expr = $specification->match($qb, 'p');
+        $query = $qb->where($expr)->getQuery();
+        $specification->modifyQuery($query);
 
-    public function getAllProduct($currentPage = 1, $limit = 10){
-
-        $qb = $this->getEntityManager()->createQueryBuilder()
-            ->select([
-                'p.id',
-                'p.productName',
-                'p.productCode'
-            ])
-            ->from($this->table, 'p');
-//            ->setFirstResult($limit * ($currentPage - 1))
-//            ->setMaxResults($limit);
-
-        $query = $qb->getQuery();
-
-        $query->setHint(
-            \Doctrine\ORM\Query::HINT_CUSTOM_OUTPUT_WALKER,
-            'Gedmo\\Translatable\\Query\\TreeWalker\\TranslationWalker'
-        );
-
-        $query->setHint(\Gedmo\Translatable\TranslatableListener::HINT_FALLBACK, 1);
-
-        //$results = new Paginator($query);
-
-        $results = $query->getResult();
-
-
-        return $results;
-
+        return $query->getResult();
     }
 
 }

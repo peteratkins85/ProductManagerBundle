@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProductPrices
  *
- * @ORM\Table(name="product_prices")
+ * @ORM\Table(name="oni_product_prices")
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductPricesRepository")
  */
 class ProductPrices

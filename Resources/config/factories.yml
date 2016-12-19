@@ -1,9 +1,17 @@
 services:
-      oni_product_controller_factory:
-              class: Oni\ProductManagerBundle\Factory\Controller\ProductControllerFactory
-      oni_product_categories_controller_factory:
-              class: Oni\ProductManagerBundle\Factory\Controller\ProductCategoryControllerFactory
-      oni_product_service_factory:
-              class: Oni\ProductManagerBundle\Factory\Service\ProductServiceFactory
-      oni_product_category_service_factory:
-              class: Oni\ProductManagerBundle\Factory\Service\ProductCategoryServiceFactory
+    oni_product_controller_factory:
+        class: Oni\ProductManagerBundle\Factory\Controller\ProductControllerFactory
+    oni_product_categories_controller_factory:
+        class: Oni\ProductManagerBundle\Factory\Controller\ProductCategoryControllerFactory
+    oni_product_service_factory:
+        class: Oni\ProductManagerBundle\Factory\Service\ProductServiceFactory
+    oni_product_category_service_factory:
+        class: Oni\ProductManagerBundle\Factory\Service\ProductCategoryServiceFactory
+    oni_product_category_form_factory:
+        class: Oni\ProductManagerBundle\Factory\Form\ProductCategoryFormFactory
+    oni_product_form_factory:
+        class: Oni\ProductManagerBundle\Factory\Form\ProductFormFactory
+    oni_product_type_service_factory:
+        class: Oni\ProductManagerBundle\Factory\Service\ProductTypeServiceFactory
+    oni_product_option_service_factory:
+        class: Oni\ProductManagerBundle\Factory\Service\ProductOptionServiceFactory

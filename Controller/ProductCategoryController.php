@@ -5,7 +5,9 @@ namespace Oni\ProductManagerBundle\Controller;
 use Oni\CoreBundle\Controller\CoreController;
 use Oni\CoreBundle\Core;
 use Oni\ProductManagerBundle\Entity\ProductCategory;
+use Oni\ProductManagerBundle\Form\ProductCategoryForm;
 use Oni\ProductManagerBundle\Form\ProductCategoryType;
+use Oni\ProductManagerBundle\Service\ProductCategoryDataTable;
 use Oni\ProductManagerBundle\Service\ProductCategoryService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,12 +29,10 @@ class ProductCategoryController extends CoreController
 
     public function indexAction()
     {
-
         $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access!');
 
         return $this->render('ProductManagerBundle:ProductCategory:index.html.twig', array(
         ));
-
     }
 
     /**
@@ -42,9 +42,9 @@ class ProductCategoryController extends CoreController
     public function getProductCategoriesAction(Request $request)
     {
         $query = $request->query->all();
-        $productCategories = $this->productCategoryService->getProductCategoriesForDataTable($query);
+        $response = $this->productCategoryService->getProductCategoriesForDataTable($query);
 
-        return new JsonResponse($productCategories);
+        return new JsonResponse($response);
     }
 
     /**
@@ -55,7 +55,7 @@ class ProductCategoryController extends CoreController
     {
 
         $productCategory = new ProductCategory();
-        $productCategoryForm = $this->createForm(ProductCategoryType::class, $productCategory);
+        $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
 
         if ($request->isMethod('POST')) {
 
