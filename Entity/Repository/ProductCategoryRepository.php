@@ -42,12 +42,10 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
         $qb = $this->getEntityManager()
             ->createQueryBuilder()
             ->select([
-                'pc.id',
-                'pc.name',
-                'pc.url'
+                'pc'
             ])
-            ->from($this->table, 'pc')
-            ->where('pc.lvl != 0');
+            ->from($this->table, 'pc');
+            //->where('pc.lvl != 0');
 
         $query = $qb->getQuery();
 
@@ -117,7 +115,7 @@ class ProductCategoryRepository extends NestedTreeRepository implements CoreRepo
      * @return object
      *
      */
-    public function findAllWithFallBack($exclude){
+    public function findAllWithFallBack($exclude = false){
 
 
         $q = $this->getEntityManager()->createQueryBuilder();

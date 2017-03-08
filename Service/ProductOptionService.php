@@ -12,20 +12,36 @@ namespace Oni\ProductManagerBundle\Service;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
 use Oni\CoreBundle\Exceptions\InvalidArgumentException;
+use Oni\CoreBundle\Service\CoreService;
 use Oni\ProductManagerBundle\Entity\Repository\ProductOptionGroupRepository;
 use Oni\ProductManagerBundle\Entity\Repository\ProductOptionRepository;
 use Oni\ProductManagerBundle\Entity\Repository\ProductOptionsRepository;
 use Oni\ProductManagerBundle\Entity\Repository\ProductTypesRepository;
+use Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
 use Proxies\__CG__\Oni\ProductManagerBundle\Entity\ProductOptionGroupTypes;
 
 class ProductOptionService
 {
 
+    /**
+     * @var ProductOptionRepository
+     */
     protected $productOptionsRepository;
 
+    /**
+     * @var ProductOptionGroupRepository
+     */
     protected $productOptionGroupRepository;
 
+    /**
+     * @var ObjectRepository
+     */
     protected $productOptionGroupTypeRepository;
+
+    /**
+     * @var CoreService
+     */
+    protected $coreService;
 
     /**
      * ProductService constructor.
@@ -35,10 +51,12 @@ class ProductOptionService
     public function __construct(
         ProductOptionRepository $productOptionsRepository,
         ProductOptionGroupRepository $productOptionGroupRepository,
-        ObjectRepository $productOptionGroupTypeRepository
+        ObjectRepository $productOptionGroupTypeRepository,
+        CoreService $coreService
     )
     {
         $this->productOptionsRepository = $productOptionsRepository;
+        $this->coreService = $coreService;
         $this->productOptionGroupRepository = $productOptionGroupRepository;
         $this->productOptionGroupTypeRepository = $productOptionGroupTypeRepository;
     }
@@ -70,6 +88,20 @@ class ProductOptionService
      */
     public function getAllProductOptionGroups(){
         return $this->productOptionGroupRepository->findAll();
+    }
+
+    /**
+     * @param int $id
+     * @return array
+     * @throws InvalidArgumentException
+     */
+    public function getProductOptionGroupsById(int $id)
+    {
+        if (empty($id)) {
+            throw new InvalidArgumentException('Id must not be empty');
+        }
+
+        return $this->productOptionGroupRepository->find($id);
     }
 
     /**
@@ -106,6 +138,18 @@ class ProductOptionService
         }
 
         return $this->productOptionGroupTypeRepository->findBy($params);
+    }
+
+
+    public function getProductOptionGroupsForDataTable(array $request)
+    {
+        $request['locale'] = $this->coreService->getLocale();
+        $dataTable = new ProductOptionGroupDataTable(
+            $this->productOptionGroupRepository,
+            $request
+        );
+
+        return $dataTable->getResults();
     }
 
 }

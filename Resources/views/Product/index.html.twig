@@ -40,7 +40,6 @@
                                             </thead>
                                         </table>
                                         <template data-table-oni-product-options="1">
-                                            {% include "@Core/cms/partials/dataTable/edit-options.twig" with { 'id' : '{productId}', 'name' : '{productName}' } %}
                                         </template>
                                     </div>
                                 </div>
@@ -55,5 +54,5 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/productmanager/js/products_table.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/productmanager/js/products.js') }}" type="text/javascript"></script>
 {% endblock %}

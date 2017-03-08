@@ -7,7 +7,7 @@ use Oni\CoreBundle\Core;
 use Oni\ProductManagerBundle\Entity\ProductCategory;
 use Oni\ProductManagerBundle\Form\ProductCategoryForm;
 use Oni\ProductManagerBundle\Form\ProductCategoryType;
-use Oni\ProductManagerBundle\Service\ProductCategoryDataTable;
+use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
 use Oni\ProductManagerBundle\Service\ProductCategoryService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,10 +20,16 @@ class ProductCategoryController extends CoreController
      */
     protected $productCategoryService;
 
+    /**
+     * @var ProductCategoryDataTable
+     */
+    protected $productCategoryDataTable;
 
-    public function __construct(ProductCategoryService $productCategoryService)
+
+    public function __construct(ProductCategoryService $productCategoryService, ProductCategoryDataTable $productCategoryDataTable)
     {
         $this->productCategoryService = $productCategoryService;
+        $this->productCategoryDataTable = $productCategoryDataTable;
     }
 
 
@@ -39,10 +45,16 @@ class ProductCategoryController extends CoreController
      * @param Request $request
      * @return JsonResponse
      */
-    public function getProductCategoriesAction(Request $request)
+    public function getProductCategoriesAction()
     {
-        $query = $request->query->all();
-        $response = $this->productCategoryService->getProductCategoriesForDataTable($query);
+        $response = $this->productCategoryDataTable->getResults();
+
+        return new JsonResponse($response);
+    }
+
+    public function getProductCategoryHierarchyAction()
+    {
+        $response = $this->productCategoryService->getProductCategoryTreeData();
 
         return new JsonResponse($response);
     }
@@ -89,13 +101,13 @@ class ProductCategoryController extends CoreController
     }
 
 
-    public function editAction($productCategoryId, Request $request)
+    public function editAction($id, Request $request)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
 
-        $productCategory = $this->productCategoryService->getProductCategoryById($productCategoryId);
-        $productCategoryForm = $this->createForm(ProductCategoryType::class, $productCategory);
+        $productCategory = $this->productCategoryService->getProductCategoryById($id);
+        $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
 
         if ($request->isMethod('POST')) {
 
@@ -111,7 +123,7 @@ class ProductCategoryController extends CoreController
                 $this->addFlash('notice', 'Product category amended!');
 
                 $em->refresh($productCategory);
-                $productCategoryForm = $this->createForm(ProductCategoryType::class, $productCategory);
+                $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
 
             } else {
 
@@ -128,12 +140,11 @@ class ProductCategoryController extends CoreController
 
     }
 
-    public function deleteAction($productCategoryId)
+    public function deleteAction($id)
     {
 
         $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
-
-        $productCategory = $this->productCategoryService->getProductCategoryById($productCategoryId);
+        $productCategory = $this->productCategoryService->getProductCategoryById($id);
 
         if ($productCategory) {
 

@@ -15,3 +15,5 @@ services:
         class: Oni\ProductManagerBundle\Factory\Service\ProductTypeServiceFactory
     oni_product_option_service_factory:
         class: Oni\ProductManagerBundle\Factory\Service\ProductOptionServiceFactory
+    oni_product_option_controller_factory:
+        class: Oni\ProductManagerBundle\Factory\Controller\ProductOptionControllerFactory

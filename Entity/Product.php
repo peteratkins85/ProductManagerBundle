@@ -5,6 +5,7 @@ namespace Oni\ProductManagerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
+use JsonSerializable;
 
 /**
  * Product
@@ -14,7 +15,7 @@ use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
  * @Gedmo\TranslationEntity(class="Oni\ProductManagerBundle\Entity\ProductTranslations")
  *
  */
-class Product
+class Product implements JsonSerializable
 {
 
     use TimestampableEntity;
@@ -37,7 +38,7 @@ class Product
     /**
      * @var string
      * @Gedmo\Translatable
-     * @ORM\Column(type="string", length=50)
+     * @ORM\Column(name="`name`", type="string", length=50)
      */
     private $name;
 
@@ -51,7 +52,7 @@ class Product
     /**
      * @var string
      *
-     * @ORM\Column(name="barcode", type="string", length=15)
+     * @ORM\Column(name="barcode", type="string", length=15, nullable=true)
      */
     private $barcode;
 
@@ -106,43 +107,49 @@ class Product
 
     /**
      * @var string
-     * @ORM\Column(name="enabled", type="boolean")
+     * @ORM\Column(name="enabled", type="boolean", options={"default" : 0})
      */
-    private $enabled;
+    private $enabled = 0;
 
     /**
      * @var string
-     * @ORM\Column(name="disabledAction", type="string", length=10)
+     * @ORM\Column(name="disabledAction", type="string", length=10, nullable=true)
      */
     private $disabledAction;
 
     /**
      * @var string
-     * @ORM\Column(name="redirectUrl", type="string", length=200)
+     * @ORM\Column(name="redirectUrl", type="string", length=200, nullable=true)
      */
     private $redirectUrl;
 
     /**
      * @var string
-     * @ORM\Column(name="tags", type="string")
+     * @ORM\Column(name="tags", type="string", nullable=true)
      */
     private $tags;
 
     /**
      * @var integer
-     * @ORM\Column(name="saleable",type="boolean")
+     * @ORM\Column(name="saleable",type="boolean", options={"default" : 0})
      */
-    private $saleable;
-
-    /**
-     * @var integer
-     * @ORM\Column(name="condition",type="string", length=20)
-     */
-    private $condition;
+    private $saleable = 0;
 
     /**
      * @var
-     * @ORM\Column(name="brandId", type="integer")
+     * @ORM\Column(name="url", type="string", )
+     */
+    private $url;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="`condition`",type="string", length=20, nullable=true)
+     */
+    private $condition ;
+
+    /**
+     * @var
+     * @ORM\Column(name="brandId", type="integer", nullable=true)
      */
     private $brandId;
 
@@ -870,5 +877,38 @@ class Product
     public function getVisibility()
     {
         return $this->visibility;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return Product
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+
+    function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
     }
 }

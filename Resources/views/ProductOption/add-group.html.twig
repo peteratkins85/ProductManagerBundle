@@ -12,13 +12,19 @@
                     {% embed 'CoreBundle:cms:content/content-header.html.twig' %}
                         {% block contentTitle %} New Product Option Group {% endblock %}
                     {%  endembed %}
+                    <div class='row-fluid'>
+                        <div class="pull-right">
+                            <a class="btn btn-primary" style="margin-bottom:8px" href="{{ url('oni_add_product_option_group') }}" > <i class="icon-plus"></i> {{ 'product_bundle.add.new.product.option'|trans }} </a>
+                        </div>
+                    </div>
                     <div class="row-fluid">
                         <div class="span12 box">
                             <div class="box-content">
                                 {{ form_start(form) }}
-                                    {{ form_row(form.optionName)}}
+                                    {{ form_row(form.name)}}
                                     {{ form_row(form.optionGroupType) }}
                                     <hr class="hr-normal">
+                                    {{ form_row(form.add) }}
                                 {{ form_end(form) }}
                             </div>
                         </div>

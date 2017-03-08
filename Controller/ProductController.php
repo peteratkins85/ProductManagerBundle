@@ -8,9 +8,11 @@ use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
 use Oni\ProductManagerBundle\Form\ProductForm;
 use Oni\ProductManagerBundle\Form\ProductOptionGroupForm;
 use Oni\ProductManagerBundle\Form\ProductType;
+use Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
 use Oni\ProductManagerBundle\Service\ProductService;
 use Oni\ProductManagerBundle\Entity\Repository\ProductsRepository;
 use Oni\ProductManagerBundle\Service\ProductTypeService;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -32,9 +34,15 @@ class ProductController extends CoreController
     protected $productTypeService;
 
     /**
+     * @var ProductOptionGroupDataTable
+     */
+    protected $productOptionGroupDataTable;
+
+    /**
      * ProductController constructor.
      * @param ProductService $productService
      * @param ProductTypeService $productTypeService
+     * @param ProductOptionGroupDataTable $productOptionGroupDataTable
      */
     public function __construct(
         ProductService $productService,
@@ -43,8 +51,8 @@ class ProductController extends CoreController
     {
         $this->productService = $productService;
         $this->productTypeService = $productTypeService;
+        $this->productOptionGroupDataTable = $productOptionGroupDataTable;
     }
-
 
     public function indexAction()
     {
@@ -52,6 +60,13 @@ class ProductController extends CoreController
             'ProductManagerBundle:Product:index.html.twig',
             ['pageName' => 'Products']
         );
+    }
+
+    public function getProductsAction(Request $request)
+    {
+        $response = $this->productOptionGroupDataTable->getResults();
+
+        return new JsonResponse($response);
     }
 
     /**
@@ -69,49 +84,44 @@ class ProductController extends CoreController
         ));
     }
 
-    public function wizardAction()
+    public function wizardAction(Request $request)
     {
         $product = new Product();
         $productForm = $this->createForm(ProductForm::class, $product);
-
-        return $this->render('ProductManagerBundle:Product:wizard.html.twig', array(
-            'pageName' => $this->get('translator')->trans('product_bundle.add.product.category'),
-            'form' => $productForm->createView()
-        ));
-    }
-
-    public function addOptionGroupAction(Request $request)
-    {
-        $productOptionGroup = new ProductOptionGroup();
-        $productOptionGroupForm = $this->createForm(ProductOptionGroupForm::class, $productOptionGroup);
+        $selectedCategories = [];
+        $defaultProductCategory = null;
 
         if ($request->isMethod('POST')) {
 
-            $productOptionGroupForm->handleRequest($request);
+            $productForm->handleRequest($request);
 
-            if ($productOptionGroupForm->isSubmitted() && $productOptionGroupForm->isValid()) {
+            if ($productForm->isSubmitted() && $productForm->isValid()) {
 
                 $em = $this->getDoctrine()->getManager();
 
-                $em->persist($productOptionGroup);
+                $em->persist($product);
 
                 $em->flush();
 
-                $this->addFlash('notice', $this->translator->trans('product_group_option_added'));
+                $this->addFlash('notice', $this->translator->trans('product_bundle.product.added'));
 
                 return $this->redirectToRoute('oni_product_list');
 
             } else {
 
-                $this->flashErrors($productCategoryForm);
+                $this->flashErrors($productForm);
+                $selectedCategories = $productForm->getData()->getCategories();
+                $defaultProductCategory = $productForm->getData()->getDefaultProductCategory();
 
             }
 
         }
 
-        return $this->render('ProductManagerBundle:ProductOption:add-group.html.twig', array(
+        return $this->render('ProductManagerBundle:Product:wizard.html.twig', array(
             'pageName' => $this->get('translator')->trans('product_bundle.add.product.category'),
-            'form' => $productOptionGroupForm->createView()
+            'form' => $productForm->createView(),
+            'selectedCategories' => $selectedCategories,
+            'selectedDefaultCategory' => $defaultProductCategory,
         ));
     }
 

@@ -3,6 +3,7 @@
 namespace Oni\ProductManagerBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
+use Oni\CoreBundle\Doctrine\Spec\Specification;
 
 /**
  * productOptionGroupsRepository
@@ -12,4 +13,22 @@ use Doctrine\ORM\EntityRepository;
  */
 class ProductOptionGroupRepository extends EntityRepository
 {
+
+    /**
+     * @param Specification $specification
+     * @return array
+     */
+    public function match(Specification $specification)
+    {
+        if ( ! $specification->supports($this->getEntityName())) {
+            throw new \InvalidArgumentException("Specification not supported by this repository.");
+        }
+
+        $qb = $this->createQueryBuilder('pog');
+        $expr = $specification->match($qb, 'pog');
+        $query = $qb->where($expr)->getQuery();
+        $specification->modifyQuery($query);
+
+        return $query->getResult();
+    }
 }

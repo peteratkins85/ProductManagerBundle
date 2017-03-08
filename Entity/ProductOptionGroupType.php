@@ -24,9 +24,9 @@ class ProductOptionGroupType
     /**
      * @var string
      *
-     * @ORM\Column(name="optionType", type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=100)
      */
-    private $optionType;
+    private $name;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -54,29 +54,7 @@ class ProductOptionGroupType
         return $this->id;
     }
 
-    /**
-     * Set optionType
-     *
-     * @param string $optionType
-     *
-     * @return ProductOptionGroupTypes
-     */
-    public function setOptionType($optionType)
-    {
-        $this->optionType = $optionType;
 
-        return $this;
-    }
-
-    /**
-     * Get optionType
-     *
-     * @return string
-     */
-    public function getOptionType()
-    {
-        return $this->optionType;
-    }
 
     /**
      * Add productOptionGroup
@@ -110,5 +88,29 @@ class ProductOptionGroupType
     public function getProductOptionGroups()
     {
         return $this->productOptionGroups;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return ProductOptionGroupType
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

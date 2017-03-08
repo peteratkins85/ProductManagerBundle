@@ -5,7 +5,9 @@ namespace Oni\ProductManagerBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Oni\CoreBundle\Entity\Traits\LastUserEntity;
 use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
+use JsonSerializable;
 
 /**
  * ProductCategory
@@ -18,10 +20,11 @@ use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
  * @Gedmo\TranslationEntity(class="Oni\ProductManagerBundle\Entity\ProductCategoryTranslations")
  * @Gedmo\Tree(type="nested")
  */
-class ProductCategory
+class ProductCategory implements JsonSerializable
 {
 
     use TimestampableEntity;
+    use LastUserEntity;
 
     /**
      * @var integer
@@ -135,7 +138,7 @@ class ProductCategory
     private $parent;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="categories")
+     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\Product", mappedBy="categories")
      */
     private $products;
 
@@ -548,5 +551,19 @@ class ProductCategory
     public function getProducts()
     {
         return $this->products;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
+
+
+    function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
     }
 }

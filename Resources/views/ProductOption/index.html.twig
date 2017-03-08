@@ -1,0 +1,83 @@
+{% extends '@Core/cms/base.html.twig' %}
+{% block title  'Product Option Groups'|title %}
+{% block body %}
+    <style>
+        .over-flow-visible {
+            overflow: visible !important;
+        }
+
+        .over-flow-visible table td {
+            overflow: visible !important;
+        }
+    </style>
+    <section id='content'>
+        <div class='container-fluid'>
+            <div class='row-fluid' id='content-wrapper'>
+                <div class='span12'>
+                    {% embed 'CoreBundle:cms:content/content-header.html.twig' %}
+                        {% block contentTitle %} {{ 'product.option.groups'|trans }} {% endblock %}
+                    {% endembed %}
+                    <div class='row-fluid'>
+                        <div class="pull-right">
+                            <a class="btn btn-primary" style="margin-bottom:8px"
+                               href="{{ url('oni_add_product_option_group') }}"> <i
+                                        class="icon-plus"></i> {{ 'product_bundle.add.new.product.option.group'|trans }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class='row-fluid'>
+                        <div class='span12 box bordered-box orange-border' style='margin-bottom:0;'>
+
+                            <div class='box-content box-no-padding'>
+                                <div class='responsive-table over-flow-visible'>
+                                    <div class='scrollable-area over-flow-visible'>
+                                        <table class='data-table-oni-product-option-group table table-bordered table-striped'>
+                                            <thead>
+                                            <tr>
+                                                <th data-row-options="1"></th>
+                                                <th data-column-name="id">Id</th>
+                                                <th data-column-name="name">name</th>
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                        <template product-option-group-row-options-template="options">
+                                            {% embed '@Core/cms/partials/dataTable/options.twig' %}
+                                                {% block links %}
+                                                    <li>
+                                                        <a href='{{ path('oni_edit_product_option_group' , {'id': '{productOptionGroupId}'})|url_decode }}'>Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class='oni-delete-action' data-toggle="modal"
+                                                           delete-msg="{{ 'modal-messages.delete.confirm.msg'|trans({'%name%': '{productOptionGroupName}' , '%item%': 'product_bundle.product.option.group'|trans}) }}"
+                                                           delete-url="{{ path('oni_delete_product_option_group' , {'id': '{productOptionGroupId}'} )|url_decode }}"
+                                                           href='#confirm-delete'>
+                                                            Delete
+                                                        </a>
+                                                    </li>
+                                                    <li>
+                                                        <a href='{{ path('oni_edit_product_option_group' , {'id': '{productOptionGroupId}'})|url_decode }}'>Add
+                                                            Option</a>
+                                                    </li>
+                                                {% endblock %}
+                                            {% endembed %}
+                                        </template>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascripts %}
+    <script src="{{ asset('bundles/productmanager/js/datatable/product_option_group_table.js') }}"
+            type="text/javascript"></script>
+    <script>
+        new ProductOptionGroupDatatable({
+            selector: '.data-table-oni-product-option-group',
+            rowOptionsTemplate: 'template[product-option-group-row-options-template]'
+        });
+    </script>
+{% endblock %}

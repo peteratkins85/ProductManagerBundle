@@ -1,0 +1,6 @@
+services:
+    oni_product_manager_twig_global_listener:
+            class: Oni\ProductManagerBundle\EventListeners\TwigGlobals
+            arguments: ["@twig"]
+            tags:
+               - { name: kernel.event_subscriber }

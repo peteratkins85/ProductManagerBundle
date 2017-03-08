@@ -1,3 +1,27 @@
+#ProductOption
+oni_add_product_option_group:
+    path:     /admin/product/option/group/add
+    defaults: { _controller: oni_product_option_controller:addGroupAction }
+
+oni_edit_product_option_group:
+    path:     /admin/product/option/group/edit/{id}
+    defaults: { _controller: oni_product_option_controller:editGroupAction }
+
+oni_delete_product_option_group:
+    path:     /admin/product/option/group/delete/{id}
+    defaults: { _controller: oni_product_option_controller:deleteGroupAction }
+
+oni_add_product_option_group_list:
+    path:     /admin/product/option/groups
+    defaults: { _controller: oni_product_option_controller:indexAction }
+
+oni_ajax_get_product_option_groups:
+    path:     /admin/ajax/product/option/groups
+    defaults: { _controller: oni_product_option_controller:getOptionGroupListAction  }
+    options:
+        expose: true
+
+#Product
 oni_add_product:
     path:     /admin/products/add
     defaults: { _controller: oni_product_controller:addAction }
@@ -16,42 +40,43 @@ oni_edit_product:
     path:     /admin/product/edit/{product}
     defaults: { _controller: oni_product_controller:Index:edit }
 
-oni_add_product_option_group:
-    path:     /admin/product/option/group/add
-    defaults: { _controller: oni_product_controller:addOptionGroupAction }
-
-oni_edit_ajax_get_products:
+oni_ajax_get_products:
     path:     /admin/ajax/products
-    defaults: { _controller: oni_product_controller:Index:edit }
+    defaults: { _controller: oni_product_controller:getProductsAction }
 
 oni_add_category:
     path:     /admin/product/category/add
     defaults: { _controller: oni_product_categories_controller:addAction }
+    options:
+            expose: true
 
 oni_categories_list:
     path:     /admin/product/categories
     defaults: { _controller: oni_product_categories_controller:indexAction }
+    options:
+        expose: true
 
 oni_ajax_get_product_categories:
     path:     /admin/ajax/product/categories
     defaults: { _controller: oni_product_categories_controller:getProductCategoriesAction  }
+    options:
+        expose: true
 
-#blog:
-#    path:      /blog/{page}
-#    defaults:  { _controller: AppBundle:Blog:index, page: 1 }
-#    requirements:
-#        page:  \d+
-
-#contact_form:
-#    path:     /contact
-#    defaults: { _controller: AppBundle:Main:contactForm }
-#    methods:  [GET, POST]
+oni_ajax_get_product_categories_hierarchy:
+    path:     /admin/ajax/product/categories/hierarchy
+    defaults: { _controller: oni_product_categories_controller:getProductCategoryHierarchyAction  }
+    options:
+        expose: true
 
 oni_edit_category:
-    path:     /admin/product/category/edit/{productCategoryId}
+    path:     /admin/product/category/edit/{id}
     defaults: { _controller: oni_product_categories_controller:editAction }
+    options:
+            expose: true
 
 
 oni_delete_category:
-    path:     /admin/product/category/delete/{productCategoryId}
+    path:     /admin/product/category/delete/{id}
     defaults: { _controller: oni_product_categories_controller:deleteAction }
+    options:
+                expose: true

@@ -5,6 +5,8 @@ namespace Oni\ProductManagerBundle\Service;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
+use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
+use Symfony\Component\HttpFoundation\Request;
 
 /**
  * Class ProductCategoryService
@@ -24,6 +26,11 @@ class ProductCategoryService
      */
     protected $locale;
 
+    /**
+     * @var ProductCategoryDataTable
+     */
+    protected $productCategoryDataTable;
+
 
     /**
      * ProductCategoryService constructor.
@@ -32,12 +39,14 @@ class ProductCategoryService
      */
     public function __construct(
         ObjectManager $objectManager,
+        ProductCategoryDataTable $productCategoryDataTable,
         string $class,
         string $locale
     )
     {
         $this->locale = $locale;
         $this->productCategoryRepository = $objectManager->getRepository($class);
+        $this->productCategoryDataTable = $productCategoryDataTable;
         $metadata = $objectManager->getClassMetadata($class);
         $this->class = $metadata->getName();
     }
@@ -75,18 +84,33 @@ class ProductCategoryService
     }
 
     /**
-     * @param string $request
      * @return array
      */
-    public function getProductCategoriesForDataTable(array $request)
+    public function getProductCategoriesDataTableResults(array $request)
     {
-        $request['locale'] = $this->locale;
-        $dataTable = new ProductCategoryDataTable(
-            $this->productCategoryRepository,
-            $request
-        );
+        return $this->productCategoryDataTable->getResults();
+    }
 
-        return $dataTable->getResults();
+    /**
+     * return jsTree format array
+     */
+    public function getProductCategoryTreeData()
+    {
+        $categories = $this->getAllProductCategories();
+        $treeData = [];
+
+        foreach ($categories as $category){
+
+            $treeData[] = [
+                'id' => $category['id'],
+                'parent' => $category['parentId'] ?: '#',
+                'text' => $category['name'],
+            ];
+
+        }
+
+        return $treeData;
+
 
     }
 

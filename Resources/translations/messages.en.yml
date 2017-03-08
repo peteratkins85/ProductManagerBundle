@@ -2,8 +2,10 @@ product_bundle:
     product.manager: Product Manager
     product.categories : Product Categories
     product.category : Product Category
+    product.option.groups: Product Option Groups
     add.product.category: Add New Product Category
     edit.product.category: Edit Product Category
+    add.new.product.option.group: Add New Option Group
     category.url: Category Url
     products: Products
     product: Product

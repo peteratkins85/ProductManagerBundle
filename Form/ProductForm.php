@@ -2,11 +2,13 @@
 
 namespace Oni\ProductManagerBundle\Form;
 
+use Doctrine\ORM\Mapping\Entity;
 use Entity\Category;
 use Oni\ProductManagerBundle\Entity\Product;
 use Oni\ProductManagerBundle\Entity\ProductCategory;
 use Oni\ProductManagerBundle\Service\ProductCategoryService;
 use Oni\ProductManagerBundle\Service\ProductService;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -46,8 +48,11 @@ class ProductForm extends AbstractType
      */
     protected $form;
 
-    public function __construct(ProductService $productService, ProductCategoryService $productCategoryService, string $locale)
-    {
+    public function __construct(
+        ProductService $productService,
+        ProductCategoryService $productCategoryService,
+        string $locale
+    ) {
         $this->productService = $productService;
         $this->productCategoryService = $productCategoryService;
         $this->locale = $locale;
@@ -59,8 +64,7 @@ class ProductForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        if (isset($options['data']) &&  $options['data'] instanceof Product && !empty($options['data']->getId)){
-
+        if (isset($options['data']) && $options['data'] instanceof Product && !empty($options['data']->getId)) {
 
 
         }
@@ -70,16 +74,18 @@ class ProductForm extends AbstractType
         $builder
             ->add('name', TextType::class, [
                 'label' => 'Name',
-                'attr' => [
+                'attr'  => [
                     'data-parsley-required' => 'true',
-                    'data-parsley-max'      => '50'
                 ]
             ])
             ->add('sku', TextType::class, [
                 'label' => 'Sku',
             ])
+            ->add('url', TextType::class, [
+                'label' => 'Url',
+            ])
             ->add('upc', TextType::class, [
-                'label' => 'Upc',
+                'label'    => 'Upc',
                 'required' => false
             ])
             ->add('visibility', CheckboxType::class, [
@@ -88,52 +94,53 @@ class ProductForm extends AbstractType
                     'plugin' => 'switch'
                 ]
             ])
-            ->add('shortDescription', TextType::class,[
+            ->add('shortDescription', TextType::class, [
                 'label' => 'Short Description'
             ])
-            ->add('description', TextareaType::class,[
+            ->add('description', TextareaType::class, [
                 'label'    => 'Description',
                 'required' => false,
                 'attr'     => [
                     'class' => 'ckeditor'
                 ]
             ])
-//            ->add('prices', TextType::class, [
-//                'required' => false
-//            ])
-//            ->add('categories', ChoiceType::class, [
-//                    'choices'      => $this->productCategoryService->getProductCategoryRepository()->findAll(),
-//                    'attr'         => [
-//                        'class'    => 'select2 input-xlarge',
-//                        'multiple' => 'multiple'
-//                    ],
-//                    'choice_label' => function (ProductCategory $category, $key, $index) {
-//                        return !empty($category->getName()) ? $category->getName() : $category->getUrl();
-//                    },
-//                    'group_by' => function($category, $key, $index) {
-//                        /** @var $category  ProductCategory */
-//                        return ($category->getParent()) ? ($category->getParent()->getName() == 'rootCategory') ? null : $category->getParent()->getName() : null;
-//                    },
-//                    'by_reference' => false,
-//                    'required' => false
-//                ]
-//            )
-            ->add('submit', SubmitType::class,[
-                'label' => 'Save'
+            ->add('categories', EntityType::class, [
+                    'attr' => [
+                        'oni-tree-target-input' => '1'
+                    ],
+                    'class'        => ProductCategory::class,
+                    'choice_label' => 'name',
+                    'expanded'     => true,
+                    'multiple'     => true,
+                ]
+            )
+            ->add('defaultProductCategory', EntityType::class, [
+                'attr'         => [
+                    'class' => 'select2',
+                    'style' => 'width:25%'
+                ],
+                'class'        => ProductCategory::class,
+                'label'        => 'Default Category',
+                'label_attr'   => [
+                    'class' => 'control-label'
+                ],
+                'placeholder'  => 'Choose an category',
             ])
-        ;
+            ->add('submit', SubmitType::class, [
+                'label' => 'Save'
+            ]);
     }
-    
+
     /**
      * @param OptionsResolver $resolver
      */
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => 'Oni\ProductManagerBundle\Entity\Product',
+            'data_class'      => 'Oni\ProductManagerBundle\Entity\Product',
             'csrf_protection' => true,
             'csrf_field_name' => '_token',
-            'attr' => [
+            'attr'            => [
                 'data-parsley-validate' => ''
             ]
         ]);
@@ -158,19 +165,15 @@ class ProductForm extends AbstractType
     public function addBuilderArray(FormBuilderInterface $builder)
     {
 
-        foreach ($this->builderArray as $key => $builderArray){
+        foreach ($this->builderArray as $key => $builderArray) {
 
             if (!empty($builderArray['name'])
                 && !empty($builderArray['type'])
-                && $builderArray['type'] instanceof FormTypeInterface
+                //&& new $builderArray['type'] instanceof FormTypeInterface
                 && !empty($builderArray['properties']) && is_array($builderArray['properties'])
             ) {
 
-                $builder->add(
-                    $builderArray['name'],
-                    $builderArray['type'],
-                    $builderArray['properties']
-                );
+                $builder->add($builderArray['name'], $builderArray['type'], $builderArray['properties']);
 
             }
 

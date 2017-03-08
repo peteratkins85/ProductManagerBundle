@@ -1,0 +1,19 @@
+services:
+    oni_product_category_data_table:
+        class: Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable
+        factory: [ "@oni_product_category_data_table_factory", getService ]
+        arguments:
+              - '@service_container'
+    oni_product_option_group_data_table:
+        class: Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable
+        factory: [ "@oni_product_option_group_data_table_factory", getService ]
+        arguments:
+              - '@service_container'
+    #Factory
+    oni_product_category_data_table_factory:
+        class: Oni\ProductManagerBundle\Factory\Service\Datatable\ProductCategoryDataTableFactory
+        public: false
+    oni_product_option_group_data_table_factory:
+        class: Oni\ProductManagerBundle\Factory\Service\Datatable\ProductOptionGroupDataTableFactory
+        public: false
+

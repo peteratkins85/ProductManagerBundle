@@ -6,18 +6,19 @@
  * Time: 07:24
  */
 
-namespace Oni\ProductManagerBundle\Service;
+namespace Oni\ProductManagerBundle\Service\DataTable;
 
 
+use Doctrine\Common\Persistence\ObjectRepository;
 use Oni\CoreBundle\Common\CoreCommon;
 use Oni\CoreBundle\Common\DataTable;
-use Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory\ProductCategorySearch;
+use Oni\ProductManagerBundle\Doctrine\Spec\ProductOptionGroup\ProductOptionGroupSearch;
 use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
 use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
 use Oni\CoreBundle\Common\LocaleAwareInterface;
 use \Exception;
 
-class ProductCategoryDataTable extends DataTable implements LocaleAwareInterface
+class ProductOptionGroupDataTable extends DataTable implements LocaleAwareInterface
 {
 
     use LocaleTrait;
@@ -25,16 +26,16 @@ class ProductCategoryDataTable extends DataTable implements LocaleAwareInterface
     /**
      * @var ProductCategoryRepository
      */
-    protected $productCategoryRepository;
+    protected $repository;
 
-    public function __construct(ProductCategoryRepository $productCategoryRepository, $request)
+    public function __construct(ObjectRepository $repository, array $request)
     {
         if (empty($request['locale'])){
             throw new Exception('Locale must be set on the request query');
         }
 
         $this->setLocale($request['locale']);
-        $this->productCategoryRepository = $productCategoryRepository;
+        $this->repository = $repository;
         parent::__construct($request);
     }
 
@@ -58,10 +59,11 @@ class ProductCategoryDataTable extends DataTable implements LocaleAwareInterface
             'search' => $this->getSearch(),
         ];
 
-        $resultSpec = new ProductCategorySearch($params);
-        $results = $this->productCategoryRepository->match($resultSpec);
+        $resultSpec = new ProductOptionGroupSearch($params);
+        $results = $this->repository->match($resultSpec);
         $results = CoreCommon::formatDateTimeResultsInArrayRecursive($results, 'jS M H:i:s');
-        $this->setResults($results);
+
+        return $results;
 
     }
 
@@ -70,16 +72,16 @@ class ProductCategoryDataTable extends DataTable implements LocaleAwareInterface
 
         $params = [
             'getRecordCount' => true,
-            'locale' => $this->locale
+            'locale' => $this->locale,
         ];
 
         if ($includeFilter){
             $params['includeFilterOnGetRecordCount'] = true;
         }
 
-        $countSpec = new ProductCategorySearch($params);
+        $countSpec = new ProductOptionGroupSearch($params);
 
-        $totalCount = $this->productCategoryRepository->match($countSpec);
+        $totalCount = $this->repository->match($countSpec);
         $totalCount = isset($totalCount[0]['total']) ? $totalCount[0]['total'] : 0;
 
         if ($includeFilter){

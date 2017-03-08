@@ -1,0 +1,59 @@
+Oni\ProductManagerBundle\Entity\Product:
+    properties:
+        name:
+            - NotBlank: ~
+            - Length:
+                min: 3
+                max: 50
+                minMessage: two.or.more.chars
+                maxMessage: fifty.or.less.chars.
+        productType:
+            - NotBlank:
+                message: 'Product Type must be set.'
+        defaultProductCategory:
+            - NotBlank:
+                message: 'Default category must be set.'
+        upc:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/^[0-9A-Za-z]+$/'
+                message: 'UPC can only container letters and numbers'
+            - Length:
+                min: 5
+                max: 15
+                minMessage: m
+                maxMessage: fifty.or.less.chars.
+        sku:
+            - NotBlank: ~
+            - Regex:
+                pattern: '/^[0-9A-Za-z]+$/'
+                message: 'UPC can only container letters and numbers'
+            - Length:
+                min: 5
+                max: 15
+                minMessage: m
+                maxMessage: fifty.or.less.chars.
+        url:
+            - NotBlank:
+                message: 'Url must be set.'
+            - Regex:
+                pattern: '/^[0-9A-Za-z-_]+$/'
+                message: url.can.only.contain
+            - Length:
+                min: 3
+                max: 50
+                minMessage: three.or.more.chars
+                maxMessage: fifty.or.less.chars
+        description:
+            - NotBlank: ~
+            - Type:
+                type: string
+        shortDescription:
+            - NotBlank: ~
+            - Type:
+                type: string
+            - Length:
+                min: 2
+                minMessage: two.or.more.chars
+                max: 50
+                maxMessage: fifty.or.less.chars

@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory;
+namespace Oni\ProductManagerBundle\Doctrine\Spec\ProductOptionGroup;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -8,6 +8,7 @@ use Oni\CoreBundle\Common\DataTable;
 use Oni\CoreBundle\Common\LocaleAwareInterface;
 use Oni\CoreBundle\Doctrine\Spec\AndX;
 use Oni\CoreBundle\Doctrine\Spec\AsArrayLimit;
+use Oni\CoreBundle\Doctrine\Spec\Common\FindAll;
 use Oni\CoreBundle\Doctrine\Spec\Common\IdEquals;
 use Oni\CoreBundle\Doctrine\Spec\Common\NameContains;
 use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
@@ -17,13 +18,15 @@ use Oni\CoreBundle\Doctrine\Spec\Specification;
 use Oni\CoreBundle\Doctrine\Spec\Traits;
 use Oni\ProductManagerBundle\Entity\ProductCategory;
 use Oni\CoreBundle\Doctrine\Spec\DataFilterTrait;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
 
 /**
  * Class ProductCategoryDataTable
  * @package Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory
  * @author peter.atkins85@gmail.com
  */
-class ProductCategorySearch implements Specification, LocaleAwareInterface
+class ProductOptionGroupSearch implements Specification, LocaleAwareInterface
 {
 
     use Traits;
@@ -41,10 +44,10 @@ class ProductCategorySearch implements Specification, LocaleAwareInterface
     protected $fields = [
         '{alias}.id',
         '{alias}.name',
-        '{alias}.url',
-        'pcp.name as parent',
+        'pogt.name as optionGroupType',
         '{alias}.updatedBy',
-        '{alias}.updatedAt'
+        '{alias}.updatedAt',
+        '{alias}.createdAt'
     ];
 
     /**
@@ -59,8 +62,7 @@ class ProductCategorySearch implements Specification, LocaleAwareInterface
             new OrX(
                 new NameContains($this->search),
                 new IdEquals($this->search)
-            ),
-            new NotRootCategory()
+            )
         );
 
         if (!$this->getRecordCount) {
@@ -73,7 +75,7 @@ class ProductCategorySearch implements Specification, LocaleAwareInterface
                 );
             } else {
                 $this->spec = new AsArrayLimit(
-                    new NotRootCategory(),
+                    new FindAll(),
                     $this->limit,
                     $this->offset
                 );
@@ -89,7 +91,7 @@ class ProductCategorySearch implements Specification, LocaleAwareInterface
 
             } else {
                 $this->spec = new SingleScalar(
-                    new NotRootCategory()
+                    new FindAll()
                 );
             }
 
@@ -111,10 +113,10 @@ class ProductCategorySearch implements Specification, LocaleAwareInterface
         $this->addFieldAlias($dqlAlias);
         $qb->select($this->fields)
             ->innerJoin(
-            'ProductManagerBundle:ProductCategory',
-            'pcp',
+            ProductOptionGroupType::class,
+            'pogt',
             \Doctrine\ORM\Query\Expr\Join::WITH,
-            $dqlAlias . '.parentId = pcp.id'
+            $dqlAlias . '.optionGroupType = pogt.id'
         );
 
         if (!$this->getRecordCount) {
@@ -152,7 +154,7 @@ class ProductCategorySearch implements Specification, LocaleAwareInterface
      */
     public function supports($className)
     {
-        return ($className === ProductCategory::class);
+        return ($className === ProductOptionGroup::class);
     }
 
 }

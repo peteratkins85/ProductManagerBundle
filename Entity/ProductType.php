@@ -242,4 +242,12 @@ class ProductType
     {
         return $this->visible;
     }
+
+    /**
+     * @return mixed
+     */
+    public function __toString()
+    {
+        return (string) $this->id;
+    }
 }

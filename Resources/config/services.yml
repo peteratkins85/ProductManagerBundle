@@ -24,6 +24,11 @@ services:
         factory: [ "@oni_product_controller_factory", getService ]
         arguments:
               - '@service_container'
+    oni_product_option_controller:
+        class: Oni\ProductManagerBundle\Controller\ProductOptionController
+        factory: [ "@oni_product_option_controller_factory", getService ]
+        arguments:
+              - '@service_container'
     oni_product_categories_controller:
         class: Oni\ProductManagerBundle\Controller\ProductCategoryController
         factory: [ '@oni_product_categories_controller_factory',  getService ]

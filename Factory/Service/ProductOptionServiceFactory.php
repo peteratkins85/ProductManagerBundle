@@ -33,6 +33,7 @@ class ProductOptionServiceFactory extends CoreAbstractFactory
     {
 
         $objectManager  = $container->get('doctrine.orm.entity_manager');
+        $coreService = $container->get('oni_core_service');
         $productOptionGroupRepository = $objectManager->getRepository(ProductOptionGroup::class);
         $productOptionRepository = $objectManager->getRepository(ProductOption::class);
         $productOptionGroupTypeRepository = $objectManager->getRepository(ProductOptionGroupType::class);
@@ -40,7 +41,8 @@ class ProductOptionServiceFactory extends CoreAbstractFactory
         $service = new ProductOptionService(
             $productOptionRepository,
             $productOptionGroupRepository,
-            $productOptionGroupTypeRepository
+            $productOptionGroupTypeRepository,
+            $coreService
         );
 
         return $service;

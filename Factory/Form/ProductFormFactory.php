@@ -10,7 +10,10 @@ namespace Oni\ProductManagerBundle\Factory\Form;
 
 
 use Oni\CoreBundle\Factory\CoreAbstractFactory;
+use Oni\CoreBundle\Form\Type\EntityHiddenType;
+use Oni\ProductManagerBundle\Entity\ProductType;
 use Oni\ProductManagerBundle\Form\ProductForm;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,7 +21,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 class ProductFormFactory extends CoreAbstractFactory
 {
 
-    protected $formBuilderArray;
+    public $formBuilderArray;
 
     /**
      * @var
@@ -52,7 +55,6 @@ class ProductFormFactory extends CoreAbstractFactory
 
         switch ($route){
             case 'oni_add_product_wizard':
-
                 $this->buildFormForWizardRoute($productForm);
 
                 break;
@@ -69,12 +71,15 @@ class ProductFormFactory extends CoreAbstractFactory
     protected function buildFormForWizardRoute(ProductForm $productForm)
     {
         $productType = $this->request->attributes->get('productType');
+        $em = $this->serviceContainer->get('doctrine.orm.default_entity_manager');
+        $productType = $em->getRepository(ProductType::class)->find($productType);
 
         $this->formBuilderArray[] = [
             'name' => 'productType',
-            'type' => HiddenType::class,
+            'type' => EntityHiddenType::class,
             'properties' => [
-                'data' => $productType
+                'data' => $productType,
+                'class' => ProductType::class,
             ]
         ];
 

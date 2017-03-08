@@ -32,7 +32,7 @@ class ProductOptionGroupForm extends AbstractType
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
-        $builder->add('optionName', TextType::class, [
+        $builder->add('name', TextType::class, [
 
             ])
             ->add('optionGroupType', EntityType::class, [
@@ -40,8 +40,8 @@ class ProductOptionGroupForm extends AbstractType
                 'class'        => ProductOptionGroupType::class,
                 'choices'      => $this->productOptionService->getAllProductOptionGroupTypes(),
                 'attr'         => ['class' => 'select2 input-xlarge'],
-                'choice_label' => function (ProductOptionGroupType $optionGroup, $key, $index) {
-                    return $optionGroup->getOptionType();
+                'choice_label' => function (ProductOptionGroupType $optionGroupType, $key, $index) {
+                    return $optionGroupType->getName();
                 },
             ])
             ->add('add', SubmitType::class, [

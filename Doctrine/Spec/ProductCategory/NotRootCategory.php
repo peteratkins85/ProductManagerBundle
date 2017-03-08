@@ -10,10 +10,9 @@ class NotRootCategory implements Specification
 {
 
     /**
-     * @param \Doctrine\ORM\QueryBuilder $qb
+     * @param QueryBuilder $qb
      * @param string $dqlAlias
-     *
-     * @return \Doctrine\ORM\Query\Expr
+     * @return Query\Expr\Comparison
      */
     public function match(QueryBuilder $qb, $dqlAlias)
     {

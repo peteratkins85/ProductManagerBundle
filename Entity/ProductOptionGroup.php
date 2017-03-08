@@ -3,6 +3,8 @@
 namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Oni\CoreBundle\Entity\Traits\LastUserEntity;
+use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
 
 /**
  * ProductOptionGroups
@@ -12,6 +14,9 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ProductOptionGroup
 {
+
+    use TimestampableEntity;
+    use LastUserEntity;
     /**
      * @var integer
      *
@@ -31,9 +36,9 @@ class ProductOptionGroup
     /**
      * @var string
      *
-     * @ORM\Column(name="optionName", type="string", length=100)
+     * @ORM\Column(name="name", type="string", length=100)
      */
-    private $optionName;
+    private $name;
 
     /**
      * @var string
@@ -41,7 +46,6 @@ class ProductOptionGroup
      * @ORM\Column(name="userOptionSelectType", type="string", length=30, nullable=true)
      */
     private $userOptionSelectType;
-
 
     /**
      * @var \Oni\ProductManagerBundle\Entity\ProductOptionGroupType
@@ -124,31 +128,6 @@ class ProductOptionGroup
     }
 
     /**
-     * Set optionName
-     *
-     * @param string $optionName
-     *
-     * @return ProductOptionGroups
-     */
-    public function setOptionName($optionName)
-    {
-        $this->optionName = $optionName;
-
-        return $this;
-    }
-
-    /**
-     * Get optionName
-     *
-     * @return string
-     */
-    public function getOptionName()
-    {
-        return $this->optionName;
-    }
-
-
-    /**
      * Set optionGroupType
      *
      * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroupType $optionGroupType
@@ -170,5 +149,39 @@ class ProductOptionGroup
     public function getOptionGroupType()
     {
         return $this->optionGroupType;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return ProductOptionGroup
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Get optionGroupTypeId
+     *
+     * @return integer
+     */
+    public function getOptionGroupTypeId()
+    {
+        return $this->optionGroupTypeId;
     }
 }

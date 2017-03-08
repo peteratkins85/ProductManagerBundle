@@ -1,0 +1,21 @@
+<li class=''>
+    <a class="dropdown-collapse" href="#"><i class='icon-glass'></i>
+        <span>{{ 'product_bundle.product.manager'|trans }}</span>
+        <i class='icon-angle-down angle-down'></i>
+    </a>
+
+    <ul class='nav nav-stacked'>
+        <li class=''>
+            <a href='{{ url('oni_product_list') }}'>
+                <i class='icon-caret-right'></i>
+                <span>{{ 'product_bundle.products'|trans }}</span>
+            </a>
+        </li>
+        <li class=''>
+            <a href='{{ url('oni_categories_list') }}'>
+                <i class='icon-caret-right'></i>
+                <span>{{ 'product_bundle.product.categories'|trans|title }}</span>
+            </a>
+        </li>
+    </ul>
+</li>

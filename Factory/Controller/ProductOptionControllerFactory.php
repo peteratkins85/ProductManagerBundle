@@ -19,10 +19,9 @@ class ProductOptionControllerFactory extends CoreAbstractFactory
 
     function getService(ContainerInterface $serviceContainer)
     {
-
-        $productOptionService = $serviceContainer->get('oni_product_option_service');
         $controller = new ProductOptionController(
-            $productOptionService
+            $serviceContainer->get('oni_product_option_service'),
+            $serviceContainer->get('oni_product_option_group_data_table')
         );
 
         $this->injectCommonDependencies($controller, $serviceContainer);
