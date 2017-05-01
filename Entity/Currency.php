@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="oni_currencies")
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\CurrenciesRepository")
  */
-class Currencies
+class Currency
 {
     /**
      * @var integer
@@ -59,7 +59,7 @@ class Currencies
      *
      * @param string $currency
      *
-     * @return Currencies
+     * @return Currency
      */
     public function setCurrency($currency)
     {
@@ -83,7 +83,7 @@ class Currencies
      *
      * @param string $currencyCode
      *
-     * @return Currencies
+     * @return Currency
      */
     public function setCurrencyCode($currencyCode)
     {
@@ -107,7 +107,7 @@ class Currencies
      *
      * @param integer $isDefault
      *
-     * @return Currencies
+     * @return Currency
      */
     public function setIsDefault($isDefault)
     {

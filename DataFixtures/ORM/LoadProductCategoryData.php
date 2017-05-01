@@ -17,7 +17,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 
-class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureInterface ,FixtureInterface, ContainerAwareInterface
+class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureInterface, FixtureInterface, ContainerAwareInterface
 {
 
 
@@ -44,25 +44,52 @@ class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureI
 
         $repository = $em->getRepository('Gedmo\\Translatable\\Entity\\Translation');
         $repository->translate($root, 'name', 'en', 'rootCategory')
-                   ->translate($root, 'name', 'de', 'rootCategory de')
-        ;
+            ->translate($root, 'name', 'fr', 'rootCategory');
 
-        $test = new ProductCategory();
-        $test->setParent($root);
-        $test->setName('Test');
-        $test->setUrl('test-url');
-        $test->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet cursus lorem. Nulla pharetra felis urna. Donec et dignissim lorem, ac condimentum ante. Proin dictum neque elit, eu condimentum neque condimentum vitae.');
-        $test->setMetaTitle('test title');
+        $cat1 = new ProductCategory();
+        $cat1->setParent($root);
+        $cat1->setName('Sports & Outdoors');
+        $cat1->setUrl('sports-and-outdoors');
+        $cat1->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet cursus lorem. Nulla pharetra felis urna. Donec et dignissim lorem, ac condimentum ante. Proin dictum neque elit, eu condimentum neque condimentum vitae.');
+        $cat1->setMetaTitle('Sports & Outdoors');
 
 
-        $repository->translate($test, 'name', 'en', 'Test')
-                   ->translate($test, 'name', 'de', 'Test de')
-        ;
+        $repository->translate($cat1, 'name', 'en', 'Sports & Outdoors')
+            ->translate($cat1, 'name', 'fr', 'Sports et plein air');
+
+
+        $cat2 = new ProductCategory();
+        $cat2->setParent($root);
+        $cat2->setName('Books');
+        $cat2->setUrl('books');
+        $cat2->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet cursus lorem. Nulla pharetra felis urna. Donec et dignissim lorem, ac condimentum ante. Proin dictum neque elit, eu condimentum neque condimentum vitae.');
+        $cat2->setMetaTitle('Books');
+
+
+        $repository->translate($cat2, 'name', 'en', 'Books')
+            ->translate($cat2, 'name', 'fr', 'Livres');
+
+        $cat3 = new ProductCategory();
+        $cat3->setParent($root);
+        $cat3->setName('Electronics & Computers');
+        $cat3->setUrl('electronics-and-computers');
+        $cat3->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet cursus lorem. Nulla pharetra felis urna. Donec et dignissim lorem, ac condimentum ante. Proin dictum neque elit, eu condimentum neque condimentum vitae.');
+        $cat3->setMetaTitle('Electronics & Computers');
+
+
+        $repository->translate($cat3, 'name', 'en', 'Electronics & Computers')
+            ->translate($cat3, 'name', 'fr', 'Électronique et ordinateurs');
 
         $em->persist($root);
-        $em->persist($test);
+        $em->persist($cat1);
+        $em->persist($cat2);
+        $em->persist($cat3);
         $em->flush();
 
+        $this->addReference('rootCategory', $root);
+        $this->addReference('Cat1', $cat1);
+        $this->addReference('Cat2', $cat2);
+        $this->addReference('Cat3', $cat3);
     }
 
     public function getOrder()

@@ -64,9 +64,9 @@ class ProductPrices
     private $zoneId;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\Currencies
+     * @var \Oni\ProductManagerBundle\Entity\Currency
      *
-     * @ORM\OneToOne(targetEntity="Oni\ProductManagerBundle\Entity\Currencies")
+     * @ORM\OneToOne(targetEntity="Oni\ProductManagerBundle\Entity\Currency")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="currencyId", referencedColumnName="id", unique=true)
      * })
@@ -74,9 +74,9 @@ class ProductPrices
     private $currency;
 
     /**
-     * @var \Oni\CoreBundle\Entity\Zones
+     * @var \Oni\CoreBundle\Entity\Zone
      *
-     * @ORM\OneToOne(targetEntity="Oni\CoreBundle\Entity\Zones")
+     * @ORM\OneToOne(targetEntity="Oni\CoreBundle\Entity\Zone")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="zoneId", referencedColumnName="id", unique=true)
      * })
@@ -242,11 +242,11 @@ class ProductPrices
     /**
      * Set currency
      *
-     * @param \Oni\ProductManagerBundle\Entity\Currencies $currency
+     * @param \Oni\ProductManagerBundle\Entity\Currency $currency
      *
      * @return ProductPrices
      */
-    public function setCurrency(\Oni\ProductManagerBundle\Entity\Currencies $currency = null)
+    public function setCurrency(\Oni\ProductManagerBundle\Entity\Currency $currency = null)
     {
         $this->currency = $currency;
 
@@ -256,7 +256,7 @@ class ProductPrices
     /**
      * Get currency
      *
-     * @return \Oni\ProductManagerBundle\Entity\Currencies
+     * @return \Oni\ProductManagerBundle\Entity\Currency
      */
     public function getCurrency()
     {
@@ -266,11 +266,11 @@ class ProductPrices
     /**
      * Set zone
      *
-     * @param \Oni\CoreBundle\Entity\Zones $zone
+     * @param \Oni\CoreBundle\Entity\Zone $zone
      *
      * @return ProductPrices
      */
-    public function setZone(\Oni\CoreBundle\Entity\Zones $zone = null)
+    public function setZone(\Oni\CoreBundle\Entity\Zone $zone = null)
     {
         $this->zone = $zone;
 
@@ -280,7 +280,7 @@ class ProductPrices
     /**
      * Get zone
      *
-     * @return \Oni\CoreBundle\Entity\Zones
+     * @return \Oni\CoreBundle\Entity\Zone
      */
     public function getZone()
     {

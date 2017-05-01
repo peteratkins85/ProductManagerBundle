@@ -35,8 +35,6 @@ class ProductCategoryController extends CoreController
 
     public function indexAction()
     {
-        $this->denyAccessUnlessGranted('ROLE_USER', null, 'Unable to access!');
-
         return $this->render('ProductManagerBundle:ProductCategory:index.html.twig', array(
         ));
     }
@@ -65,7 +63,6 @@ class ProductCategoryController extends CoreController
      */
     public function addAction(Request $request)
     {
-
         $productCategory = new ProductCategory();
         $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
 
@@ -104,9 +101,8 @@ class ProductCategoryController extends CoreController
     public function editAction($id, Request $request)
     {
 
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
-
         $productCategory = $this->productCategoryService->getProductCategoryById($id);
+        $this->denyAccessUnlessGranted('EDIT', $productCategory);
         $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
 
         if ($request->isMethod('POST')) {
@@ -140,10 +136,12 @@ class ProductCategoryController extends CoreController
 
     }
 
+    /**
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function deleteAction($id)
     {
-
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
         $productCategory = $this->productCategoryService->getProductCategoryById($id);
 
         if ($productCategory) {

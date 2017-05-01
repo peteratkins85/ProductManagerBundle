@@ -15,8 +15,7 @@ use Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory\ProductCategorySearch
 use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
 use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
 use Oni\CoreBundle\Common\LocaleAwareInterface;
-use \Exception;
-use Symfony\Component\HttpFoundation\Request;
+use Exception;
 
 class ProductCategoryDataTable extends DataTable implements LocaleAwareInterface
 {

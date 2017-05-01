@@ -1,4 +1,5 @@
 <?php
+
 namespace Oni\ProductManagerBundle\EventListeners;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -34,11 +35,11 @@ class TwigGlobals implements EventSubscriberInterface
     public function addNavigationGlobal()
     {
         $twigGlobals = $this->twig->getGlobals();
-        if (!array_key_exists('oni_navigation_templates',$twigGlobals)
+        if (!array_key_exists('oni_navigation_templates', $twigGlobals)
             || !array_key_exists('product-manager-navigation', $twigGlobals['oni_navigation_templates'])
-        ){
+        ) {
             $twigGlobals['oni_navigation_templates']['product-manager-navigation'] = '@ProductManager/navigation.html.twig';
-        }else{
+        } else {
             $twigGlobals['oni_navigation_templates'] = [];
         }
         $this->twig->addGlobal('oni_navigation_templates', $twigGlobals['oni_navigation_templates']);

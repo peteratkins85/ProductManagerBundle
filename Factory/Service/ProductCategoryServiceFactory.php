@@ -30,7 +30,6 @@ class ProductCategoryServiceFactory extends CoreAbstractFactory
     public function getService(ContainerInterface $container)
     {
         $objectManager  = $container->get('doctrine.orm.entity_manager');
-        $finder = $container->get('fos_elastica.finder.oni_sys.productcategory');
         $class = ProductCategory::class;
         $locale = $container->get('oni_get_locale');
         $productCategoryDataTable = $container->get('oni_product_category_data_table');

@@ -159,8 +159,7 @@ class ProductOptionController extends CoreController
 
     public function deleteGroupAction($id)
     {
-
-        $this->denyAccessUnlessGranted('ROLE_ADMIN', null, 'Unable to access!');
+        $this->denyAccessUnlessGranted('ROLE_ONI_ADMIN', null, 'Unable to access!');
         $productOptionGroup = $this->productOptionService->getProductOptionGroupsById($id);
 
         if ($productOptionGroup) {
