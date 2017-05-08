@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: peteratkins
- * Date: 25/12/15
- * Time: 19:42
- */
 
 namespace Oni\ProductManagerBundle\DataFixtures\ORM;
 
