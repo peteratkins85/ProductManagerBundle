@@ -48,10 +48,7 @@ class LoadProductData extends AbstractFixture implements OrderedFixtureInterface
 //        $prod1 = new Product();
 //        $prod1->setName('I Am Number 4');
 //        $prod1->addCategory($this->getReference('Cat2'));
-//        $prod1->addPrice();
-//
-//
-//
+//        $prod1->addPrice()
 //        $em->persist($cat3);
 //        $em->flush();
 //

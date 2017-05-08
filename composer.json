@@ -1,0 +1,16 @@
+{
+    "name": "oni-sys/product-manager-bundle",
+    "type": "symfony-bundle",
+    "authors": [
+        {
+            "name": "Peter Atkins",
+            "email": "peter.atkins85@gmail.com"
+        }
+    ],
+    "autoload" : {
+        "psr-4" : {
+            "Oni\\ProductManagerBundle" : ""
+        }
+    },
+    "require": {}
+}
