@@ -1,6 +1,6 @@
 {
     "name": "oni-sys/product-manager-bundle",
-    "type": "symfony-bundle",
+    "type": "oni-bundle",
     "authors": [
         {
             "name": "Peter Atkins",
