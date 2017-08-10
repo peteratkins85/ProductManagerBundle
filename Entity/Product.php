@@ -4,6 +4,7 @@ namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Oni\CoreBundle\Entity\Traits\LastUserEntity;
 use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
 use JsonSerializable;
 
@@ -19,6 +20,7 @@ class Product implements JsonSerializable
 {
 
     use TimestampableEntity;
+    use LastUserEntity;
 
     const DISABLED_REDIRECT = 404;
 
@@ -155,7 +157,7 @@ class Product implements JsonSerializable
 
     /**
      * @var
-     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Brand", inversedBy="products")
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Brand", cascade={"persist"}, inversedBy="products")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="brandId", referencedColumnName="id")
      * })
@@ -163,7 +165,7 @@ class Product implements JsonSerializable
     private $brand;
 
     /**
-     * @ORM\OneToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory")
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="defaultProductCategoryId", referencedColumnName="id")
      * })
@@ -172,7 +174,7 @@ class Product implements JsonSerializable
 
     /**
      *
-     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory", inversedBy="products")
+     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory", inversedBy="products", cascade={"persist"})
      * @ORM\JoinTable(name="oni_products_categories_relations")
      */
     private $categories;
@@ -187,7 +189,7 @@ class Product implements JsonSerializable
     /**
      * @var \Oni\ProductManagerBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="variants")
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="variants", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="parentId", referencedColumnName="id", onDelete="CASCADE")
      * })
@@ -207,32 +209,48 @@ class Product implements JsonSerializable
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductPrices")
-     * @ORM\JoinTable(name="products_price_relations",
-     *   joinColumns={
-     *     @ORM\JoinColumn(name="productId", referencedColumnName="id")
-     *   },
-     *   inverseJoinColumns={
-     *     @ORM\JoinColumn(name="productPriceId", referencedColumnName="id", unique=true)
-     *   }
-     * )
+     * @ORM\OneToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductPrices", mappedBy="product", cascade={"persist"})
      */
     private $prices;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionRelations", mappedBy="product", cascade={"persist"})
+     */
+    private $optionRelations;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductFeature", cascade={"persist"})
+     * @ORM\JoinTable(name="oni_products_feature_relations",
+     *      joinColumns={@ORM\JoinColumn(name="productId", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="featureId", referencedColumnName="id")}
+     *      )
+     */
+    private $features;
 
     /**
      * @var
      */
     private $images;
 
+
+    function jsonSerialize()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name
+        ];
+    }
     /**
      * Constructor
      */
     public function __construct()
     {
+        $this->categories = new \Doctrine\Common\Collections\ArrayCollection();
         $this->variants = new \Doctrine\Common\Collections\ArrayCollection();
         $this->prices = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->optionRelations = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->features = new \Doctrine\Common\Collections\ArrayCollection();
     }
-
 
     /**
      * Get id
@@ -242,6 +260,150 @@ class Product implements JsonSerializable
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Product
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set sku
+     *
+     * @param string $sku
+     *
+     * @return Product
+     */
+    public function setSku($sku)
+    {
+        $this->sku = $sku;
+
+        return $this;
+    }
+
+    /**
+     * Get sku
+     *
+     * @return string
+     */
+    public function getSku()
+    {
+        return $this->sku;
+    }
+
+    /**
+     * Set barcode
+     *
+     * @param string $barcode
+     *
+     * @return Product
+     */
+    public function setBarcode($barcode)
+    {
+        $this->barcode = $barcode;
+
+        return $this;
+    }
+
+    /**
+     * Get barcode
+     *
+     * @return string
+     */
+    public function getBarcode()
+    {
+        return $this->barcode;
+    }
+
+    /**
+     * Set upc
+     *
+     * @param string $upc
+     *
+     * @return Product
+     */
+    public function setUpc($upc)
+    {
+        $this->upc = $upc;
+
+        return $this;
+    }
+
+    /**
+     * Get upc
+     *
+     * @return string
+     */
+    public function getUpc()
+    {
+        return $this->upc;
+    }
+
+    /**
+     * Set visibility
+     *
+     * @param string $visibility
+     *
+     * @return Product
+     */
+    public function setVisibility($visibility)
+    {
+        $this->visibility = $visibility;
+
+        return $this;
+    }
+
+    /**
+     * Get visibility
+     *
+     * @return string
+     */
+    public function getVisibility()
+    {
+        return $this->visibility? true : false;
+    }
+
+    /**
+     * Set parentId
+     *
+     * @param integer $parentId
+     *
+     * @return Product
+     */
+    public function setParentId($parentId)
+    {
+        $this->parentId = $parentId;
+
+        return $this;
+    }
+
+    /**
+     * Get parentId
+     *
+     * @return integer
+     */
+    public function getParentId()
+    {
+        return $this->parentId;
     }
 
     /**
@@ -269,17 +431,377 @@ class Product implements JsonSerializable
     }
 
     /**
+     * Set defaultProductCategoryId
+     *
+     * @param integer $defaultProductCategoryId
+     *
+     * @return Product
+     */
+    public function setDefaultProductCategoryId($defaultProductCategoryId)
+    {
+        $this->defaultProductCategoryId = $defaultProductCategoryId;
+
+        return $this;
+    }
+
+    /**
+     * Get defaultProductCategoryId
+     *
+     * @return integer
+     */
+    public function getDefaultProductCategoryId()
+    {
+        return $this->defaultProductCategoryId;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     *
+     * @return Product
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set shortDescription
+     *
+     * @param string $shortDescription
+     *
+     * @return Product
+     */
+    public function setShortDescription($shortDescription)
+    {
+        $this->shortDescription = $shortDescription;
+
+        return $this;
+    }
+
+    /**
+     * Get shortDescription
+     *
+     * @return string
+     */
+    public function getShortDescription()
+    {
+        return $this->shortDescription;
+    }
+
+    /**
+     * Set enabled
+     *
+     * @param boolean $enabled
+     *
+     * @return Product
+     */
+    public function setEnabled($enabled)
+    {
+        $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    /**
+     * Get enabled
+     *
+     * @return boolean
+     */
+    public function getEnabled()
+    {
+        return $this->enabled;
+    }
+
+    /**
+     * Set disabledAction
+     *
+     * @param string $disabledAction
+     *
+     * @return Product
+     */
+    public function setDisabledAction($disabledAction)
+    {
+        $this->disabledAction = $disabledAction;
+
+        return $this;
+    }
+
+    /**
+     * Get disabledAction
+     *
+     * @return string
+     */
+    public function getDisabledAction()
+    {
+        return $this->disabledAction;
+    }
+
+    /**
+     * Set redirectUrl
+     *
+     * @param string $redirectUrl
+     *
+     * @return Product
+     */
+    public function setRedirectUrl($redirectUrl)
+    {
+        $this->redirectUrl = $redirectUrl;
+
+        return $this;
+    }
+
+    /**
+     * Get redirectUrl
+     *
+     * @return string
+     */
+    public function getRedirectUrl()
+    {
+        return $this->redirectUrl;
+    }
+
+    /**
+     * Set tags
+     *
+     * @param string $tags
+     *
+     * @return Product
+     */
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+        return $this;
+    }
+
+    /**
+     * Get tags
+     *
+     * @return string
+     */
+    public function getTags()
+    {
+        return $this->tags;
+    }
+
+    /**
+     * Set saleable
+     *
+     * @param boolean $saleable
+     *
+     * @return Product
+     */
+    public function setSaleable($saleable)
+    {
+        $this->saleable = $saleable;
+
+        return $this;
+    }
+
+    /**
+     * Get saleable
+     *
+     * @return boolean
+     */
+    public function getSaleable()
+    {
+        return $this->saleable;
+    }
+
+    /**
+     * Set url
+     *
+     * @param string $url
+     *
+     * @return Product
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    /**
+     * Get url
+     *
+     * @return string
+     */
+    public function getUrl()
+    {
+        return $this->url;
+    }
+
+    /**
+     * Set condition
+     *
+     * @param string $condition
+     *
+     * @return Product
+     */
+    public function setCondition($condition)
+    {
+        $this->condition = $condition;
+
+        return $this;
+    }
+
+    /**
+     * Get condition
+     *
+     * @return string
+     */
+    public function getCondition()
+    {
+        return $this->condition;
+    }
+
+    /**
+     * Set brandId
+     *
+     * @param integer $brandId
+     *
+     * @return Product
+     */
+    public function setBrandId($brandId)
+    {
+        $this->brandId = $brandId;
+
+        return $this;
+    }
+
+    /**
+     * Get brandId
+     *
+     * @return integer
+     */
+    public function getBrandId()
+    {
+        return $this->brandId;
+    }
+
+    /**
+     * Set brand
+     *
+     * @param \Oni\ProductManagerBundle\Entity\Brand $brand
+     *
+     * @return Product
+     */
+    public function setBrand(\Oni\ProductManagerBundle\Entity\Brand $brand = null)
+    {
+        $this->brand = $brand;
+
+        return $this;
+    }
+
+    /**
+     * Get brand
+     *
+     * @return \Oni\ProductManagerBundle\Entity\Brand
+     */
+    public function getBrand()
+    {
+        return $this->brand;
+    }
+
+    /**
+     * Set defaultProductCategory
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory
+     *
+     * @return Product
+     */
+    public function setDefaultProductCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory = null)
+    {
+        $this->defaultProductCategory = $defaultProductCategory;
+
+        return $this;
+    }
+
+    /**
+     * Get defaultProductCategory
+     *
+     * @return \Oni\ProductManagerBundle\Entity\ProductCategory
+     */
+    public function getDefaultProductCategory()
+    {
+        return $this->defaultProductCategory;
+    }
+
+    /**
+     * Add category
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
+     *
+     * @return Product
+     */
+    public function addCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
+    {
+       // $category->addProduct($this);
+        $this->categories[] = $category;
+
+        return $this;
+    }
+
+    /**
+     * Remove category
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
+     */
+    public function removeCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
+    {
+        $this->categories->removeElement($category);
+    }
+
+    /**
+     * Get categories
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
      * Add variant
      *
      * @param \Oni\ProductManagerBundle\Entity\Product $variant
      *
      * @return Product
      */
-    public function addVariant(\Oni\ProductManagerBundle\Entity\Product $variant)
+    public function addVariant(Product $variant)
     {
+        $variant->setParentProduct($this);
+        //$this->copyFromParent($variant);
         $this->variants[] = $variant;
 
         return $this;
+    }
+
+    public function copyFromParent(Product $variant)
+    {
+        if (empty($variant->getName())){
+            $properties = get_class_vars($this);
+
+            foreach($properties as $property){
+
+            }
+        }
     }
 
     /**
@@ -359,6 +881,7 @@ class Product implements JsonSerializable
      */
     public function addPrice(\Oni\ProductManagerBundle\Entity\ProductPrices $price)
     {
+        $price->setProduct($this);
         $this->prices[] = $price;
 
         return $this;
@@ -384,531 +907,81 @@ class Product implements JsonSerializable
         return $this->prices;
     }
 
-
     /**
-     * Set defaultProductCategoryId
+     * Add optionRelation
      *
-     * @param integer $defaultProductCategoryId
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation
      *
      * @return Product
      */
-    public function setDefaultProductCategoryId($defaultProductCategoryId)
+    public function addOptionRelation(\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation)
     {
-        $this->defaultProductCategoryId = $defaultProductCategoryId;
+        $optionRelation->setProduct($this->getParentProduct());
+        $optionRelation->setVariant($this);
+        $this->optionRelations[] = $optionRelation;
 
         return $this;
     }
 
     /**
-     * Get defaultProductCategoryId
+     * Remove optionRelation
      *
-     * @return integer
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation
      */
-    public function getDefaultProductCategoryId()
+    public function removeOptionRelation(\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation)
     {
-        return $this->defaultProductCategoryId;
+        $this->optionRelations->removeElement($optionRelation);
     }
 
     /**
-     * Set defaultProductCategory
-     *
-     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory
-     *
-     * @return Product
-     */
-    public function setDefaultProductCategory(
-        \Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory = null
-    ) {
-        $this->defaultProductCategory = $defaultProductCategory;
-
-        return $this;
-    }
-
-    /**
-     * Get defaultProductCategory
-     *
-     * @return \Oni\ProductManagerBundle\Entity\ProductCategory
-     */
-    public function getDefaultProductCategory()
-    {
-        return $this->defaultProductCategory;
-    }
-
-
-    /**
-     * Set barcode
-     *
-     * @param string $barcode
-     *
-     * @return Product
-     */
-    public function setBarcode($barcode)
-    {
-        $this->barcode = $barcode;
-
-        return $this;
-    }
-
-    /**
-     * Get barcode
-     *
-     * @return string
-     */
-    public function getBarcode()
-    {
-        return $this->barcode;
-    }
-
-    /**
-     * Set tags
-     *
-     * @param string $tags
-     *
-     * @return Product
-     */
-    public function setTags($tags)
-    {
-        $this->tags = $tags;
-
-        return $this;
-    }
-
-    /**
-     * Get tags
-     *
-     * @return string
-     */
-    public function getTags()
-    {
-        return $this->tags;
-    }
-
-    /**
-     * Set saleable
-     *
-     * @param boolean $saleable
-     *
-     * @return Product
-     */
-    public function setSaleable($saleable)
-    {
-        $this->saleable = $saleable;
-
-        return $this;
-    }
-
-    /**
-     * Get saleable
-     *
-     * @return boolean
-     */
-    public function getSaleable()
-    {
-        return $this->saleable;
-    }
-
-    /**
-     * Set isVariantOf
-     *
-     * @param integer $isVariantOf
-     *
-     * @return Product
-     */
-    public function setIsVariantOf($isVariantOf)
-    {
-        $this->isVariantOf = $isVariantOf;
-
-        return $this;
-    }
-
-    /**
-     * Get isVariantOf
-     *
-     * @return integer
-     */
-    public function getIsVariantOf()
-    {
-        return $this->isVariantOf;
-    }
-
-    /**
-     * Set sku
-     *
-     * @param string $sku
-     *
-     * @return Product
-     */
-    public function setSku($sku)
-    {
-        $this->sku = $sku;
-
-        return $this;
-    }
-
-    /**
-     * Get sku
-     *
-     * @return string
-     */
-    public function getSku()
-    {
-        return $this->sku;
-    }
-
-    /**
-     * Set upc
-     *
-     * @param string $upc
-     *
-     * @return Product
-     */
-    public function setUpc($upc)
-    {
-        $this->upc = $upc;
-
-        return $this;
-    }
-
-    /**
-     * Get upc
-     *
-     * @return string
-     */
-    public function getUpc()
-    {
-        return $this->upc;
-    }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     *
-     * @return Product
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Product
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
-     * Set shortDescription
-     *
-     * @param string $shortDescription
-     *
-     * @return Product
-     */
-    public function setShortDescription($shortDescription)
-    {
-        $this->shortDescription = $shortDescription;
-
-        return $this;
-    }
-
-    /**
-     * Get shortDescription
-     *
-     * @return string
-     */
-    public function getShortDescription()
-    {
-        return $this->shortDescription;
-    }
-
-    /**
-     * Add category
-     *
-     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
-     *
-     * @return Product
-     */
-    public function addCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
-    {
-        $this->categories[] = $category;
-
-        return $this;
-    }
-
-    /**
-     * Remove category
-     *
-     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
-     */
-    public function removeCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
-    {
-        $this->categories->removeElement($category);
-    }
-
-    /**
-     * Get categories
+     * Get optionRelations
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCategories()
+    public function getOptionRelations()
     {
-        return $this->categories;
+        return $this->optionRelations;
     }
 
     /**
-     * Set enabled
+     * Add feature
      *
-     * @param boolean $enabled
+     * @param \Oni\ProductManagerBundle\Entity\ProductFeature $feature
      *
      * @return Product
      */
-    public function setEnabled($enabled)
+    public function addFeature(\Oni\ProductManagerBundle\Entity\ProductFeature $feature)
     {
-        $this->enabled = $enabled;
+        $this->features[] = $feature;
 
         return $this;
     }
 
     /**
-     * Get enabled
+     * Remove feature
      *
-     * @return boolean
+     * @param \Oni\ProductManagerBundle\Entity\ProductFeature $feature
      */
-    public function getEnabled()
+    public function removeFeature(\Oni\ProductManagerBundle\Entity\ProductFeature $feature)
     {
-        return $this->enabled;
+        $this->features->removeElement($feature);
     }
 
     /**
-     * Set disabledAction
+     * Get features
      *
-     * @param string $disabledAction
-     *
-     * @return Product
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function setDisabledAction($disabledAction)
+    public function getFeatures()
     {
-        $this->disabledAction = $disabledAction;
-
-        return $this;
+        return $this->features;
     }
 
     /**
-     * Get disabledAction
-     *
      * @return string
      */
-    public function getDisabledAction()
+    public function __toString()
     {
-        return $this->disabledAction;
-    }
-
-    /**
-     * Set redirectUrl
-     *
-     * @param string $redirectUrl
-     *
-     * @return Product
-     */
-    public function setRedirectUrl($redirectUrl)
-    {
-        $this->redirectUrl = $redirectUrl;
-
-        return $this;
-    }
-
-    /**
-     * Get redirectUrl
-     *
-     * @return string
-     */
-    public function getRedirectUrl()
-    {
-        return $this->redirectUrl;
-    }
-
-    /**
-     * Set condition
-     *
-     * @param string $condition
-     *
-     * @return Product
-     */
-    public function setCondition($condition)
-    {
-        $this->condition = $condition;
-
-        return $this;
-    }
-
-    /**
-     * Get condition
-     *
-     * @return string
-     */
-    public function getCondition()
-    {
-        return $this->condition;
-    }
-
-    /**
-     * Set parentId
-     *
-     * @param integer $parentId
-     *
-     * @return Product
-     */
-    public function setParentId($parentId)
-    {
-        $this->parentId = $parentId;
-
-        return $this;
-    }
-
-    /**
-     * Get parentId
-     *
-     * @return integer
-     */
-    public function getParentId()
-    {
-        return $this->parentId;
-    }
-
-    /**
-     * Set brandId
-     *
-     * @param integer $brandId
-     *
-     * @return Product
-     */
-    public function setBrandId($brandId)
-    {
-        $this->brandId = $brandId;
-
-        return $this;
-    }
-
-    /**
-     * Get brandId
-     *
-     * @return integer
-     */
-    public function getBrandId()
-    {
-        return $this->brandId;
-    }
-
-    /**
-     * Set brand
-     *
-     * @param \Oni\ProductManagerBundle\Entity\Brand $brand
-     *
-     * @return Product
-     */
-    public function setBrand(\Oni\ProductManagerBundle\Entity\Brand $brand = null)
-    {
-        $this->brand = $brand;
-
-        return $this;
-    }
-
-    /**
-     * Get brand
-     *
-     * @return \Oni\ProductManagerBundle\Entity\Brand
-     */
-    public function getBrand()
-    {
-        return $this->brand;
-    }
-
-
-
-    /**
-     * Set visibility
-     *
-     * @param string $visibility
-     *
-     * @return Product
-     */
-    public function setVisibility($visibility)
-    {
-        $this->visibility = $visibility;
-
-        return $this;
-    }
-
-    /**
-     * Get visibility
-     *
-     * @return string
-     */
-    public function getVisibility()
-    {
-        return $this->visibility;
-    }
-
-    /**
-     * Set url
-     *
-     * @param string $url
-     *
-     * @return Product
-     */
-    public function setUrl($url)
-    {
-        $this->url = $url;
-
-        return $this;
-    }
-
-    /**
-     * Get url
-     *
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->url;
-    }
-
-
-    function jsonSerialize()
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name
-        ];
+        return $this->getName();
     }
 }

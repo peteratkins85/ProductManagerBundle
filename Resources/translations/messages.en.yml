@@ -3,14 +3,21 @@ product_bundle:
     product.categories : Product Categories
     product.category : Product Category
     product.option.groups: Product Option Groups
+    add.option.group: Add Option Group
+    add.product.option.group: Add Product Option Group
     add.product.category: Add New Product Category
     edit.product.category: Edit Product Category
+    add.feature: Add Feature
+    add.product.feature: Add Product Feature
     add.new.product.option.group: Add New Option Group
     category.url: Category Url
     products: Products
     product: Product
     product.category.deleted: Product Category deleted!
+    product.price.deleted: Product Price deleted!
     product.category.added: New product category added successfully!
     invalid.product.category.id: Invalid product category Id
+    invalid.product.price.id: Invalid product price Id %id%
     add.product: Add New Product
     product.code: Product Code
+    product.list: Product List

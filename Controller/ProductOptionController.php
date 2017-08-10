@@ -2,6 +2,7 @@
 
 namespace Oni\ProductManagerBundle\Controller;
 
+use Oni\CoreBundle\Common\DataTable;
 use Oni\CoreBundle\Controller\CoreController;
 use Oni\ProductManagerBundle\Entity\ProductOption;
 use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
@@ -36,7 +37,7 @@ class ProductOptionController extends CoreController
      */
     public function __construct(
         ProductOptionService $productOptionService,
-        ProductOptionGroupDataTable $productOptionGroupDataTable
+        DataTable $productOptionGroupDataTable
     )
     {
         $this->productOptionService = $productOptionService;

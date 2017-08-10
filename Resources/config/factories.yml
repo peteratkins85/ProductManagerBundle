@@ -10,10 +10,12 @@ services:
     oni_product_category_form_factory:
         class: Oni\ProductManagerBundle\Factory\Form\ProductCategoryFormFactory
     oni_product_form_factory:
-        class: Oni\ProductManagerBundle\Factory\Form\ProductFormFactory
+        class: Oni\ProductManagerBundle\Factory\Form\Type\ProductTypeFactory
     oni_product_type_service_factory:
         class: Oni\ProductManagerBundle\Factory\Service\ProductTypeServiceFactory
     oni_product_option_service_factory:
         class: Oni\ProductManagerBundle\Factory\Service\ProductOptionServiceFactory
     oni_product_option_controller_factory:
         class: Oni\ProductManagerBundle\Factory\Controller\ProductOptionControllerFactory
+    oni_product_price_controller_factory:
+        class: Oni\ProductManagerBundle\Factory\Controller\ProductPriceControllerFactory

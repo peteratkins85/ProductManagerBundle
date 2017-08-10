@@ -27,26 +27,18 @@ class ProductCategoryService
     protected $locale;
 
     /**
-     * @var ProductCategoryDataTable
-     */
-    protected $productCategoryDataTable;
-
-
-    /**
      * ProductCategoryService constructor.
      * @param ObjectManager $objectManager
      * @param $class
      */
     public function __construct(
         ObjectManager $objectManager,
-        ProductCategoryDataTable $productCategoryDataTable,
         string $class,
         string $locale
     )
     {
         $this->locale = $locale;
         $this->productCategoryRepository = $objectManager->getRepository($class);
-        $this->productCategoryDataTable = $productCategoryDataTable;
         $metadata = $objectManager->getClassMetadata($class);
         $this->class = $metadata->getName();
     }

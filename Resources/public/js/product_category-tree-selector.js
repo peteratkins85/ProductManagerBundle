@@ -26,11 +26,8 @@ ONI.ui.productCategory.TreeSelector = ProductCategoryTreeSelector = Class.create
         this.config = config;
         this.container = $(this.config.container);
 
-        if (typeof this.config.attachedSelect !== "undefined"){
-            this.attachedSelectElement = this.config.attachedSelect;
-            if (!$.isEmptyObject(this.container.data('attached-selected'))){
-                this.attachedSelected = this.container.data('attached-selected');
-            }
+        if (typeof this.config.attachedSelectId !== "undefined" && $(this.config.attachedSelectId).length > 0){
+            this.attachedSelectElement = $(this.config.attachedSelectId);
         }
 
         if (this.container.data('input-name').length > 0){
@@ -44,6 +41,37 @@ ONI.ui.productCategory.TreeSelector = ProductCategoryTreeSelector = Class.create
         this.initTree();
 
     },
+    initTree: function () {
+
+        var _this = this;
+
+        if ($(_this.selector, _this.container).length) {
+            $.ajax({
+                url: _this.url,
+                dataType: "json",
+            }).done(function (data) {
+
+                $(_this.selector, _this.container)
+                    .on('check_node.jstree', $.proxy(_this.checkNodeAction, _this))
+                    .on('uncheck_node.jstree', $.proxy(_this.unCheckNodeAction, _this))
+                    .on('ready.jstree', $.proxy(_this.onJsTreeReady, _this))
+                    .jstree({
+                        "plugins": ["checkbox"],
+                        "checkbox": {
+                            "tie_selection": false
+                        },
+                        'core': {
+                            'data': data
+                        }
+                    });
+
+                _this.jsTreeInstance = $.jstree.reference($(_this.selector, _this.container));
+
+            });
+        } else {
+            throw new Error('selector must be set');
+        }
+    },
     onJsTreeReady: function(){
 
         var _this = this;
@@ -56,7 +84,7 @@ ONI.ui.productCategory.TreeSelector = ProductCategoryTreeSelector = Class.create
 
         if (_this.selected.length > 0) {
             $.each(_this.selected, function (index, select) {
-                JsTree.check_node(select.id);
+                JsTree.check_node(select);
             });
         }
 
@@ -149,37 +177,6 @@ ONI.ui.productCategory.TreeSelector = ProductCategoryTreeSelector = Class.create
             });
         }
 
-    },
-    initTree: function () {
-
-        var _this = this;
-
-        if ($(_this.selector, _this.container).length) {
-            $.ajax({
-                url: _this.url,
-                dataType: "json",
-            }).done(function (data) {
-
-                $(_this.selector, _this.container)
-                .on('check_node.jstree', $.proxy(_this.checkNodeAction, _this))
-                .on('uncheck_node.jstree', $.proxy(_this.unCheckNodeAction, _this))
-                .on('ready.jstree', $.proxy(_this.onJsTreeReady, _this))
-                .jstree({
-                    "plugins": ["checkbox"],
-                    "checkbox": {
-                        "tie_selection": false
-                    },
-                    'core': {
-                        'data': data
-                    }
-                });
-
-                _this.jsTreeInstance = $.jstree.reference($(_this.selector, _this.container));
-
-            });
-        } else {
-            throw new Error('selector must be set');
-        }
     }
 });
 

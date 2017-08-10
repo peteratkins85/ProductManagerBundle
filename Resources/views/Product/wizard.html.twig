@@ -5,16 +5,40 @@
 {% endblock %}
 {% form_theme form 'CoreBundle:cms/form:bootstrap_horizontal_layout.html.twig' %}
 {% block body %}
+    <style>
+        ul.product-prices li {
+            border: solid #ececec 1px;
+            width: 500px;
+            padding: 10px;
+            float: left;
+            list-style: none;
+            margin-bottom: 10px;
+            margin-right: 10px;
+            position: relative;
+        }
+
+        .close-btn, .close-btn-click {
+            width: 20px;
+            height: 20px;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            cursor: pointer;
+        }
+    </style>
     <section id='content'>
         <div class='container-fluid'>
             <div class='row-fluid' id='content-wrapper'>
                 <div class='span12'>
                     {% embed 'CoreBundle:cms:content/content-header.html.twig' %}
                         {% block contentTitle %} {{ 'product_bundle.add.product'|trans }} {% endblock %}
-                    {%  endembed %}
+                    {% endembed %}
                     <div class='row-fluid'>
                         <div class="pull-right">
-                            <a class="btn btn-primary" style="margin-bottom:8px" href="{{ url('oni_add_product_option_group') }}" > <i class="icon-plus"></i> {{ 'product_bundle.add.new.product.option.group'|trans }} </a>
+                            <a class="btn btn-primary" style="margin-bottom:8px"
+                               href="{{ url('oni_add_product_option_group') }}"> <i
+                                        class="icon-plus"></i> {{ 'product_bundle.add.new.product.option.group'|trans }}
+                            </a>
                         </div>
                     </div>
                     <div class='row-fluid'>
@@ -24,21 +48,45 @@
                                     <div class='tabbable tabs-left'>
                                         <ul class='nav nav-tabs'>
                                             <li class='active'>
-                                                <a data-toggle='tab' href='#lA'>
+                                                <a data-toggle='tab' href='#generalInfoTab'>
                                                     <i class="icon-info"></i>
                                                     Info
                                                 </a>
                                             </li>
                                             <li>
-                                                <a data-toggle='tab' href='#lB'>
+                                                <a data-toggle='tab' href='#categoriesTab'>
                                                     <i class="icon-reorder"></i>
                                                     Category
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle='tab' href='#priceTab'>
+                                                    <i class="icon-reorder"></i>
+                                                    Product Prices
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle='tab' href='#variationsTab'>
+                                                    <i class="icon-reorder"></i>
+                                                    Variants
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle='tab' href='#stockTab'>
+                                                    <i class="icon-reorder"></i>
+                                                    Stock
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a data-toggle='tab' href='#featuresTab'>
+                                                    <i class="icon-reorder"></i>
+                                                    Features
                                                 </a>
                                             </li>
                                         </ul>
                                         {{ form_start(form) }}
                                         <div class='tab-content'>
-                                            <div class='tab-pane active' id='lA'>
+                                            <div class='tab-pane active' id='generalInfoTab'>
                                                 {{ form_row(form.name) }}
                                                 {{ form_row(form.url) }}
                                                 {{ form_row(form.sku) }}
@@ -47,23 +95,54 @@
                                                 {{ form_row(form.shortDescription) }}
                                                 {{ form_row(form.description) }}
                                             </div>
-                                            <div class='tab-pane' id="lB">
+                                            <div class='tab-pane' id="categoriesTab">
                                                 <div class="control-group">
                                                     {{ form_label(form.categories) }}
                                                     {% do form.categories.setRendered %}
                                                     <div class="controls">
-                                                        <div id="oni-category-tree" data-input-name="{{ form.categories.vars.full_name }}[]" data-selected="{{ selectedCategories|json_encode }}" data-attached-selected="{{ selectedDefaultCategory|json_encode }}">
+                                                        <div id="oni-category-tree"
+                                                             data-input-name="{{ form.categories.vars.full_name }}[]"
+                                                             data-selected="{{ form.categories.vars.value|json_encode }}">
                                                             <div class="js-tree"></div>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 {{ form_row(form.defaultProductCategory) }}
                                             </div>
+                                            <div class='tab-pane' id="priceTab">
+                                                <ul class="product-prices"
+                                                    data-prototype="{{ form_widget(form.prices.vars.prototype)|e('html_attr') }}">
+                                                    {% for price in form.prices %}
+                                                        <li>
+                                                            <span class="close-btn icon-remove delete-product-price" data-subject-id="{{ price.vars.data.getId }}"></span>
+                                                            {{ form_widget(price) }}
+                                                            {{ form_errors(price) }}
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                                <div style="clear: both"></div>
+                                                <button class="btn btn-primary add-price">Add New Price</button>
+                                            </div>
+                                            <div class='tab-pane' id="variationsTab">
+                                                {{ dump(optionGroups) }}
+                                                <select class="option-group-selector">
+                                                    <option></option>
+                                                    {% for optionGroup in optionGroups %}
+                                                        <option value="{{ optionGroup.getId }}" >{{ optionGroup.getName }}</option>
+                                                    {% endfor %}
+                                                </select>
+                                            </div>
+                                            <div class='tab-pane' id="stockTab">
+
+                                            </div>
+
+                                            <div class='tab-pane' id="featuresTab">
+
+                                            </div>
 
                                             <hr class="hr-double">
                                             {{ form_row(form.submit) }}
                                         </div>
-
                                         {{ form_end(form) }}
                                     </div>
                                 </div>
@@ -73,17 +152,106 @@
                 </div>
             </div>
         </div>
+
     </section>
+
 
 {% endblock %}
 {% block javascripts %}
-    <script src="{{ asset('bundles/productmanager/js/product_category-tree-selector.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/productmanager/js/product_category-tree-selector.js') }}"
+            type="text/javascript"></script>
     <script>
-        $( window ).load(function() {
+        $(window).load(function () {
+
+            $('.option-group-selector').select2({
+                placeholder: "Please select a option group"
+            });
+
             var categoryTreeSelector = new ProductCategoryTreeSelector({
                 container: '#oni-category-tree',
-                'attachedSelect': $('#product_form_defaultProductCategory'),
+                'attachedSelectId': '#product_defaultProductCategory',
             });
+
+            $('.delete-product-price').on('click', function (e) {
+                var closeElement, $id;
+
+                e.preventDefault();
+
+                closeElement = $(this);
+
+                if (typeof closeElement.data('subject-id') !== 'undefined') {
+                    $id = closeElement.data('subject-id');
+                }
+
+                var $dialogElement = '<div id="dialog-confirm\" title=\"Delete Product Price?"> ' +
+                    '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:12px 12px 20px 0;"></span>' +
+                    'Price will be permanently deleted and cannot be recovered. Are you sure?' +
+                    '</p> ' +
+                    '</div>';
+
+                $($dialogElement).dialog({
+                    resizable: false,
+                    height: "auto",
+                    width: 400,
+                    modal: true,
+                    buttons: {
+                        "Delete all items": function() {
+                            debugger;
+                            var id = $id;
+
+                            $.ajax({
+                                method: "GET",
+                                url: Routing.generate('oni_delete_product_price', { id: id }),
+                            }).done(function( data ) {
+
+                                debugger;
+
+                                var my = data;
+
+                                closeElement.parent().remove();
+
+                            });
+                            $( this ).dialog( "close" );
+                        },
+                        Cancel: function() {
+                            $( this ).dialog( "close" );
+                        }
+                    }
+                });
+
+            });
+
+
+            $('.add-price').on('click', function (e) {
+                var prototype, $collectionHolder, index, newForm, $newFormLi;
+
+                e.preventDefault();
+
+                $collectionHolder = $('ul.product-prices');
+
+                if (typeof $collectionHolder.data('index') === 'undefined') {
+                    $collectionHolder.data('index', $collectionHolder.find('li').length);
+                }
+
+                // Get the data-prototype explained earlier
+                prototype = $collectionHolder.data('prototype');
+
+                // get the new index
+                index = $collectionHolder.data('index');
+
+                // Replace '__name__' in the prototype's HTML to
+                // instead be a number based on how many items we have
+                newForm = prototype.replace(/__name__/g, index);
+                newForm = '<li><span class="close-btn icon-remove"></span>' + newForm + '</li>';
+
+                // increase the index with one for the next item
+                $collectionHolder.data('index', index + 1);
+
+                // Display the form in the page in an li, before the "Add a tag" link li
+                $collectionHolder.append(newForm);
+
+            })
+
         });
     </script>
 {% endblock %}

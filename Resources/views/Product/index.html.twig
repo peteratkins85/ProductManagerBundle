@@ -18,7 +18,7 @@
                             <a class="btn btn-primary" style="margin-bottom:8px" href="{{ url('oni_add_product') }}" > <i class="icon-plus"></i> {{ 'product_bundle.add.product'|trans }} </a>
                         </div>
                         <div class="pull-right">
-                            <a class="btn btn-primary" style="margin-bottom:8px" href="{{ url('oni_add_product_option_group') }}" > <i class="icon-plus"></i> {{ 'Add Product Option Group'|trans }} </a>
+                            <a class="btn btn-primary" style="margin-bottom:8px" href="{{ url('oni_add_product_option_group') }}" > <i class="icon-plus"></i> {{ 'product_bundle.add.option.group'|trans }} </a>
                         </div>
                     </div>
                     <div class='row-fluid'>
@@ -26,20 +26,36 @@
 
                             <div class='box-content box-no-padding'>
                                 <div class='responsive-table'>
-                                    <div class='scrollable-area'>
-                                        <table class='data-table-oni-product-categories table table-bordered table-striped' >
+                                    <div>
+                                        <table class='data-table-oni-product table table-bordered table-striped' >
                                             <thead>
                                             <tr>
-                                                <th>SKU</th>
-                                                <th>Name</th>
-                                                <th>Status</th>
-                                                <th>Created At</th>
-                                                <th>Last Updated</th>
-                                                <th></th>
+                                                <th data-row-options="1"></th>
+                                                <th data-column-name="id" >Id</th>
+                                                <th data-column-name="sku">SKU</th>
+                                                <th data-column-name="name">Name</th>
+                                                <th data-column-name="enabled">Active</th>
+                                                <th data-column-name="createdAt">Created At</th>
+                                                <th data-column-name="updatedAt">Last Updated</th>
                                             </tr>
                                             </thead>
                                         </table>
-                                        <template data-table-oni-product-options="1">
+                                        <template product-row-options="1">
+                                            {% embed '@Core/cms/partials/dataTable/options.twig' %}
+                                                {% block links %}
+                                                    <li>
+                                                        <a href='{{ path('oni_edit_product' , {'id': '{id}', 'productType': '{type}'})|url_decode  }}'>Edit</a>
+                                                    </li>
+                                                    <li>
+                                                        <a class='oni-delete-action' data-toggle="modal"
+                                                           delete-msg="{{ 'modal-messages.delete.confirm.msg'|trans({'%name%': '{name}' , '%item%': 'product_bundle.product'|trans}) }}"
+                                                           delete-url="{{ path('oni_delete_product' , {'id': '{id}'} )|url_decode }}"
+                                                           href='#confirm-delete'>
+                                                            Delete
+                                                        </a>
+                                                    </li>
+                                                {% endblock %}
+                                            {% endembed %}
                                         </template>
                                     </div>
                                 </div>
@@ -54,5 +70,12 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script src="{{ asset('bundles/productmanager/js/products.js') }}" type="text/javascript"></script>
+    <script src="{{ asset('bundles/productmanager/js/datatable/product.js') }}" type="text/javascript"></script>
+
+    <script>
+        new ProductDataTable({
+            selector:'.data-table-oni-product',
+            rowOptionsTemplate: 'template[product-row-options]'
+        });
+    </script>
 {% endblock %}

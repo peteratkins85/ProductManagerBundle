@@ -17,6 +17,11 @@ class ProductOptionGroup
 
     use TimestampableEntity;
     use LastUserEntity;
+
+    const SELECT = 'SELECT';
+    const MULTI_SELECT = 'MULTI_SELECT';
+    const TEXT = 'TEXT';
+
     /**
      * @var integer
      *
@@ -50,23 +55,39 @@ class ProductOptionGroup
     /**
      * @var \Oni\ProductManagerBundle\Entity\ProductOptionGroupType
      *
-     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionGroupType", inversedBy="productOptionGroups")
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionGroupType", inversedBy="productOptionGroups", cascade={"persist"}))
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="optionGroupTypeId", referencedColumnName="id")
      * })
      */
     private $optionGroupType;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="Oni\ProductManagerBundle\Entity\ProductOption", mappedBy="optionGroup", cascade={"persist"}))
+     */
+    private $options;
+
 
     /**
      * @var array
      */
     public static $dataTypes = [
-        'Select'        => 'SELECT',
-        'Text'          => 'TEXT',
-        'Multi Select'  => 'MULTI_SELECT',
+        self::SELECT,
+        self::MULTI_SELECT,
+        self::TEXT,
     ];
 
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->options = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -83,7 +104,7 @@ class ProductOptionGroup
      *
      * @param string $dataType
      *
-     * @return ProductOptionGroups
+     * @return ProductOptionGroup
      */
     public function setDataType($dataType)
     {
@@ -102,13 +123,36 @@ class ProductOptionGroup
         return $this->dataType;
     }
 
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return ProductOptionGroup
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
 
     /**
      * Set userOptionSelectType
      *
      * @param string $userOptionSelectType
      *
-     * @return ProductOptionGroups
+     * @return ProductOptionGroup
      */
     public function setUserOptionSelectType($userOptionSelectType)
     {
@@ -152,36 +196,37 @@ class ProductOptionGroup
     }
 
     /**
-     * Set name
+     * Add option
      *
-     * @param string $name
+     * @param \Oni\ProductManagerBundle\Entity\ProductOption $option
      *
      * @return ProductOptionGroup
      */
-    public function setName($name)
+    public function addOption(\Oni\ProductManagerBundle\Entity\ProductOption $option)
     {
-        $this->name = $name;
+        $option->setOptionGroup($this);
+        $this->options[] = $option;
 
         return $this;
     }
 
     /**
-     * Get name
+     * Remove option
      *
-     * @return string
+     * @param \Oni\ProductManagerBundle\Entity\ProductOption $option
      */
-    public function getName()
+    public function removeOption(\Oni\ProductManagerBundle\Entity\ProductOption $option)
     {
-        return $this->name;
+        $this->options->removeElement($option);
     }
 
     /**
-     * Get optionGroupTypeId
+     * Get options
      *
-     * @return integer
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function getOptionGroupTypeId()
+    public function getOptions()
     {
-        return $this->optionGroupTypeId;
+        return $this->options;
     }
 }

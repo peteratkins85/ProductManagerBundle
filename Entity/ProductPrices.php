@@ -3,11 +3,15 @@
 namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * ProductPrices
  *
- * @ORM\Table(name="oni_product_prices")
+ * @ORM\Table(name="oni_product_prices",
+ *     uniqueConstraints={@UniqueConstraint(name="price_unique_idx", columns={"productId", "currencyId", "zoneId"})
+ *     }
+ * )
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Entity\Repository\ProductPricesRepository")
  */
 class ProductPrices
@@ -24,7 +28,7 @@ class ProductPrices
     /**
      * @var integer
      *
-     * @ORM\Column(name="productId", type="integer", nullable=true)
+     * @ORM\Column(name="productId", type="integer")
      */
     private $productId;
 
@@ -64,11 +68,11 @@ class ProductPrices
     private $zoneId;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\Currency
+     * @var \Oni\CoreBundle\Entity\Currency
      *
-     * @ORM\OneToOne(targetEntity="Oni\ProductManagerBundle\Entity\Currency")
+     * @ORM\ManyToOne(targetEntity="Oni\CoreBundle\Entity\Currency")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="currencyId", referencedColumnName="id", unique=true)
+     *   @ORM\JoinColumn(name="currencyId", referencedColumnName="id")
      * })
      */
     private $currency;
@@ -76,12 +80,22 @@ class ProductPrices
     /**
      * @var \Oni\CoreBundle\Entity\Zone
      *
-     * @ORM\OneToOne(targetEntity="Oni\CoreBundle\Entity\Zone")
+     * @ORM\ManyToOne(targetEntity="Oni\CoreBundle\Entity\Zone")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="zoneId", referencedColumnName="id", unique=true)
+     *   @ORM\JoinColumn(name="zoneId", referencedColumnName="id")
      * })
      */
     private $zone;
+
+    /**
+     * @var \Oni\ProductManagerBundle\Entity\Product
+     *
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="prices")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="productId", referencedColumnName="id")
+     * })
+     */
+    private $product;
 
 
 
@@ -242,11 +256,11 @@ class ProductPrices
     /**
      * Set currency
      *
-     * @param \Oni\ProductManagerBundle\Entity\Currency $currency
+     * @param \Oni\CoreBundle\Entity\Currency $currency
      *
      * @return ProductPrices
      */
-    public function setCurrency(\Oni\ProductManagerBundle\Entity\Currency $currency = null)
+    public function setCurrency(\Oni\CoreBundle\Entity\Currency $currency = null)
     {
         $this->currency = $currency;
 
@@ -256,7 +270,7 @@ class ProductPrices
     /**
      * Get currency
      *
-     * @return \Oni\ProductManagerBundle\Entity\Currency
+     * @return \Oni\CoreBundle\Entity\Currency
      */
     public function getCurrency()
     {
@@ -285,5 +299,29 @@ class ProductPrices
     public function getZone()
     {
         return $this->zone;
+    }
+
+    /**
+     * Set product
+     *
+     * @param \Oni\ProductManagerBundle\Entity\Product $product
+     *
+     * @return ProductPrices
+     */
+    public function setProduct(\Oni\ProductManagerBundle\Entity\Product $product = null)
+    {
+        $this->product = $product;
+
+        return $this;
+    }
+
+    /**
+     * Get product
+     *
+     * @return \Oni\ProductManagerBundle\Entity\Product
+     */
+    public function getProduct()
+    {
+        return $this->product;
     }
 }

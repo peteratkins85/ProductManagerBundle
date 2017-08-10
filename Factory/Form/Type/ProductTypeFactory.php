@@ -1,24 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: peteratkins
- * Date: 04/12/2016
- * Time: 21:28
- */
 
-namespace Oni\ProductManagerBundle\Factory\Form;
+namespace Oni\ProductManagerBundle\Factory\Form\Type;
 
 
 use Oni\CoreBundle\Factory\CoreAbstractFactory;
 use Oni\CoreBundle\Form\Type\EntityHiddenType;
-use Oni\ProductManagerBundle\Entity\ProductType;
-use Oni\ProductManagerBundle\Form\ProductForm;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Oni\ProductManagerBundle\Form\ProductType;
+use Oni\ProductManagerBundle\Entity\ProductType as ProductTypeEntity;
 
-class ProductFormFactory extends CoreAbstractFactory
+
+class ProductTypeFactory extends CoreAbstractFactory
 {
 
     public $formBuilderArray;
@@ -35,7 +27,7 @@ class ProductFormFactory extends CoreAbstractFactory
 
     /**
      * @param ContainerInterface $serviceContainer
-     * @return ProductForm
+     * @return \Oni\ProductManagerBundle\Form\ProductType
      */
     function getService(ContainerInterface $serviceContainer)
     {
@@ -47,7 +39,7 @@ class ProductFormFactory extends CoreAbstractFactory
         $this->request = $request->getCurrentRequest();
         $route = $this->request->attributes->get('_route');
 
-        $productForm = new ProductForm(
+        $productForm = new \Oni\ProductManagerBundle\Form\ProductType(
             $productService,
             $productCategoryService,
             $locale
@@ -55,35 +47,41 @@ class ProductFormFactory extends CoreAbstractFactory
 
         switch ($route){
             case 'oni_add_product_wizard':
-                $this->buildFormForWizardRoute($productForm);
+                $this->buildFormForProductCreationWizard($productForm);
 
                 break;
             default:
-                $formBuilderArray = $this->defaultBuilderArray;
+                break;
         }
 
         return $productForm;
     }
 
     /**
-     * @param ProductForm $productForm
+     * @param \Oni\ProductManagerBundle\Form\ProductType $productForm
      */
-    protected function buildFormForWizardRoute(ProductForm $productForm)
+    protected function buildFormForProductCreationWizard(ProductType $productForm)
     {
         $productType = $this->request->attributes->get('productType');
         $em = $this->serviceContainer->get('doctrine.orm.default_entity_manager');
-        $productType = $em->getRepository(ProductType::class)->find($productType);
+        $productType = $em->getRepository(ProductTypeEntity::class)->find($productType);
 
-        $this->formBuilderArray[] = [
-            'name' => 'productType',
-            'type' => EntityHiddenType::class,
-            'properties' => [
-                'data' => $productType,
-                'class' => ProductType::class,
-            ]
-        ];
+        if ($productType) {
+            $productForm->setProductType($productType);
+            $this->formBuilderArray[] = [
+                'name' => 'productType',
+                'type' => EntityHiddenType::class,
+                'properties' => [
+                    'data' => $productType,
+                    'class' => ProductTypeEntity::class,
+                ]
+            ];
 
-        $productForm->setBuilderArray($this->formBuilderArray);
+            $productForm->setBuilderArray($this->formBuilderArray);
+
+        } else {
+            throw new \Exception('Invalid product type id '. $productType);
+        }
     }
 
 }

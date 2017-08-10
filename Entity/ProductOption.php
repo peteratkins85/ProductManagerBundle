@@ -24,9 +24,9 @@ class ProductOption
     /**
      * @var integer
      *
-     * @ORM\Column(name="productOptionGroupsId", type="integer")
+     * @ORM\Column(name="optionGroupId", type="integer")
      */
-    private $productOptionGroupsId;
+    private $optionGroupId;
 
     /**
      * @var
@@ -47,6 +47,17 @@ class ProductOption
      */
     private $optionPriority;
 
+    /**
+     * @var \Oni\ProductManagerBundle\Entity\ProductType
+     *
+     * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionGroup", inversedBy="options", cascade={"persist"}))
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="optionGroupId", referencedColumnName="id")
+     * })
+     */
+    private $optionGroup;
+
+
 
 
     /**
@@ -60,27 +71,27 @@ class ProductOption
     }
 
     /**
-     * Set productOptionGroupsId
+     * Set optionGroupId
      *
-     * @param integer $productOptionGroupsId
+     * @param integer $optionGroupId
      *
-     * @return ProductOptions
+     * @return ProductOption
      */
-    public function setProductOptionGroupsId($productOptionGroupsId)
+    public function setOptionGroupId($optionGroupId)
     {
-        $this->productOptionGroupsId = $productOptionGroupsId;
+        $this->optionGroupId = $optionGroupId;
 
         return $this;
     }
 
     /**
-     * Get productOptionGroupsId
+     * Get optionGroupId
      *
      * @return integer
      */
-    public function getProductOptionGroupsId()
+    public function getOptionGroupId()
     {
-        return $this->productOptionGroupsId;
+        return $this->optionGroupId;
     }
 
     /**
@@ -88,7 +99,7 @@ class ProductOption
      *
      * @param string $optionValue
      *
-     * @return ProductOptions
+     * @return ProductOption
      */
     public function setOptionValue($optionValue)
     {
@@ -112,7 +123,7 @@ class ProductOption
      *
      * @param integer $optionPriority
      *
-     * @return ProductOptions
+     * @return ProductOption
      */
     public function setOptionPriority($optionPriority)
     {
@@ -129,5 +140,29 @@ class ProductOption
     public function getOptionPriority()
     {
         return $this->optionPriority;
+    }
+
+    /**
+     * Set optionGroup
+     *
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroup $optionGroup
+     *
+     * @return ProductOption
+     */
+    public function setOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroup $optionGroup = null)
+    {
+        $this->optionGroup = $optionGroup;
+
+        return $this;
+    }
+
+    /**
+     * Get optionGroup
+     *
+     * @return \Oni\ProductManagerBundle\Entity\ProductOptionGroup
+     */
+    public function getOptionGroup()
+    {
+        return $this->optionGroup;
     }
 }

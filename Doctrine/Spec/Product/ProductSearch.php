@@ -1,29 +1,32 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory;
+namespace Oni\ProductManagerBundle\Doctrine\Spec\Product;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Oni\CoreBundle\Common\DataTable;
 use Oni\CoreBundle\Doctrine\Spec\AndX;
 use Oni\CoreBundle\Doctrine\Spec\AsArrayLimit;
+use Oni\CoreBundle\Doctrine\Spec\Common\FindAll;
+use Oni\CoreBundle\Doctrine\Spec\Common\IdEquals;
+use Oni\CoreBundle\Doctrine\Spec\Common\NameContains;
+use Oni\CoreBundle\Doctrine\Spec\DataFilterTrait;
+use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
 use Oni\CoreBundle\Doctrine\Spec\OrX;
 use Oni\CoreBundle\Doctrine\Spec\SingleScalar;
 use Oni\CoreBundle\Doctrine\Spec\Specification;
-use Oni\CoreBundle\Doctrine\Spec\SpecificationTraits;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\CoreBundle\Doctrine\Spec\DataTableSpecificationTrait;
+use Oni\CoreBundle\Doctrine\Spec\Traits;
+use Oni\ProductManagerBundle\Entity\Product;
 
 /**
- * Class ProductCategoryDataTable
+ * Class ProductSearch
  * @package Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory
- * @author peter.atkins85@gmail.com
  */
-class ProductDataTable implements Specification
+class ProductSearch implements Specification
 {
 
-    use SpecificationTraits;
-    use DataTableSpecificationTrait;
+    use Traits;
+    use DataFilterTrait;
+    use LocaleTrait;
 
     /**
      * @var Specification
@@ -36,52 +39,49 @@ class ProductDataTable implements Specification
     protected $fields = [
         '{alias}.id',
         '{alias}.name',
+        '{alias}.sku',
+        '{alias}.upc',
+        '{alias}.productTypeId',
+        '{alias}.enabled',
+        '{alias}.createdAt',
+        '{alias}.updatedAt',
     ];
 
-    /**
-     * ProductCategoryDataTable constructor.
-     * @param $config array
-     *        $config['getRecordCount'] boolean
-     *        $config['locale'] string   e.g. FR|EN|DE
-     * @param DataTable $dataTable
-     */
-    public function __construct($config, DataTable $dataTable)
+
+    public function __construct($params)
     {
 
-        if (empty($config['locale'])) {
-            throw new \InvalidArgumentException('Error: locale is either not set or invalid');
-        }
-        $this->dataTable = $dataTable;
-        $this->locale = $config['locale'];
-        $this->setup($config);
+        $this->setFilters($params);
 
         $queryClass = new AndX(
             new OrX(
-                new NameContains($this->dataTable->getSearch()),
-                new IdEquals($this->dataTable->getSearch())
+                new NameContains($this->search),
+                new IdEquals($this->search),
+                new UpcEquals($this->search),
+                new SkuEquals($this->search)
             ),
-            new NotRootCategory()
+            new IsNotVariant()
         );
 
         if (!$this->getRecordCount) {
 
-            if ($this->dataTable->getSearch()) {
+            if ($this->search) {
                 $this->spec = new AsArrayLimit(
                     $queryClass,
-                    $this->dataTable->getLength(),
-                    $this->dataTable->getStart()
+                    $this->limit,
+                    $this->offset
                 );
             } else {
                 $this->spec = new AsArrayLimit(
-                    new NotRootCategory(),
-                    $this->dataTable->getLength(),
-                    $this->dataTable->getStart()
+                    new IsNotVariant(),
+                    $this->limit,
+                    $this->offset
                 );
             }
 
         } else {
 
-            if ($this->dataTable->getSearch() && $this->includeFilter) {
+            if ($this->search && $this->includeFilterOnGetRecordCount) {
 
                 $this->spec = new SingleScalar(
                     $queryClass
@@ -89,12 +89,12 @@ class ProductDataTable implements Specification
 
             } else {
                 $this->spec = new SingleScalar(
-                    new NotRootCategory()
+                    new IsNotVariant()
                 );
             }
 
             $this->fields = [
-                'count(pc.id) as total'
+                'count({alias}.id) as total'
             ];
 
         }
@@ -109,13 +109,7 @@ class ProductDataTable implements Specification
     public function match(QueryBuilder $qb, $dqlAlias)
     {
         $this->addFieldAlias($dqlAlias);
-        $qb->select($this->fields)
-            ->innerJoin(
-                'ProductManagerBundle:ProductCategory',
-                'pcp',
-                \Doctrine\ORM\Query\Expr\Join::WITH,
-                $dqlAlias . '.parentId = pcp.id'
-            );
+        $qb->select($this->fields);
 
         if (!$this->getRecordCount) {
             $qb->orderBy(
@@ -152,7 +146,7 @@ class ProductDataTable implements Specification
      */
     public function supports($className)
     {
-        return ($className === ProductCategory::class);
+        return ($className === Product::class);
     }
 
 }

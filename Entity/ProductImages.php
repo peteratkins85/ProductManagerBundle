@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * ProductImages
  *
- * @ORM\Table(name="product_images")
+ * @ORM\Table(name="oni_product_images")
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Repository\ProductImagesRepository")
  */
 class ProductImages

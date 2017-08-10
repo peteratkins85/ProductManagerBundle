@@ -27,5 +27,6 @@ class ProductManagerExtension extends Extension
         $loader->load('factories.yml');
         $loader->load('kernel-events.yml');
         $loader->load('data-tables.yml');
+        $loader->load('forms.yml');
     }
 }
