@@ -1,12 +1,12 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity;
+namespace App\Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use Oni\CoreBundle\Entity\Traits\LastUserEntity;
-use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
+use App\Oni\CoreBundle\Entity\Traits\LastUserEntity;
+use App\Oni\CoreBundle\Entity\Traits\TimestampableEntity;
 use JsonSerializable;
 
 /**
@@ -128,7 +128,7 @@ class ProductCategory implements JsonSerializable
     private $children;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\ProductCategory
+     * @var \App\Oni\ProductManagerBundle\Entity\ProductCategory
      * @Gedmo\TreeParent
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductCategory", inversedBy="children")
      * @ORM\JoinColumns({
@@ -272,11 +272,11 @@ class ProductCategory implements JsonSerializable
     /**
      * Add child
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $child
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductCategory $child
      *
      * @return ProductCategory
      */
-    public function addChild(\Oni\ProductManagerBundle\Entity\ProductCategory $child)
+    public function addChild(\App\Oni\ProductManagerBundle\Entity\ProductCategory $child)
     {
         $this->children[] = $child;
 
@@ -286,9 +286,9 @@ class ProductCategory implements JsonSerializable
     /**
      * Remove child
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $child
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductCategory $child
      */
-    public function removeChild(\Oni\ProductManagerBundle\Entity\ProductCategory $child)
+    public function removeChild(\App\Oni\ProductManagerBundle\Entity\ProductCategory $child)
     {
         $this->children->removeElement($child);
     }
@@ -306,11 +306,11 @@ class ProductCategory implements JsonSerializable
     /**
      * Set parent
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $parent
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductCategory $parent
      *
      * @return ProductCategory
      */
-    public function setParent(\Oni\ProductManagerBundle\Entity\ProductCategory $parent = null)
+    public function setParent(\App\Oni\ProductManagerBundle\Entity\ProductCategory $parent = null)
     {
         $this->parent = $parent;
 
@@ -320,7 +320,7 @@ class ProductCategory implements JsonSerializable
     /**
      * Get parent
      *
-     * @return \Oni\ProductManagerBundle\Entity\ProductCategory
+     * @return \App\Oni\ProductManagerBundle\Entity\ProductCategory
      */
     public function getParent()
     {
@@ -522,11 +522,11 @@ class ProductCategory implements JsonSerializable
     /**
      * Add product
      *
-     * @param \Oni\ProductManagerBundle\Entity\Product $product
+     * @param \App\Oni\ProductManagerBundle\Entity\Product $product
      *
      * @return ProductCategory
      */
-    public function addProduct(\Oni\ProductManagerBundle\Entity\Product $product)
+    public function addProduct(\App\Oni\ProductManagerBundle\Entity\Product $product)
     {
         $this->products[] = $product;
 
@@ -536,9 +536,9 @@ class ProductCategory implements JsonSerializable
     /**
      * Remove product
      *
-     * @param \Oni\ProductManagerBundle\Entity\Product $product
+     * @param \App\Oni\ProductManagerBundle\Entity\Product $product
      */
-    public function removeProduct(\Oni\ProductManagerBundle\Entity\Product $product)
+    public function removeProduct(\App\Oni\ProductManagerBundle\Entity\Product $product)
     {
         $this->products->removeElement($product);
     }

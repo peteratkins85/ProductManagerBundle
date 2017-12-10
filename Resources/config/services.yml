@@ -24,6 +24,11 @@ services:
         factory: [ "@oni_product_controller_factory", getService ]
         arguments:
               - '@service_container'
+    oni_product_price_controller:
+        class: Oni\ProductManagerBundle\Controller\ProductPriceController
+        factory: [ "@oni_product_price_controller_factory", getService ]
+        arguments:
+              - '@service_container'
     oni_product_option_controller:
         class: Oni\ProductManagerBundle\Controller\ProductOptionController
         factory: [ "@oni_product_option_controller_factory", getService ]
@@ -54,27 +59,6 @@ services:
         factory: [ '@oni_product_option_service_factory', getService ]
         arguments:
             - '@service_container'
-    #Forms
-    oni_product_category_form:
-        class: Oni\ProductManagerBundle\Form\ProductCategoryForm
-        factory: [ '@oni_product_category_form_factory', getService ]
-        arguments:
-                - "@service_container"
-        tags:
-              - { name: form.type, alias: oni_product_category_form }
-    oni_product_form:
-        class: Oni\ProductManagerBundle\Form\ProductForm
-        factory: [ '@oni_product_form_factory', getService ]
-        arguments:
-                - "@service_container"
-        tags:
-                - { name: form.type, alias: oni_product_form }
-    oni_product_option_form:
-        class: Oni\ProductManagerBundle\Form\ProductOptionGroupForm
-        arguments:
-                - "@oni_product_option_service"
-        tags:
-              - { name: form.type, alias: oni_product_option_form }
     #Events and Listeners
     oni_product_event:
         class: "%oni_product_event%"

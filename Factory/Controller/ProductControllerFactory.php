@@ -6,11 +6,11 @@
  * Time: 23:26
  */
 
-namespace Oni\ProductManagerBundle\Factory\Controller;
+namespace App\Oni\ProductManagerBundle\Factory\Controller;
 
 
-use Oni\CoreBundle\Factory\CoreAbstractFactory;
-use Oni\ProductManagerBundle\Controller\ProductController;
+use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
+use App\Oni\ProductManagerBundle\Controller\ProductController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProductControllerFactory extends CoreAbstractFactory
@@ -20,7 +20,9 @@ class ProductControllerFactory extends CoreAbstractFactory
     {
         $productController = new ProductController(
             $serviceContainer->get('oni_product_service'),
-            $serviceContainer->get('oni_product_type_service')
+            $serviceContainer->get('oni_product_type_service'),
+            $serviceContainer->get('oni_product_data_table'),
+            $serviceContainer->get('oni_product_option_service')
         );
 
         $this->injectCommonDependencies($productController, $serviceContainer);

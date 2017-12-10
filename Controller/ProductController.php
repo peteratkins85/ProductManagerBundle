@@ -1,17 +1,16 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Controller;
+namespace App\Oni\ProductManagerBundle\Controller;
 
-use Oni\CoreBundle\Controller\CoreController;
-use Oni\ProductManagerBundle\Entity\Product;
-use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
-use Oni\ProductManagerBundle\Form\ProductForm;
-use Oni\ProductManagerBundle\Form\ProductOptionGroupForm;
-use Oni\ProductManagerBundle\Form\ProductType;
-use Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
-use Oni\ProductManagerBundle\Service\ProductService;
-use Oni\ProductManagerBundle\Entity\Repository\ProductsRepository;
-use Oni\ProductManagerBundle\Service\ProductTypeService;
+use App\Oni\CoreBundle\Common\DataTable;
+use App\Oni\CoreBundle\Controller\CoreController;
+use App\Oni\ProductManagerBundle\Entity\Product;
+use App\Oni\ProductManagerBundle\Form\ProductType;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductDataTable;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
+use App\Oni\ProductManagerBundle\Service\ProductOptionService;
+use App\Oni\ProductManagerBundle\Service\ProductService;
+use App\Oni\ProductManagerBundle\Service\ProductTypeService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -34,24 +33,27 @@ class ProductController extends CoreController
     protected $productTypeService;
 
     /**
-     * @var ProductOptionGroupDataTable
+     * @var DataTable
      */
-    protected $productOptionGroupDataTable;
+    protected $productDataTable;
 
     /**
-     * ProductController constructor.
-     * @param ProductService $productService
-     * @param ProductTypeService $productTypeService
-     * @param ProductOptionGroupDataTable $productOptionGroupDataTable
+     * @var ProductOptionService
      */
+    protected $productOptionService;
+
+
     public function __construct(
         ProductService $productService,
-        ProductTypeService $productTypeService
+        ProductTypeService $productTypeService,
+        DataTable $productDataTable,
+        ProductOptionService $productOptionService
     )
     {
+        $this->productOptionService = $productOptionService;
+        $this->productDataTable = $productDataTable;
         $this->productService = $productService;
         $this->productTypeService = $productTypeService;
-        $this->productOptionGroupDataTable = $productOptionGroupDataTable;
     }
 
     public function indexAction()
@@ -64,7 +66,7 @@ class ProductController extends CoreController
 
     public function getProductsAction(Request $request)
     {
-        $response = $this->productOptionGroupDataTable->getResults();
+        $response = $this->productDataTable->getResults();
 
         return new JsonResponse($response);
     }
@@ -84,12 +86,26 @@ class ProductController extends CoreController
         ));
     }
 
-    public function wizardAction(Request $request)
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function wizardAction(Request $request, $id)
     {
         $product = new Product();
-        $productForm = $this->createForm(ProductForm::class, $product);
-        $selectedCategories = [];
-        $defaultProductCategory = null;
+
+        if ($id) {
+            $product = $this->productService->getProductById($id);
+
+            if (!$product){
+                $this->addFlash('error','Invalid product ID '.$id);
+                return $this->redirectToRoute('oni_add_product');
+            }
+        }
+
+        $productOptionGroups = $this->productOptionService->getAllProductOptionGroups();
+        $productForm = $this->createForm(ProductType::class, $product);
+
 
         if ($request->isMethod('POST')) {
 
@@ -120,12 +136,24 @@ class ProductController extends CoreController
         return $this->render('ProductManagerBundle:Product:wizard.html.twig', array(
             'pageName' => $this->get('translator')->trans('product_bundle.add.product.category'),
             'form' => $productForm->createView(),
-            'selectedCategories' => $selectedCategories,
-            'selectedDefaultCategory' => $defaultProductCategory,
+            'optionGroups' => $productOptionGroups,
         ));
     }
 
-    public function editAction()
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function editAction($id)
+    {
+        return $this->render('ProductManagerBundle:Product:edit.html.twig', array(// ...
+        ));
+
+    }
+
+    /**
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function deleteAction()
     {
         return $this->render('ProductManagerBundle:Product:edit.html.twig', array(// ...
         ));

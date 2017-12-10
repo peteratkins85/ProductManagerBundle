@@ -6,12 +6,12 @@
  * Time: 19:42
  */
 
-namespace Oni\ProductManagerBundle\DataFixtures\ORM;
+namespace App\Oni\ProductManagerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory;
+use App\Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -80,16 +80,29 @@ class LoadProductCategoryData extends AbstractFixture implements OrderedFixtureI
         $repository->translate($cat3, 'name', 'en', 'Electronics & Computers')
             ->translate($cat3, 'name', 'fr', 'Électronique et ordinateurs');
 
+        $cat4 = new ProductCategory();
+        $cat4->setParent($root);
+        $cat4->setName('Clothing');
+        $cat4->setUrl('clothing');
+        $cat4->setDescription('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut sit amet cursus lorem. Nulla pharetra felis urna. Donec et dignissim lorem, ac condimentum ante. Proin dictum neque elit, eu condimentum neque condimentum vitae.');
+        $cat4->setMetaTitle('Clothing');
+
+
+        $repository->translate($cat4, 'name', 'en', 'Clothing')
+            ->translate($cat4, 'name', 'fr', 'Vêtements');
+
         $em->persist($root);
         $em->persist($cat1);
         $em->persist($cat2);
         $em->persist($cat3);
+        $em->persist($cat4);
         $em->flush();
 
         $this->addReference('rootCategory', $root);
         $this->addReference('Cat1', $cat1);
         $this->addReference('Cat2', $cat2);
         $this->addReference('Cat3', $cat3);
+        $this->addReference('Cat-Clothing', $cat4);
     }
 
     public function getOrder()

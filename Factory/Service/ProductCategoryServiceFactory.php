@@ -6,13 +6,13 @@
  * Time: 22:54
  */
 
-namespace Oni\ProductManagerBundle\Factory\Service;
+namespace App\Oni\ProductManagerBundle\Factory\Service;
 
 
-use Oni\CoreBundle\Factory\CoreAbstractFactory;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\ProductManagerBundle\Service\ProductCategoryService;
-use Oni\ProductManagerBundle\Service\ProductService;
+use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory;
+use App\Oni\ProductManagerBundle\Service\ProductCategoryService;
+use App\Oni\ProductManagerBundle\Service\ProductService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -32,14 +32,12 @@ class ProductCategoryServiceFactory extends CoreAbstractFactory
         $objectManager  = $container->get('doctrine.orm.entity_manager');
         $class = ProductCategory::class;
         $locale = $container->get('oni_get_locale');
-        $productCategoryDataTable = $container->get('oni_product_category_data_table');
 
         if (!class_exists('\\'.$class))
             Throw InvalidEntityClassException($class. 'Entity does not exist');
 
         $productService = new ProductCategoryService(
             $objectManager,
-            $productCategoryDataTable,
             $class,
             $locale
         );

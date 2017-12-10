@@ -1,16 +1,17 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Controller;
+namespace App\Oni\ProductManagerBundle\Controller;
 
-use Oni\CoreBundle\Controller\CoreController;
-use Oni\CoreBundle\Core;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\ProductManagerBundle\Form\ProductCategoryForm;
-use Oni\ProductManagerBundle\Form\ProductCategoryType;
-use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
-use Oni\ProductManagerBundle\Service\ProductCategoryService;
+use App\Oni\CoreBundle\Common\DataTable;
+use App\Oni\CoreBundle\Controller\CoreController;
+use App\Oni\CoreBundle\Core;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory;
+use App\Oni\ProductManagerBundle\Form\ProductCategoryType;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
+use App\Oni\ProductManagerBundle\Service\ProductCategoryService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 class ProductCategoryController extends CoreController
 {
@@ -26,7 +27,7 @@ class ProductCategoryController extends CoreController
     protected $productCategoryDataTable;
 
 
-    public function __construct(ProductCategoryService $productCategoryService, ProductCategoryDataTable $productCategoryDataTable)
+    public function __construct(ProductCategoryService $productCategoryService, DataTable $productCategoryDataTable)
     {
         $this->productCategoryService = $productCategoryService;
         $this->productCategoryDataTable = $productCategoryDataTable;
@@ -64,7 +65,7 @@ class ProductCategoryController extends CoreController
     public function addAction(Request $request)
     {
         $productCategory = new ProductCategory();
-        $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
+        $productCategoryForm = $this->createForm(ProductCategoryType::class, $productCategory);
 
         if ($request->isMethod('POST')) {
 
@@ -103,7 +104,7 @@ class ProductCategoryController extends CoreController
 
         $productCategory = $this->productCategoryService->getProductCategoryById($id);
         $this->denyAccessUnlessGranted('EDIT', $productCategory);
-        $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
+        $productCategoryForm = $this->createForm(ProductCategoryType::class, $productCategory);
 
         if ($request->isMethod('POST')) {
 
@@ -119,7 +120,7 @@ class ProductCategoryController extends CoreController
                 $this->addFlash('notice', 'Product category amended!');
 
                 $em->refresh($productCategory);
-                $productCategoryForm = $this->createForm(ProductCategoryForm::class, $productCategory);
+                $productCategoryForm = $this->createForm(ProductCategoryType::class, $productCategory);
 
             } else {
 

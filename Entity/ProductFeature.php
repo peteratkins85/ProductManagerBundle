@@ -1,13 +1,13 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity;
+namespace App\Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * ProductFeature
  *
- * @ORM\Table(name="product_feature")
+ * @ORM\Table(name="oni_product_feature")
  * @ORM\Entity(repositoryClass="Oni\ProductManagerBundle\Repository\ProductFeatureRepository")
  */
 class ProductFeature
@@ -27,6 +27,13 @@ class ProductFeature
      * @ORM\Column(name="name", type="string", length=255, unique=true)
      */
     private $name;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="value", type="string", length=255)
+     */
+    private $value;
 
     /**
      * @var int
@@ -93,5 +100,28 @@ class ProductFeature
     {
         return $this->priority;
     }
-}
 
+    /**
+     * Set value
+     *
+     * @param string $value
+     *
+     * @return ProductFeature
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+
+        return $this;
+    }
+
+    /**
+     * Get value
+     *
+     * @return string
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+}

@@ -1,9 +1,9 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Form;
+namespace App\Oni\ProductManagerBundle\Form;
 
 
-use Oni\CoreBundle\CoreGlobals;
+use App\Oni\CoreBundle\CoreGlobals;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

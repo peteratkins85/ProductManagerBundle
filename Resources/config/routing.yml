@@ -11,7 +11,7 @@ oni_delete_product_option_group:
     path:     /admin/product/option/group/delete/{id}
     defaults: { _controller: oni_product_option_controller:deleteGroupAction }
 
-oni_add_product_option_group_list:
+oni_product_option_group_list:
     path:     /admin/product/option/groups
     defaults: { _controller: oni_product_option_controller:indexAction }
 
@@ -21,28 +21,45 @@ oni_ajax_get_product_option_groups:
     options:
         expose: true
 
+#Product Price
+
+oni_delete_product_price:
+    path:     /admin/product/price/delete/{id}
+    defaults: { _controller: oni_product_price_controller:deleteAction }
+    options:
+        expose: true
+
 #Product
 oni_add_product:
     path:     /admin/products/add
     defaults: { _controller: oni_product_controller:addAction }
 
+
+
 oni_add_product_wizard:
-    path:     /admin/product/wizard/{productType}
-    defaults: { _controller: oni_product_controller:wizardAction }
+    path:     /admin/product/wizard/{productType}/{id}
+    defaults: { _controller: oni_product_controller:wizardAction, id: 0 }
     requirements:
             productType:  \d+
+            id:  \d+
 
 oni_product_list:
     path:     /admin/products
     defaults: { _controller: oni_product_controller:indexAction  }
 
 oni_edit_product:
-    path:     /admin/product/edit/{product}
-    defaults: { _controller: oni_product_controller:Index:edit }
+    path:     /admin/product/wizard/{productType}/{id}
+    defaults: { _controller: oni_product_controller:wizardAction }
+
+oni_delete_product:
+    path:     /admin/product/edit/{id}
+    defaults: { _controller: oni_product_controller:deleteAction }
 
 oni_ajax_get_products:
     path:     /admin/ajax/products
     defaults: { _controller: oni_product_controller:getProductsAction }
+    options:
+            expose: true
 
 oni_add_category:
     path:     /admin/product/category/add

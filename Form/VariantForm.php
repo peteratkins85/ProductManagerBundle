@@ -1,63 +1,25 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Form;
+namespace App\Oni\ProductManagerBundle\Form;
 
-use Doctrine\ORM\Mapping\Entity;
-use Entity\Category;
-use Oni\ProductManagerBundle\Entity\Product;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\ProductManagerBundle\Service\ProductCategoryService;
-use Oni\ProductManagerBundle\Service\ProductService;
+use App\Oni\ProductManagerBundle\Constants\ProductTypes;
+use App\Oni\ProductManagerBundle\Entity\Product;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory;
+use App\Oni\ProductManagerBundle\Entity\ProductType as ProductTypeEntity;
+use App\Oni\ProductManagerBundle\Service\ProductCategoryService;
+use App\Oni\ProductManagerBundle\Service\ProductService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class ProductForm extends AbstractType
+class VariantForm extends AbstractType
 {
-
-    /**
-     * @var ProductService
-     */
-    protected $productService;
-
-    /**
-     * @var ProductCategoryService
-     */
-    protected $productCategoryService;
-
-    /**
-     * @var array
-     */
-    protected $builderArray;
-
-    /**
-     * @var string
-     */
-    protected $locale;
-
-    /**
-     * @var
-     */
-    protected $form;
-
-    public function __construct(
-        ProductService $productService,
-        ProductCategoryService $productCategoryService,
-        string $locale
-    ) {
-        $this->productService = $productService;
-        $this->productCategoryService = $productCategoryService;
-        $this->locale = $locale;
-    }
-
     /**
      * @param FormBuilderInterface $builder
      * @param array $options
@@ -126,9 +88,27 @@ class ProductForm extends AbstractType
                 ],
                 'placeholder'  => 'Choose an category',
             ])
+            ->add('prices',CollectionType::class, [
+                'label' => 'Prices',
+                'entry_type' => ProductPriceType::class,
+                'allow_add'    => true,
+                'by_reference' => false,
+            ])
             ->add('submit', SubmitType::class, [
                 'label' => 'Save'
             ]);
+
+            if ($this->getProductType() && $this->getProductType()->getSafeName() == ProductTypes::COLLECTION) {
+                $builder->add('variants',CollectionType::class, [
+                    'label' => 'Prices',
+                    'entry_type' => ProductPriceType::class,
+                    'allow_add'    => true,
+                    'by_reference' => false,
+                ]);
+            }
+
+
+
     }
 
     /**
@@ -179,6 +159,25 @@ class ProductForm extends AbstractType
 
         }
 
+    }
+
+    /**
+     * @param ProductTypeEntity $productType
+     * @return $this
+     */
+    public function setProductType(ProductTypeEntity $productType)
+    {
+        $this->productType = $productType;
+
+        return $this;
+    }
+
+    /**
+     * @return ProductTypeEntity
+     */
+    public function getProductType()
+    {
+        return $this->productType;
     }
 
 }

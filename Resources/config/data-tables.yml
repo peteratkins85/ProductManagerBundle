@@ -1,19 +1,30 @@
 services:
-    oni_product_category_data_table:
-        class: Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable
-        factory: [ "@oni_product_category_data_table_factory", getService ]
-        arguments:
-              - '@service_container'
-    oni_product_option_group_data_table:
-        class: Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable
-        factory: [ "@oni_product_option_group_data_table_factory", getService ]
-        arguments:
-              - '@service_container'
     #Factory
-    oni_product_category_data_table_factory:
-        class: Oni\ProductManagerBundle\Factory\Service\Datatable\ProductCategoryDataTableFactory
+    oni_data_table_doctrine_query_manager_factory:
+        class: Oni\CoreBundle\Factory\Common\DataTableDoctrineQueryManagerFactory
         public: false
-    oni_product_option_group_data_table_factory:
-        class: Oni\ProductManagerBundle\Factory\Service\Datatable\ProductOptionGroupDataTableFactory
-        public: false
+    #DataTable Services
+    oni_product_category_data_table:
+        class: Oni\CoreBundle\Common\DoctrineSpecificationQueryManager
+        factory: [ "@oni_data_table_doctrine_query_manager_factory", getService ]
+        arguments:
+              - '@service_container'
+              - 'Oni\ProductManagerBundle\Entity\ProductCategory'
+              - 'Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory\ProductCategorySearch'
+    oni_product_option_group_data_table:
+        class: Oni\CoreBundle\Common\DoctrineSpecificationQueryManager
+        factory: [ "@oni_data_table_doctrine_query_manager_factory", getService ]
+        arguments:
+              - '@service_container'
+              - 'Oni\ProductManagerBundle\Entity\ProductOptionGroup'
+              - 'Oni\ProductManagerBundle\Doctrine\Spec\ProductOptionGroup\ProductOptionGroupSearch'
+    oni_product_data_table:
+        class: Oni\CoreBundle\Common\DoctrineSpecificationQueryManager
+        factory: [ "@oni_data_table_doctrine_query_manager_factory", getService ]
+        arguments:
+              - '@service_container'
+              - 'Oni\ProductManagerBundle\Entity\Product'
+              - 'Oni\ProductManagerBundle\Doctrine\Spec\Product\ProductSearch'
+
+
 

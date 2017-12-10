@@ -6,15 +6,15 @@
  * Time: 07:24
  */
 
-namespace Oni\ProductManagerBundle\Service\DataTable;
+namespace App\Oni\ProductManagerBundle\Service\DataTable;
 
 
-use Oni\CoreBundle\Common\CoreCommon;
-use Oni\CoreBundle\Common\DataTable;
-use Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory\ProductCategorySearch;
-use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
-use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
-use Oni\CoreBundle\Common\LocaleAwareInterface;
+use App\Oni\CoreBundle\Common\CoreCommon;
+use App\Oni\CoreBundle\Common\DataTable;
+use App\Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory\ProductCategorySearch;
+use App\Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
+use App\Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
+use App\Oni\CoreBundle\Common\LocaleAwareInterface;
 use Exception;
 
 class ProductCategoryDataTable extends DataTable implements LocaleAwareInterface

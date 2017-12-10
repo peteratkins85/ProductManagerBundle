@@ -1,11 +1,11 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Service;
+namespace App\Oni\ProductManagerBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
-use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
+use App\Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -27,26 +27,18 @@ class ProductCategoryService
     protected $locale;
 
     /**
-     * @var ProductCategoryDataTable
-     */
-    protected $productCategoryDataTable;
-
-
-    /**
      * ProductCategoryService constructor.
      * @param ObjectManager $objectManager
      * @param $class
      */
     public function __construct(
         ObjectManager $objectManager,
-        ProductCategoryDataTable $productCategoryDataTable,
         string $class,
         string $locale
     )
     {
         $this->locale = $locale;
         $this->productCategoryRepository = $objectManager->getRepository($class);
-        $this->productCategoryDataTable = $productCategoryDataTable;
         $metadata = $objectManager->getClassMetadata($class);
         $this->class = $metadata->getName();
     }

@@ -1,13 +1,14 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Controller;
+namespace App\Oni\ProductManagerBundle\Controller;
 
-use Oni\CoreBundle\Controller\CoreController;
-use Oni\ProductManagerBundle\Entity\ProductOption;
-use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
-use Oni\ProductManagerBundle\Form\ProductOptionGroupForm;
-use Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
-use Oni\ProductManagerBundle\Service\ProductOptionService;
+use App\Oni\CoreBundle\Common\DataTable;
+use App\Oni\CoreBundle\Controller\CoreController;
+use App\Oni\ProductManagerBundle\Entity\ProductOption;
+use App\Oni\ProductManagerBundle\Entity\ProductOptionGroup;
+use App\Oni\ProductManagerBundle\Form\ProductOptionGroupForm;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
+use App\Oni\ProductManagerBundle\Service\ProductOptionService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -36,7 +37,7 @@ class ProductOptionController extends CoreController
      */
     public function __construct(
         ProductOptionService $productOptionService,
-        ProductOptionGroupDataTable $productOptionGroupDataTable
+        DataTable $productOptionGroupDataTable
     )
     {
         $this->productOptionService = $productOptionService;

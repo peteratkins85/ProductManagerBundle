@@ -1,10 +1,10 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Service;
+namespace App\Oni\ProductManagerBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Oni\ProductManagerBundle\Entity\Repository\ProductRepository;
+use App\Oni\ProductManagerBundle\Entity\Repository\ProductRepository;
 
 class ProductService
 {
@@ -45,6 +45,15 @@ class ProductService
     public function getAllProduct()
     {
         return $this->productRepository->getAllProduct();
+    }
+
+    /**
+     * @param int $id
+     * @return null|object
+     */
+    public function getProductById(int $id)
+    {
+        return $this->productRepository->find($id);
     }
 
 

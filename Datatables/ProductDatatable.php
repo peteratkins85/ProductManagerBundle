@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Datatables;
+namespace App\Oni\ProductManagerBundle\Datatables;
 
 use Sg\DatatablesBundle\Datatable\View\AbstractDatatableView;
 use Sg\DatatablesBundle\Datatable\View\Style;

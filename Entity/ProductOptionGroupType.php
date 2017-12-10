@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity;
+namespace App\Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -59,11 +59,11 @@ class ProductOptionGroupType
     /**
      * Add productOptionGroup
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup
      *
      * @return ProductOptionGroupType
      */
-    public function addProductOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup)
+    public function addProductOptionGroup(\App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup)
     {
         $this->productOptionGroups[] = $productOptionGroup;
 
@@ -73,9 +73,9 @@ class ProductOptionGroupType
     /**
      * Remove productOptionGroup
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup
      */
-    public function removeProductOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup)
+    public function removeProductOptionGroup(\App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $productOptionGroup)
     {
         $this->productOptionGroups->removeElement($productOptionGroup);
     }

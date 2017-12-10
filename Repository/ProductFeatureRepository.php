@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Repository;
+namespace App\Oni\ProductManagerBundle\Repository;
 
 /**
  * ProductFeatureRepository
