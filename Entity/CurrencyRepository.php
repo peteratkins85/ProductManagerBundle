@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity;
+namespace App\Oni\ProductManagerBundle\Entity;
 
 /**
  * CurrenciesRepository

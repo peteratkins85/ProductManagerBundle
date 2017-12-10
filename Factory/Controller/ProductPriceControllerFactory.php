@@ -1,9 +1,9 @@
 <?php
-namespace Oni\ProductManagerBundle\Factory\Controller;
+namespace App\Oni\ProductManagerBundle\Factory\Controller;
 
 
-use Oni\CoreBundle\Factory\CoreAbstractFactory;
-use Oni\ProductManagerBundle\Controller\ProductPriceController;
+use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
+use App\Oni\ProductManagerBundle\Controller\ProductPriceController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProductPriceControllerFactory extends CoreAbstractFactory

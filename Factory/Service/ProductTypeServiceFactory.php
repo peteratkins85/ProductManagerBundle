@@ -6,13 +6,13 @@
  * Time: 22:54
  */
 
-namespace Oni\ProductManagerBundle\Factory\Service;
+namespace App\Oni\ProductManagerBundle\Factory\Service;
 
 
-use Oni\CoreBundle\Factory\CoreAbstractFactory;
-use Oni\ProductManagerBundle\Form\ProductType;
-use Oni\ProductManagerBundle\Service\ProductService;
-use Oni\ProductManagerBundle\Service\ProductTypeService;
+use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
+use App\Oni\ProductManagerBundle\Form\ProductType;
+use App\Oni\ProductManagerBundle\Service\ProductService;
+use App\Oni\ProductManagerBundle\Service\ProductTypeService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

@@ -6,12 +6,12 @@
  * Time: 19:42
  */
 
-namespace Oni\ProductManagerBundle\DataFixtures\ORM;
+namespace App\Oni\ProductManagerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory;
+use App\Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;

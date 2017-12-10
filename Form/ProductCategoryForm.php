@@ -1,8 +1,8 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Form;
+namespace App\Oni\ProductManagerBundle\Form;
 
-use Oni\ProductManagerBundle\Service\ProductCategoryService;
+use App\Oni\ProductManagerBundle\Service\ProductCategoryService;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Oni\ProductManagerBundle\Entity\ProductCategory as ProductCategory;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory as ProductCategory;
 
 class ProductCategoryForm extends AbstractType
 {

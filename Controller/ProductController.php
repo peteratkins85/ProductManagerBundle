@@ -1,16 +1,16 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Controller;
+namespace App\Oni\ProductManagerBundle\Controller;
 
-use Oni\CoreBundle\Common\DataTable;
-use Oni\CoreBundle\Controller\CoreController;
-use Oni\ProductManagerBundle\Entity\Product;
-use Oni\ProductManagerBundle\Form\ProductType;
-use Oni\ProductManagerBundle\Service\DataTable\ProductDataTable;
-use Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
-use Oni\ProductManagerBundle\Service\ProductOptionService;
-use Oni\ProductManagerBundle\Service\ProductService;
-use Oni\ProductManagerBundle\Service\ProductTypeService;
+use App\Oni\CoreBundle\Common\DataTable;
+use App\Oni\CoreBundle\Controller\CoreController;
+use App\Oni\ProductManagerBundle\Entity\Product;
+use App\Oni\ProductManagerBundle\Form\ProductType;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductDataTable;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
+use App\Oni\ProductManagerBundle\Service\ProductOptionService;
+use App\Oni\ProductManagerBundle\Service\ProductService;
+use App\Oni\ProductManagerBundle\Service\ProductTypeService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 

@@ -1,13 +1,13 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Factory\Service\Datatable;
+namespace App\Oni\ProductManagerBundle\Factory\Service\Datatable;
 
-use Oni\CoreBundle\Factory\CoreAbstractFactory;
-use Oni\ProductManagerBundle\Entity\Product;
-use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
-use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
-use Oni\ProductManagerBundle\Service\DataTable\ProductDataTable;
-use Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
+use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
+use App\Oni\ProductManagerBundle\Entity\Product;
+use App\Oni\ProductManagerBundle\Entity\ProductOptionGroup;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductDataTable;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProductDataTableFactory extends CoreAbstractFactory

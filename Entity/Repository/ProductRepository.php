@@ -1,13 +1,13 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity\Repository;
+namespace App\Oni\ProductManagerBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Tools\Pagination\Paginator;
 use Gedmo\Tree\RepositoryInterface;
-use Oni\CoreBundle\CoreGlobals;
-use Oni\CoreBundle\Doctrine\Spec\Specification;
-use Oni\CoreBundle\Entity\Repository\RepositorySpecificationInterface;
+use App\Oni\CoreBundle\CoreGlobals;
+use App\Oni\CoreBundle\Doctrine\Spec\Specification;
+use App\Oni\CoreBundle\Entity\Repository\RepositorySpecificationInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Translation\TranslatorInterface;
 

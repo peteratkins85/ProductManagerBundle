@@ -1,10 +1,10 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity;
+namespace App\Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Oni\CoreBundle\Entity\Traits\LastUserEntity;
-use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
+use App\Oni\CoreBundle\Entity\Traits\LastUserEntity;
+use App\Oni\CoreBundle\Entity\Traits\TimestampableEntity;
 
 /**
  * ProductOptionGroups
@@ -53,7 +53,7 @@ class ProductOptionGroup
     private $userOptionSelectType;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\ProductOptionGroupType
+     * @var \App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType
      *
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionGroupType", inversedBy="productOptionGroups", cascade={"persist"}))
      * @ORM\JoinColumns({
@@ -174,11 +174,11 @@ class ProductOptionGroup
     /**
      * Set optionGroupType
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroupType $optionGroupType
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType $optionGroupType
      *
      * @return ProductOptionGroup
      */
-    public function setOptionGroupType(\Oni\ProductManagerBundle\Entity\ProductOptionGroupType $optionGroupType = null)
+    public function setOptionGroupType(\App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType $optionGroupType = null)
     {
         $this->optionGroupType = $optionGroupType;
 
@@ -188,7 +188,7 @@ class ProductOptionGroup
     /**
      * Get optionGroupType
      *
-     * @return \Oni\ProductManagerBundle\Entity\ProductOptionGroupType
+     * @return \App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType
      */
     public function getOptionGroupType()
     {
@@ -198,11 +198,11 @@ class ProductOptionGroup
     /**
      * Add option
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOption $option
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductOption $option
      *
      * @return ProductOptionGroup
      */
-    public function addOption(\Oni\ProductManagerBundle\Entity\ProductOption $option)
+    public function addOption(\App\Oni\ProductManagerBundle\Entity\ProductOption $option)
     {
         $option->setOptionGroup($this);
         $this->options[] = $option;
@@ -213,9 +213,9 @@ class ProductOptionGroup
     /**
      * Remove option
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOption $option
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductOption $option
      */
-    public function removeOption(\Oni\ProductManagerBundle\Entity\ProductOption $option)
+    public function removeOption(\App\Oni\ProductManagerBundle\Entity\ProductOption $option)
     {
         $this->options->removeElement($option);
     }

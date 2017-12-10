@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Form;
+namespace App\Oni\ProductManagerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

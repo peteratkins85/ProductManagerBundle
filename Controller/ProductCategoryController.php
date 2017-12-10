@@ -1,14 +1,14 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Controller;
+namespace App\Oni\ProductManagerBundle\Controller;
 
-use Oni\CoreBundle\Common\DataTable;
-use Oni\CoreBundle\Controller\CoreController;
-use Oni\CoreBundle\Core;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\ProductManagerBundle\Form\ProductCategoryType;
-use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
-use Oni\ProductManagerBundle\Service\ProductCategoryService;
+use App\Oni\CoreBundle\Common\DataTable;
+use App\Oni\CoreBundle\Controller\CoreController;
+use App\Oni\CoreBundle\Core;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory;
+use App\Oni\ProductManagerBundle\Form\ProductCategoryType;
+use App\Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
+use App\Oni\ProductManagerBundle\Service\ProductCategoryService;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\VarDumper\Cloner\Data;

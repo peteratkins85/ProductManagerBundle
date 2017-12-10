@@ -1,13 +1,13 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Form;
+namespace App\Oni\ProductManagerBundle\Form;
 
-use Oni\ProductManagerBundle\Constants\ProductTypes;
-use Oni\ProductManagerBundle\Entity\Product;
-use Oni\ProductManagerBundle\Entity\ProductCategory;
-use Oni\ProductManagerBundle\Entity\ProductType as ProductTypeEntity;
-use Oni\ProductManagerBundle\Service\ProductCategoryService;
-use Oni\ProductManagerBundle\Service\ProductService;
+use App\Oni\ProductManagerBundle\Constants\ProductTypes;
+use App\Oni\ProductManagerBundle\Entity\Product;
+use App\Oni\ProductManagerBundle\Entity\ProductCategory;
+use App\Oni\ProductManagerBundle\Entity\ProductType as ProductTypeEntity;
+use App\Oni\ProductManagerBundle\Service\ProductCategoryService;
+use App\Oni\ProductManagerBundle\Service\ProductService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
@@ -47,7 +47,7 @@ class ProductType extends AbstractType
     protected $form;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\ProductType
+     * @var \App\Oni\ProductManagerBundle\Entity\ProductType
      */
     protected $productType;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity;
+namespace App\Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -68,7 +68,7 @@ class ProductPrices
     private $zoneId;
 
     /**
-     * @var \Oni\CoreBundle\Entity\Currency
+     * @var \App\Oni\CoreBundle\Entity\Currency
      *
      * @ORM\ManyToOne(targetEntity="Oni\CoreBundle\Entity\Currency")
      * @ORM\JoinColumns({
@@ -78,7 +78,7 @@ class ProductPrices
     private $currency;
 
     /**
-     * @var \Oni\CoreBundle\Entity\Zone
+     * @var \App\Oni\CoreBundle\Entity\Zone
      *
      * @ORM\ManyToOne(targetEntity="Oni\CoreBundle\Entity\Zone")
      * @ORM\JoinColumns({
@@ -88,7 +88,7 @@ class ProductPrices
     private $zone;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\Product
+     * @var \App\Oni\ProductManagerBundle\Entity\Product
      *
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="prices")
      * @ORM\JoinColumns({
@@ -256,11 +256,11 @@ class ProductPrices
     /**
      * Set currency
      *
-     * @param \Oni\CoreBundle\Entity\Currency $currency
+     * @param \App\Oni\CoreBundle\Entity\Currency $currency
      *
      * @return ProductPrices
      */
-    public function setCurrency(\Oni\CoreBundle\Entity\Currency $currency = null)
+    public function setCurrency(\App\Oni\CoreBundle\Entity\Currency $currency = null)
     {
         $this->currency = $currency;
 
@@ -270,7 +270,7 @@ class ProductPrices
     /**
      * Get currency
      *
-     * @return \Oni\CoreBundle\Entity\Currency
+     * @return \App\Oni\CoreBundle\Entity\Currency
      */
     public function getCurrency()
     {
@@ -280,11 +280,11 @@ class ProductPrices
     /**
      * Set zone
      *
-     * @param \Oni\CoreBundle\Entity\Zone $zone
+     * @param \App\Oni\CoreBundle\Entity\Zone $zone
      *
      * @return ProductPrices
      */
-    public function setZone(\Oni\CoreBundle\Entity\Zone $zone = null)
+    public function setZone(\App\Oni\CoreBundle\Entity\Zone $zone = null)
     {
         $this->zone = $zone;
 
@@ -294,7 +294,7 @@ class ProductPrices
     /**
      * Get zone
      *
-     * @return \Oni\CoreBundle\Entity\Zone
+     * @return \App\Oni\CoreBundle\Entity\Zone
      */
     public function getZone()
     {
@@ -304,11 +304,11 @@ class ProductPrices
     /**
      * Set product
      *
-     * @param \Oni\ProductManagerBundle\Entity\Product $product
+     * @param \App\Oni\ProductManagerBundle\Entity\Product $product
      *
      * @return ProductPrices
      */
-    public function setProduct(\Oni\ProductManagerBundle\Entity\Product $product = null)
+    public function setProduct(\App\Oni\ProductManagerBundle\Entity\Product $product = null)
     {
         $this->product = $product;
 
@@ -318,7 +318,7 @@ class ProductPrices
     /**
      * Get product
      *
-     * @return \Oni\ProductManagerBundle\Entity\Product
+     * @return \App\Oni\ProductManagerBundle\Entity\Product
      */
     public function getProduct()
     {

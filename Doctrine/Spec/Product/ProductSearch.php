@@ -1,21 +1,21 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Doctrine\Spec\Product;
+namespace App\Oni\ProductManagerBundle\Doctrine\Spec\Product;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Oni\CoreBundle\Doctrine\Spec\AndX;
-use Oni\CoreBundle\Doctrine\Spec\AsArrayLimit;
-use Oni\CoreBundle\Doctrine\Spec\Common\FindAll;
-use Oni\CoreBundle\Doctrine\Spec\Common\IdEquals;
-use Oni\CoreBundle\Doctrine\Spec\Common\NameContains;
-use Oni\CoreBundle\Doctrine\Spec\DataFilterTrait;
-use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
-use Oni\CoreBundle\Doctrine\Spec\OrX;
-use Oni\CoreBundle\Doctrine\Spec\SingleScalar;
-use Oni\CoreBundle\Doctrine\Spec\Specification;
-use Oni\CoreBundle\Doctrine\Spec\Traits;
-use Oni\ProductManagerBundle\Entity\Product;
+use App\Oni\CoreBundle\Doctrine\Spec\AndX;
+use App\Oni\CoreBundle\Doctrine\Spec\AsArrayLimit;
+use App\Oni\CoreBundle\Doctrine\Spec\Common\FindAll;
+use App\Oni\CoreBundle\Doctrine\Spec\Common\IdEquals;
+use App\Oni\CoreBundle\Doctrine\Spec\Common\NameContains;
+use App\Oni\CoreBundle\Doctrine\Spec\DataFilterTrait;
+use App\Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
+use App\Oni\CoreBundle\Doctrine\Spec\OrX;
+use App\Oni\CoreBundle\Doctrine\Spec\SingleScalar;
+use App\Oni\CoreBundle\Doctrine\Spec\Specification;
+use App\Oni\CoreBundle\Doctrine\Spec\Traits;
+use App\Oni\ProductManagerBundle\Entity\Product;
 
 /**
  * Class ProductSearch

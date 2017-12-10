@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Entity;
+namespace App\Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -48,7 +48,7 @@ class ProductOption
     private $optionPriority;
 
     /**
-     * @var \Oni\ProductManagerBundle\Entity\ProductType
+     * @var \App\Oni\ProductManagerBundle\Entity\ProductType
      *
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductOptionGroup", inversedBy="options", cascade={"persist"}))
      * @ORM\JoinColumns({
@@ -145,11 +145,11 @@ class ProductOption
     /**
      * Set optionGroup
      *
-     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroup $optionGroup
+     * @param \App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $optionGroup
      *
      * @return ProductOption
      */
-    public function setOptionGroup(\Oni\ProductManagerBundle\Entity\ProductOptionGroup $optionGroup = null)
+    public function setOptionGroup(\App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $optionGroup = null)
     {
         $this->optionGroup = $optionGroup;
 
@@ -159,7 +159,7 @@ class ProductOption
     /**
      * Get optionGroup
      *
-     * @return \Oni\ProductManagerBundle\Entity\ProductOptionGroup
+     * @return \App\Oni\ProductManagerBundle\Entity\ProductOptionGroup
      */
     public function getOptionGroup()
     {

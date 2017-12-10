@@ -6,12 +6,12 @@
  * Time: 19:53
  */
 
-namespace Oni\ProductManagerBundle\Service;
+namespace App\Oni\ProductManagerBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
-use Oni\CoreBundle\Exceptions\InvalidArgumentException;
-use Oni\ProductManagerBundle\Entity\Repository\ProductTypesRepository;
+use App\Oni\CoreBundle\Exceptions\InvalidArgumentException;
+use App\Oni\ProductManagerBundle\Entity\Repository\ProductTypesRepository;
 
 class ProductTypeService
 {

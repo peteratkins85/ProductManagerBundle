@@ -1,6 +1,6 @@
 <?php
 
-namespace Oni\ProductManagerBundle\DependencyInjection;
+namespace App\Oni\ProductManagerBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;

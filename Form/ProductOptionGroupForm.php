@@ -1,10 +1,10 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Form;
+namespace App\Oni\ProductManagerBundle\Form;
 
-use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
-use Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
-use Oni\ProductManagerBundle\Service\ProductOptionService;
+use App\Oni\ProductManagerBundle\Entity\ProductOptionGroup;
+use App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
+use App\Oni\ProductManagerBundle\Service\ProductOptionService;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;

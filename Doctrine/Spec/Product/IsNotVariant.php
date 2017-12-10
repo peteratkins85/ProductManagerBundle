@@ -1,10 +1,10 @@
 <?php
 
-namespace Oni\ProductManagerBundle\Doctrine\Spec\Product;
+namespace App\Oni\ProductManagerBundle\Doctrine\Spec\Product;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use Oni\CoreBundle\Doctrine\Spec\Specification;
+use App\Oni\CoreBundle\Doctrine\Spec\Specification;
 
 class IsNotVariant implements Specification
 {
