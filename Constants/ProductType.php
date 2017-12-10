@@ -1,5 +1,5 @@
 <?php
-namespace App\Oni\ProductManagerBundle\Constants;
+namespace Oni\ProductManagerBundle\Constants;
 
 
 final class ProductTypes

@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Service;
+namespace Oni\ProductManagerBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
-use App\Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
+use Oni\ProductManagerBundle\Entity\Repository\ProductCategoryRepository;
+use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
 use Symfony\Component\HttpFoundation\Request;
 
 /**

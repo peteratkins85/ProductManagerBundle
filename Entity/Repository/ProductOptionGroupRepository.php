@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Entity\Repository;
+namespace Oni\ProductManagerBundle\Entity\Repository;
 
 use Doctrine\ORM\EntityRepository;
-use App\Oni\CoreBundle\Doctrine\Spec\Specification;
-use App\Oni\CoreBundle\Entity\Repository\RepositorySpecificationInterface;
+use Oni\CoreBundle\Doctrine\Spec\Specification;
+use Oni\CoreBundle\Entity\Repository\RepositorySpecificationInterface;
 
 /**
  * productOptionGroupsRepository

@@ -6,7 +6,7 @@
  * Time: 03:40
  */
 
-namespace App\Oni\ProductManagerBundle\DependencyInjection\Compiler;
+namespace Oni\ProductManagerBundle\DependencyInjection\Compiler;
 
 
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;

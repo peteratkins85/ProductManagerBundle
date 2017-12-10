@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -138,11 +138,11 @@ class ProductType
     /**
      * Add product
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Product $product
+     * @param \Oni\ProductManagerBundle\Entity\Product $product
      *
      * @return ProductType
      */
-    public function addProduct(\App\Oni\ProductManagerBundle\Entity\Product $product)
+    public function addProduct(\Oni\ProductManagerBundle\Entity\Product $product)
     {
         $this->products[] = $product;
 
@@ -152,9 +152,9 @@ class ProductType
     /**
      * Remove product
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Product $product
+     * @param \Oni\ProductManagerBundle\Entity\Product $product
      */
-    public function removeProduct(\App\Oni\ProductManagerBundle\Entity\Product $product)
+    public function removeProduct(\Oni\ProductManagerBundle\Entity\Product $product)
     {
         $this->products->removeElement($product);
     }

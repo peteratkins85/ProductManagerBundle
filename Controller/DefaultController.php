@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Controller;
+namespace Oni\ProductManagerBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 

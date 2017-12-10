@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
-use App\Oni\CoreBundle\Entity\Traits\LastUserEntity;
-use App\Oni\CoreBundle\Entity\Traits\TimestampableEntity;
+use Oni\CoreBundle\Entity\Traits\LastUserEntity;
+use Oni\CoreBundle\Entity\Traits\TimestampableEntity;
 use JsonSerializable;
 
 /**
@@ -187,7 +187,7 @@ class Product implements JsonSerializable
     private $variants;
 
     /**
-     * @var \App\Oni\ProductManagerBundle\Entity\Product
+     * @var \Oni\ProductManagerBundle\Entity\Product
      *
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\Product", inversedBy="variants", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -197,7 +197,7 @@ class Product implements JsonSerializable
     private $parentProduct;
 
     /**
-     * @var \App\Oni\ProductManagerBundle\Entity\ProductType
+     * @var \Oni\ProductManagerBundle\Entity\ProductType
      *
      * @ORM\ManyToOne(targetEntity="Oni\ProductManagerBundle\Entity\ProductType", inversedBy="products")
      * @ORM\JoinColumns({
@@ -697,11 +697,11 @@ class Product implements JsonSerializable
     /**
      * Set brand
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Brand $brand
+     * @param \Oni\ProductManagerBundle\Entity\Brand $brand
      *
      * @return Product
      */
-    public function setBrand(\App\Oni\ProductManagerBundle\Entity\Brand $brand = null)
+    public function setBrand(\Oni\ProductManagerBundle\Entity\Brand $brand = null)
     {
         $this->brand = $brand;
 
@@ -711,7 +711,7 @@ class Product implements JsonSerializable
     /**
      * Get brand
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\Brand
+     * @return \Oni\ProductManagerBundle\Entity\Brand
      */
     public function getBrand()
     {
@@ -721,11 +721,11 @@ class Product implements JsonSerializable
     /**
      * Set defaultProductCategory
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory
      *
      * @return Product
      */
-    public function setDefaultProductCategory(\App\Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory = null)
+    public function setDefaultProductCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $defaultProductCategory = null)
     {
         $this->defaultProductCategory = $defaultProductCategory;
 
@@ -735,7 +735,7 @@ class Product implements JsonSerializable
     /**
      * Get defaultProductCategory
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\ProductCategory
+     * @return \Oni\ProductManagerBundle\Entity\ProductCategory
      */
     public function getDefaultProductCategory()
     {
@@ -745,11 +745,11 @@ class Product implements JsonSerializable
     /**
      * Add category
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductCategory $category
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
      *
      * @return Product
      */
-    public function addCategory(\App\Oni\ProductManagerBundle\Entity\ProductCategory $category)
+    public function addCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
     {
        // $category->addProduct($this);
         $this->categories[] = $category;
@@ -760,9 +760,9 @@ class Product implements JsonSerializable
     /**
      * Remove category
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductCategory $category
+     * @param \Oni\ProductManagerBundle\Entity\ProductCategory $category
      */
-    public function removeCategory(\App\Oni\ProductManagerBundle\Entity\ProductCategory $category)
+    public function removeCategory(\Oni\ProductManagerBundle\Entity\ProductCategory $category)
     {
         $this->categories->removeElement($category);
     }
@@ -780,7 +780,7 @@ class Product implements JsonSerializable
     /**
      * Add variant
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Product $variant
+     * @param \Oni\ProductManagerBundle\Entity\Product $variant
      *
      * @return Product
      */
@@ -807,9 +807,9 @@ class Product implements JsonSerializable
     /**
      * Remove variant
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Product $variant
+     * @param \Oni\ProductManagerBundle\Entity\Product $variant
      */
-    public function removeVariant(\App\Oni\ProductManagerBundle\Entity\Product $variant)
+    public function removeVariant(\Oni\ProductManagerBundle\Entity\Product $variant)
     {
         $this->variants->removeElement($variant);
     }
@@ -827,11 +827,11 @@ class Product implements JsonSerializable
     /**
      * Set parentProduct
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Product $parentProduct
+     * @param \Oni\ProductManagerBundle\Entity\Product $parentProduct
      *
      * @return Product
      */
-    public function setParentProduct(\App\Oni\ProductManagerBundle\Entity\Product $parentProduct = null)
+    public function setParentProduct(\Oni\ProductManagerBundle\Entity\Product $parentProduct = null)
     {
         $this->parentProduct = $parentProduct;
 
@@ -841,7 +841,7 @@ class Product implements JsonSerializable
     /**
      * Get parentProduct
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\Product
+     * @return \Oni\ProductManagerBundle\Entity\Product
      */
     public function getParentProduct()
     {
@@ -851,11 +851,11 @@ class Product implements JsonSerializable
     /**
      * Set productType
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductType $productType
+     * @param \Oni\ProductManagerBundle\Entity\ProductType $productType
      *
      * @return Product
      */
-    public function setProductType(\App\Oni\ProductManagerBundle\Entity\ProductType $productType = null)
+    public function setProductType(\Oni\ProductManagerBundle\Entity\ProductType $productType = null)
     {
         $this->productType = $productType;
 
@@ -865,7 +865,7 @@ class Product implements JsonSerializable
     /**
      * Get productType
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\ProductType
+     * @return \Oni\ProductManagerBundle\Entity\ProductType
      */
     public function getProductType()
     {
@@ -875,11 +875,11 @@ class Product implements JsonSerializable
     /**
      * Add price
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductPrices $price
+     * @param \Oni\ProductManagerBundle\Entity\ProductPrices $price
      *
      * @return Product
      */
-    public function addPrice(\App\Oni\ProductManagerBundle\Entity\ProductPrices $price)
+    public function addPrice(\Oni\ProductManagerBundle\Entity\ProductPrices $price)
     {
         $price->setProduct($this);
         $this->prices[] = $price;
@@ -890,9 +890,9 @@ class Product implements JsonSerializable
     /**
      * Remove price
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductPrices $price
+     * @param \Oni\ProductManagerBundle\Entity\ProductPrices $price
      */
-    public function removePrice(\App\Oni\ProductManagerBundle\Entity\ProductPrices $price)
+    public function removePrice(\Oni\ProductManagerBundle\Entity\ProductPrices $price)
     {
         $this->prices->removeElement($price);
     }
@@ -910,11 +910,11 @@ class Product implements JsonSerializable
     /**
      * Add optionRelation
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation
      *
      * @return Product
      */
-    public function addOptionRelation(\App\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation)
+    public function addOptionRelation(\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation)
     {
         $optionRelation->setProduct($this->getParentProduct());
         $optionRelation->setVariant($this);
@@ -926,9 +926,9 @@ class Product implements JsonSerializable
     /**
      * Remove optionRelation
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation
      */
-    public function removeOptionRelation(\App\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation)
+    public function removeOptionRelation(\Oni\ProductManagerBundle\Entity\ProductOptionRelations $optionRelation)
     {
         $this->optionRelations->removeElement($optionRelation);
     }
@@ -946,11 +946,11 @@ class Product implements JsonSerializable
     /**
      * Add feature
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductFeature $feature
+     * @param \Oni\ProductManagerBundle\Entity\ProductFeature $feature
      *
      * @return Product
      */
-    public function addFeature(\App\Oni\ProductManagerBundle\Entity\ProductFeature $feature)
+    public function addFeature(\Oni\ProductManagerBundle\Entity\ProductFeature $feature)
     {
         $this->features[] = $feature;
 
@@ -960,9 +960,9 @@ class Product implements JsonSerializable
     /**
      * Remove feature
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductFeature $feature
+     * @param \Oni\ProductManagerBundle\Entity\ProductFeature $feature
      */
-    public function removeFeature(\App\Oni\ProductManagerBundle\Entity\ProductFeature $feature)
+    public function removeFeature(\Oni\ProductManagerBundle\Entity\ProductFeature $feature)
     {
         $this->features->removeElement($feature);
     }

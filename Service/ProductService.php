@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Service;
+namespace Oni\ProductManagerBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Oni\ProductManagerBundle\Entity\Repository\ProductRepository;
+use Oni\ProductManagerBundle\Entity\Repository\ProductRepository;
 
 class ProductService
 {

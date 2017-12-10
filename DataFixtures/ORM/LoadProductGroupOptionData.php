@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\DataFixtures\ORM;
+namespace Oni\ProductManagerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Oni\ProductManagerBundle\Entity\Product;
-use App\Oni\ProductManagerBundle\Entity\ProductCategory;
-use App\Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
-use App\Oni\ProductManagerBundle\Entity\ProductOption;
-use App\Oni\ProductManagerBundle\Entity\ProductOptionGroup;
-use App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
-use App\Oni\ProductManagerBundle\Entity\ProductPrices;
-use App\Oni\ProductManagerBundle\Entity\ProductType;
+use Oni\ProductManagerBundle\Entity\Product;
+use Oni\ProductManagerBundle\Entity\ProductCategory;
+use Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
+use Oni\ProductManagerBundle\Entity\ProductOption;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
+use Oni\ProductManagerBundle\Entity\ProductPrices;
+use Oni\ProductManagerBundle\Entity\ProductType;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -44,7 +44,7 @@ class LoadProductGroupOptionData extends AbstractFixture implements OrderedFixtu
         $colourOptions = [];
 
         $groupOption1 = new ProductOptionGroup();
-        $groupOption1->setName('T-Shirt Sizes');
+        $groupOption1->setName('T-Shirt Sizes');thry7
         $groupOption1->setOptionGroupType($optionGroupType1);
         $groupOption1->setDataType(ProductOptionGroup::SELECT);
         $groupOption1->setUserOptionSelectType(ProductOptionGroup::SELECT);
@@ -74,7 +74,7 @@ class LoadProductGroupOptionData extends AbstractFixture implements OrderedFixtu
         $option6->setOptionValue('XL');
 
         $option7 = new ProductOption();
-        $option7->setOptionPriority(6);
+        $option7->setOpticonPriority(6);
         $option7->setOptionValue('XXL');
 
         $groupOption1->addOption($option1);

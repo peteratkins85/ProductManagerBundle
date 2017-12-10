@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Controller;
+namespace Oni\ProductManagerBundle\Controller;
 
-use App\Oni\CoreBundle\Controller\CoreController;
-use App\Oni\ProductManagerBundle\Entity\ProductPrices;
+use Oni\CoreBundle\Controller\CoreController;
+use Oni\ProductManagerBundle\Entity\ProductPrices;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 class ProductPriceController extends CoreController

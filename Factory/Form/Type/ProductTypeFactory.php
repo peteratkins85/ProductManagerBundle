@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Factory\Form\Type;
+namespace Oni\ProductManagerBundle\Factory\Form\Type;
 
 
-use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
-use App\Oni\CoreBundle\Form\Type\EntityHiddenType;
+use Oni\CoreBundle\Factory\CoreAbstractFactory;
+use Oni\CoreBundle\Form\Type\EntityHiddenType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use App\Oni\ProductManagerBundle\Form\ProductType;
-use App\Oni\ProductManagerBundle\Entity\ProductType as ProductTypeEntity;
+use Oni\ProductManagerBundle\Form\ProductType;
+use Oni\ProductManagerBundle\Entity\ProductType as ProductTypeEntity;
 
 
 class ProductTypeFactory extends CoreAbstractFactory
@@ -27,7 +27,7 @@ class ProductTypeFactory extends CoreAbstractFactory
 
     /**
      * @param ContainerInterface $serviceContainer
-     * @return \App\Oni\ProductManagerBundle\Form\ProductType
+     * @return \Oni\ProductManagerBundle\Form\ProductType
      */
     function getService(ContainerInterface $serviceContainer)
     {
@@ -39,7 +39,7 @@ class ProductTypeFactory extends CoreAbstractFactory
         $this->request = $request->getCurrentRequest();
         $route = $this->request->attributes->get('_route');
 
-        $productForm = new \App\Oni\ProductManagerBundle\Form\ProductType(
+        $productForm = new \Oni\ProductManagerBundle\Form\ProductType(
             $productService,
             $productCategoryService,
             $locale
@@ -58,7 +58,7 @@ class ProductTypeFactory extends CoreAbstractFactory
     }
 
     /**
-     * @param \App\Oni\ProductManagerBundle\Form\ProductType $productForm
+     * @param \Oni\ProductManagerBundle\Form\ProductType $productForm
      */
     protected function buildFormForProductCreationWizard(ProductType $productForm)
     {

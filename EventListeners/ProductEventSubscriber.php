@@ -1,9 +1,9 @@
 <?php
-namespace App\Oni\ProductManagerBundle\EventListeners;
+namespace Oni\ProductManagerBundle\EventListeners;
 
-use App\Oni\ProductManagerBundle\ProductEvents;
+use Oni\ProductManagerBundle\ProductEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use App\Oni\ProductManagerBundle\Events\ProductEvent;
+use Oni\ProductManagerBundle\Events\ProductEvent;
 
 class ProductEventSubscriber implements EventSubscriberInterface
 {

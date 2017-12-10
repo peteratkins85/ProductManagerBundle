@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\EventListeners;
+namespace Oni\ProductManagerBundle\EventListeners;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;

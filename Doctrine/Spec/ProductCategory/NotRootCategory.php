@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory;
+namespace Oni\ProductManagerBundle\Doctrine\Spec\ProductCategory;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use App\Oni\CoreBundle\Doctrine\Spec\Specification;
+use Oni\CoreBundle\Doctrine\Spec\Specification;
 
 class NotRootCategory implements Specification
 {

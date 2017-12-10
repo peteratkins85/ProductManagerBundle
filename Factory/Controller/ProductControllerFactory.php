@@ -6,11 +6,11 @@
  * Time: 23:26
  */
 
-namespace App\Oni\ProductManagerBundle\Factory\Controller;
+namespace Oni\ProductManagerBundle\Factory\Controller;
 
 
-use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
-use App\Oni\ProductManagerBundle\Controller\ProductController;
+use Oni\CoreBundle\Factory\CoreAbstractFactory;
+use Oni\ProductManagerBundle\Controller\ProductController;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProductControllerFactory extends CoreAbstractFactory

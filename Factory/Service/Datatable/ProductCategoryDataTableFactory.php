@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Factory\Service\Datatable;
+namespace Oni\ProductManagerBundle\Factory\Service\Datatable;
 
-use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
-use App\Oni\ProductManagerBundle\Entity\ProductCategory;
-use App\Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
+use Oni\CoreBundle\Factory\CoreAbstractFactory;
+use Oni\ProductManagerBundle\Entity\ProductCategory;
+use Oni\ProductManagerBundle\Service\DataTable\ProductCategoryDataTable;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class ProductCategoryDataTableFactory extends CoreAbstractFactory

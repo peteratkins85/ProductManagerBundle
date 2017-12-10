@@ -6,15 +6,15 @@
  * Time: 22:54
  */
 
-namespace App\Oni\ProductManagerBundle\Factory\Service;
+namespace Oni\ProductManagerBundle\Factory\Service;
 
 
-use App\Oni\CoreBundle\Factory\CoreAbstractFactory;
-use App\Oni\ProductManagerBundle\Entity\ProductOption;
-use App\Oni\ProductManagerBundle\Entity\ProductOptionGroup;
-use App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
-use App\Oni\ProductManagerBundle\Service\ProductOptionService;
-use App\Oni\ProductManagerBundle\Service\ProductTypeService;
+use Oni\CoreBundle\Factory\CoreAbstractFactory;
+use Oni\ProductManagerBundle\Entity\ProductOption;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
+use Oni\ProductManagerBundle\Service\ProductOptionService;
+use Oni\ProductManagerBundle\Service\ProductTypeService;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**

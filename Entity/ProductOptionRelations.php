@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Entity;
+namespace Oni\ProductManagerBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
@@ -173,11 +173,11 @@ class ProductOptionRelations
     /**
      * Set groupOption
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $groupOption
+     * @param \Oni\ProductManagerBundle\Entity\ProductOptionGroup $groupOption
      *
      * @return ProductOptionRelations
      */
-    public function setGroupOption(\App\Oni\ProductManagerBundle\Entity\ProductOptionGroup $groupOption = null)
+    public function setGroupOption(\Oni\ProductManagerBundle\Entity\ProductOptionGroup $groupOption = null)
     {
         $this->groupOption = $groupOption;
 
@@ -187,7 +187,7 @@ class ProductOptionRelations
     /**
      * Get groupOption
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\ProductOptionGroup
+     * @return \Oni\ProductManagerBundle\Entity\ProductOptionGroup
      */
     public function getGroupOption()
     {
@@ -197,11 +197,11 @@ class ProductOptionRelations
     /**
      * Set product
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Product $product
+     * @param \Oni\ProductManagerBundle\Entity\Product $product
      *
      * @return ProductOptionRelations
      */
-    public function setProduct(\App\Oni\ProductManagerBundle\Entity\Product $product = null)
+    public function setProduct(\Oni\ProductManagerBundle\Entity\Product $product = null)
     {
         $this->product = $product;
 
@@ -211,7 +211,7 @@ class ProductOptionRelations
     /**
      * Get product
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\Product
+     * @return \Oni\ProductManagerBundle\Entity\Product
      */
     public function getProduct()
     {
@@ -221,11 +221,11 @@ class ProductOptionRelations
     /**
      * Set option
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\ProductOption $option
+     * @param \Oni\ProductManagerBundle\Entity\ProductOption $option
      *
      * @return ProductOptionRelations
      */
-    public function setOption(\App\Oni\ProductManagerBundle\Entity\ProductOption $option = null)
+    public function setOption(\Oni\ProductManagerBundle\Entity\ProductOption $option = null)
     {
         $this->setGroupOption($option->getOptionGroup());
         $this->option = $option;
@@ -236,7 +236,7 @@ class ProductOptionRelations
     /**
      * Get option
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\ProductOption
+     * @return \Oni\ProductManagerBundle\Entity\ProductOption
      */
     public function getOption()
     {
@@ -270,11 +270,11 @@ class ProductOptionRelations
     /**
      * Set variant
      *
-     * @param \App\Oni\ProductManagerBundle\Entity\Product $variant
+     * @param \Oni\ProductManagerBundle\Entity\Product $variant
      *
      * @return ProductOptionRelations
      */
-    public function setVariant(\App\Oni\ProductManagerBundle\Entity\Product $variant = null)
+    public function setVariant(\Oni\ProductManagerBundle\Entity\Product $variant = null)
     {
         $this->variant = $variant;
 
@@ -284,7 +284,7 @@ class ProductOptionRelations
     /**
      * Get variant
      *
-     * @return \App\Oni\ProductManagerBundle\Entity\Product
+     * @return \Oni\ProductManagerBundle\Entity\Product
      */
     public function getVariant()
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Repository;
+namespace Oni\ProductManagerBundle\Repository;
 
 /**
  * BrandRepository

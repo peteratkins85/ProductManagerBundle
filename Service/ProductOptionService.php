@@ -6,18 +6,18 @@
  * Time: 19:53
  */
 
-namespace App\Oni\ProductManagerBundle\Service;
+namespace Oni\ProductManagerBundle\Service;
 
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\Common\Persistence\ObjectRepository;
-use App\Oni\CoreBundle\Exceptions\InvalidArgumentException;
-use App\Oni\CoreBundle\Service\CoreService;
-use App\Oni\ProductManagerBundle\Entity\Repository\ProductOptionGroupRepository;
-use App\Oni\ProductManagerBundle\Entity\Repository\ProductOptionRepository;
-use App\Oni\ProductManagerBundle\Entity\Repository\ProductOptionsRepository;
-use App\Oni\ProductManagerBundle\Entity\Repository\ProductTypesRepository;
-use App\Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
+use Oni\CoreBundle\Exceptions\InvalidArgumentException;
+use Oni\CoreBundle\Service\CoreService;
+use Oni\ProductManagerBundle\Entity\Repository\ProductOptionGroupRepository;
+use Oni\ProductManagerBundle\Entity\Repository\ProductOptionRepository;
+use Oni\ProductManagerBundle\Entity\Repository\ProductOptionsRepository;
+use Oni\ProductManagerBundle\Entity\Repository\ProductTypesRepository;
+use Oni\ProductManagerBundle\Service\DataTable\ProductOptionGroupDataTable;
 use Proxies\__CG__\Oni\ProductManagerBundle\Entity\ProductOptionGroupTypes;
 
 class ProductOptionService

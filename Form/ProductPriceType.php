@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Form;
+namespace Oni\ProductManagerBundle\Form;
 
-use App\Oni\CoreBundle\Entity\Currency;
-use App\Oni\CoreBundle\Entity\Zone;
-use App\Oni\ProductManagerBundle\Entity\ProductPrices;
+use Oni\CoreBundle\Entity\Currency;
+use Oni\CoreBundle\Entity\Zone;
+use Oni\ProductManagerBundle\Entity\ProductPrices;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;

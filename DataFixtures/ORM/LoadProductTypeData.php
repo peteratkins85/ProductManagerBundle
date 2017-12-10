@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\DataFixtures\ORM;
+namespace Oni\ProductManagerBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use App\Oni\ProductManagerBundle\Entity\Product;
-use App\Oni\ProductManagerBundle\Entity\ProductCategory;
-use App\Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
-use App\Oni\ProductManagerBundle\Entity\ProductPrices;
-use App\Oni\ProductManagerBundle\Entity\ProductType;
+use Oni\ProductManagerBundle\Entity\Product;
+use Oni\ProductManagerBundle\Entity\ProductCategory;
+use Oni\ProductManagerBundle\Entity\ProductCategoryDefinitions;
+use Oni\ProductManagerBundle\Entity\ProductPrices;
+use Oni\ProductManagerBundle\Entity\ProductType;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\DataFixtures\AbstractFixture;

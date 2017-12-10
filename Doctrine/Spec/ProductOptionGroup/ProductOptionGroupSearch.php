@@ -1,25 +1,25 @@
 <?php
 
-namespace App\Oni\ProductManagerBundle\Doctrine\Spec\ProductOptionGroup;
+namespace Oni\ProductManagerBundle\Doctrine\Spec\ProductOptionGroup;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
-use App\Oni\CoreBundle\Common\DataTable;
-use App\Oni\CoreBundle\Common\LocaleAwareInterface;
-use App\Oni\CoreBundle\Doctrine\Spec\AndX;
-use App\Oni\CoreBundle\Doctrine\Spec\AsArrayLimit;
-use App\Oni\CoreBundle\Doctrine\Spec\Common\FindAll;
-use App\Oni\CoreBundle\Doctrine\Spec\Common\IdEquals;
-use App\Oni\CoreBundle\Doctrine\Spec\Common\NameContains;
-use App\Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
-use App\Oni\CoreBundle\Doctrine\Spec\OrX;
-use App\Oni\CoreBundle\Doctrine\Spec\SingleScalar;
-use App\Oni\CoreBundle\Doctrine\Spec\Specification;
-use App\Oni\CoreBundle\Doctrine\Spec\Traits;
-use App\Oni\ProductManagerBundle\Entity\ProductCategory;
-use App\Oni\CoreBundle\Doctrine\Spec\DataFilterTrait;
-use App\Oni\ProductManagerBundle\Entity\ProductOptionGroup;
-use App\Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
+use Oni\CoreBundle\Common\DataTable;
+use Oni\CoreBundle\Common\LocaleAwareInterface;
+use Oni\CoreBundle\Doctrine\Spec\AndX;
+use Oni\CoreBundle\Doctrine\Spec\AsArrayLimit;
+use Oni\CoreBundle\Doctrine\Spec\Common\FindAll;
+use Oni\CoreBundle\Doctrine\Spec\Common\IdEquals;
+use Oni\CoreBundle\Doctrine\Spec\Common\NameContains;
+use Oni\CoreBundle\Doctrine\Spec\LocaleTrait;
+use Oni\CoreBundle\Doctrine\Spec\OrX;
+use Oni\CoreBundle\Doctrine\Spec\SingleScalar;
+use Oni\CoreBundle\Doctrine\Spec\Specification;
+use Oni\CoreBundle\Doctrine\Spec\Traits;
+use Oni\ProductManagerBundle\Entity\ProductCategory;
+use Oni\CoreBundle\Doctrine\Spec\DataFilterTrait;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroup;
+use Oni\ProductManagerBundle\Entity\ProductOptionGroupType;
 
 /**
  * Class ProductCategoryDataTable
